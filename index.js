@@ -21,7 +21,7 @@ var data = [
   {name: 'jessica', borough: 'brooklyn', age: '28', gender: 'f'}
 ];
 
-function grouper(data, groupBy){
+function groupByCategory(data, groupBy){
   return data.reduce((acc, curr) =>{
     var category = curr[groupBy]
     if(!acc[category]) acc[category] = [];
@@ -30,26 +30,33 @@ function grouper(data, groupBy){
   }, {});
 }
 
-function groupRecursion(data, groups = [], acc = {}){
+function groupByCategories(data, groups = [], acc = {}){
+  if(!data.length) return [];
+  
+  groups = groups.filter(ele =>{
+    return ele in data[0];
+  });
+  
   if(!groups.length) return data;
-  else{
-    var groupCopy = Object.assign([], groups);
-    var groupedData = grouper(data, groupCopy.shift());
-    var groupedDataKeys = Object.keys(groupedData);
-    var children = groupedDataKeys.map(el => {
-      return groupedData[el];
-    });
-    for(var i = 0; i < children.length; i++){
-      acc[groupedDataKeys[i]] = groupCopy.length ? {} : [];
-      acc[groupedDataKeys[i]] = groupRecursion(children[i], groupCopy, acc[groupedDataKeys[i]]);
-    }
+  
+  var groupCopy = Object.assign([], groups);
+  var groupedData = groupByCategory(data, groupCopy.shift());
+  var groupedDataKeys = Object.keys(groupedData);
+  var children = groupedDataKeys.map(el => {
+    return groupedData[el];
+  });
+  for(var i = 0; i < children.length; i++){
+    acc[groupedDataKeys[i]] = groupCopy.length ? {} : [];
+    acc[groupedDataKeys[i]] = groupByCategories(children[i], groupCopy, acc[groupedDataKeys[i]]);
   }
   
   return acc;
 }
 
 function createColumnHeaders(data, cols = [], firstColumn = ''){
-  var groupedData = groupRecursion(data, cols);
+  if(!cols.length) return {columnHeaders: [firstColumn], mapToheader: 1};
+  
+  var groupedData = groupByCategories(data, cols);
   var columnHeaders = [];
   var mapToHeader = Object.assign({}, groupedData);
   var mapPos = 1;
@@ -80,9 +87,21 @@ function createColumnHeaders(data, cols = [], firstColumn = ''){
 
 // console.log('headers', createColumnHeaders(data, ['borough', 'gender'], 'Table'));
 
-function accumulationFunction(arr, accCat, accType){
-  if(!accCat) accType = 'count';
-  return arr.reduce((acc, curr) => {
+
+//accumulator has two different signatures
+//1. it takes an array of objects, an accumulation category as a string (like age), and supported accumulation type as a string (like count)
+//2. it takes an array of objects, a callback function (which operates the same as reduce), and an initial value
+function accumulator(arr, accCat, accType, accValue){
+  if(!accCat && typeof accType !== 'function') accType = 'count';
+  else if(typeof accCat === 'function'){
+    accValue = accType;
+    accType = accCat;
+  }
+  
+  return arr.reduce((acc, curr, index, array) => {
+    if(typeof accType === 'function'){
+      return accType(acc, curr, index, array); 
+    }
     switch(accType){
       case('sum'):{
         acc += parseInt(curr[accCat]);
@@ -99,105 +118,66 @@ function accumulationFunction(arr, accCat, accType){
         return acc;
       }
     }
-  }, 0);
+  }, accValue || 0);
 }
 
-// accumulationFunction(data, 'age', 'sum')
+// accumulator(data, 'age', 'sum')
+// accumulator(data, function(acc, curr, index, array){
+//   if(index === array.length - 1) return (acc + parseInt(curr.age)) / array.length;
+//   return acc += parseInt(curr.age);
+// }, 0)
 
-function tableCreator(data, rows = [], cols = [], accCategory, accType){
-  const {
-    columnHeaders ,
-    mapToHeader
-  }= createColumnHeaders(data, cols);
-  const headerLength = columnHeaders.length ? columnHeaders[0].length : 0;
-  // console.log('map', mapToHeader, '\nheader', columnHeaders, '\nlength', headerLength)
+function tableCreator(data, rows = [], cols = [], accCatOrCB, accTypeOrInitVal){
+  const columnData = createColumnHeaders(data, cols);
+  const messageIfNoHeaders = typeof accCatOrCB !== 'function' ? `${accTypeOrInitVal} ${accCatOrCB}` : 'Custom Agg';
+  const columnHeaders = Array.isArray(columnData.columnHeaders[0]) ? columnData.columnHeaders : [columnData.columnHeaders.concat(messageIfNoHeaders)];
+  const mapToHeader = columnData.mapToHeader;
+  const headerLength = columnHeaders[0].length;
+  console.log('map', mapToHeader, '\nheader', columnHeaders, '\nlength', headerLength)
   
   var dataRows = [];
+  var rawData = [];
   
   function rowRecurse(rowGroups){
     for(var key in rowGroups){
       if(Array.isArray(rowGroups[key])){
-
-        var recursedData = groupRecursion(rowGroups[key], cols);
+        var recursedData = groupByCategories(rowGroups[key], cols);
         
         (function recurseThroughMap(dataPos, map){
           if(Array.isArray(dataPos)){
-            console.log('data pos', dataPos)
-            var datum = [key].concat(Array(map).fill(''), accumulationFunction(dataPos, accCategory, accType), Array(headerLength - (map + 1)).fill(''));
+            var datum = [key].concat(Array(map - 1).fill(''), accumulator(dataPos, accCatOrCB, accTypeOrInitVal), Array(headerLength - (map + 1)).fill(''));
+            var rawDataDatum = [key].concat(Array(map - 1).fill(''), [dataPos], Array(headerLength - (map + 1)).fill(''));
+            rawData.push(rawDataDatum);
             dataRows.push(datum)
           }else{
             for(var innerKey in dataPos){
               recurseThroughMap(dataPos[innerKey], map[innerKey]);
             }
           }
-        })(recursedData, mapToHeader)
-        
+        })(recursedData, mapToHeader || 1)
+
       }else{
-        dataRows.push([key].concat(Array(headerLength).fill('')))
+        dataRows.push([key].concat(Array(headerLength - 1).fill('')))
         rowRecurse(rowGroups[key], key)
       }
     }
   }
   
-  // for(var i = 0; i < rows.length; i++){
-  //   rowRecurse(groupRecursion(data, rows.slice(0, i + 1)))
-  // }
-
-  rowRecurse(groupRecursion(data, rows));
+  if(rows.length || cols.length) rowRecurse(groupByCategories(data, rows.length ? rows : cols));
+  else{
+    dataRows.push([messageIfNoHeaders, accumulator(data, accCatOrCB, accTypeOrInitVal)]);
+    rawData = data;
+  }
   
-  return columnHeaders.concat(dataRows);
+  return {
+    table: columnHeaders.concat(dataRows),
+    rawData
+  };
   
 }
 
-tableCreator(data, ['gender'], ['borough'], 'age', 'sum')
-
-
-
-// function accumulator(data, cat, accCategory, accType){
-//   return data.reduce((acc, curr) =>{
-//     var category = curr[cat];
-//     if(!acc[category]) acc[category] = {acc: 0, data: []};
-//     acc[category].data.push(curr);
-//     switch(accType){
-//       case('sum'):{
-//         acc[category].acc += parseFloat(curr[accCategory]);
-//         return acc;
-//       }
-      
-//       case('count'):{
-//         acc[category].acc += 1;
-//         return acc;
-//       }
-      
-//       default:{
-//         acc[category].acc += 1;
-//         return acc;
-//       }
-//     }
-//   }, {});
-// }
-
-// function createTable(data, rows, cols, value, type){
-//   var colHeaders = ['columns'].concat(Object.keys(grouper(data, cols[0])));
-//   var rowGroups = grouper(data, rows[0]);
-  
-//   var table = Object.assign([colHeaders]);
-//   var groupedData = {};
-  
-//   for(var key in rowGroups){
-//     var accumulated = accumulator(rowGroups[key], cols[0], value, type);
-//     groupedData[key] = accumulated;
-//     var newRow = colHeaders.map((col, i) => {
-//       if(i === 0) return key;
-//       else return typeof accumulated[col] !== 'undefined' ? accumulated[col].acc : '';
-//     })
-//     table.push(newRow);
-//   }
-  
-//   return {
-//     table: table,
-//     groupedData: groupedData
-//   };
-// }
-
-// createTable(data, ['name'], ['borough'], 'age', 'sum')
+tableCreator(data, [], [], 'age', 'sum');
+// tableCreator(data, ['gender'], ['borough'], function(acc, curr, index, array){
+//   if(index === array.length - 1) return (acc + parseInt(curr.age)) / array.length;
+//   return acc += parseInt(curr.age);
+// }, 0)
