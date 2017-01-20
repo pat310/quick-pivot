@@ -104,7 +104,7 @@ function accumulator(arr, accCat, accType, accValue){
     }
     switch(accType){
       case('sum'):{
-        acc += parseInt(curr[accCat]);
+        acc += Number(curr[accCat]);
         return acc;
       }
       
