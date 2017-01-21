@@ -1,15 +1,3 @@
-// var data = [
-//   ['name', 'borough', 'age', 'gender'],
-//   ['patrick', 'brooklyn', '28', 'm'],
-//   ['greg', 'brooklyn', '29', 'm'],
-//   ['niles', 'manhattan', '30', 'm'],
-//   ['jared', 'manhattan', '29', 'm'],
-//   ['markus', 'manhattan', '28', 'm'],
-//   ['sarah', 'queens', '30', 'f'],
-//   ['vishakh', 'queens', '28', 'm'],
-//   ['jessica', 'brooklyn', '28', 'f']
-// ];
-
 var data = [
   {name: 'patrick', borough: 'brooklyn', age: '28', gender: 'm'},
   {name: 'greg', borough: 'brooklyn', age: '29', gender: 'm'},
@@ -20,6 +8,46 @@ var data = [
   {name: 'vishakh', borough: 'queens', age: '28', gender: 'm'},
   {name: 'jessica', borough: 'brooklyn', age: '28', gender: 'f'}
 ];
+
+function fixDataFormat(data){
+ if(!Array.isArray(data) || !data.length) return [];
+ else if(typeof data[0] === 'object' && !Array.isArray(data[0])) return data;
+ else{
+  return data.reduce((dataColl, row, i, arr) => {
+   if(i !== 0){
+    if(Array.isArray(row)){
+     dataColl.push(row.reduce((acc, curr, index) =>{
+      acc[arr[0][index]] = curr;
+      return acc;
+     }, {})); 
+    }else{
+     dataColl.push({[arr[0]]: row});
+    }
+   }
+   return dataColl;
+  },[]);
+ }
+}
+
+//console.log(fixDataFormat(data));
+//var data2 = ['name', 'patrick', 'bill', 'greg'];
+//console.log(fixDataFormat(data2));
+// var data3 = [
+//   ['name', 'borough', 'age', 'gender'],
+//   ['patrick', 'brooklyn', '28', 'm'],
+//   ['greg', 'brooklyn', '29', 'm'],
+//   ['niles', 'manhattan', '30', 'm'],
+//   ['jared', 'manhattan', '29', 'm'],
+//   ['markus', 'manhattan', '28', 'm'],
+//   ['sarah', 'queens', '30', 'f'],
+//   ['vishakh', 'queens', '28', 'm'],
+//   ['jessica', 'brooklyn', '28', 'f']
+// ];
+//console.log(fixDataFormat(data3));
+//var data4='hello';
+//console.log(fixDataFormat(data4));
+//var data5 = [];
+//console.log(fixDataFormat(data5));
 
 function groupByCategory(data, groupBy){
   return data.reduce((acc, curr) =>{
@@ -133,10 +161,10 @@ function tableCreator(data, rows = [], cols = [], accCatOrCB, accTypeOrInitVal){
   const columnHeaders = Array.isArray(columnData.columnHeaders[0]) ? columnData.columnHeaders : [columnData.columnHeaders.concat(messageIfNoHeaders)];
   const mapToHeader = columnData.mapToHeader;
   const headerLength = columnHeaders[0].length;
-  console.log('map', mapToHeader, '\nheader', columnHeaders, '\nlength', headerLength)
   
   var dataRows = [];
   var rawData = [];
+  var prevKey = '';
   
   function rowRecurse(rowGroups){
     for(var key in rowGroups){
@@ -145,20 +173,31 @@ function tableCreator(data, rows = [], cols = [], accCatOrCB, accTypeOrInitVal){
         
         (function recurseThroughMap(dataPos, map){
           if(Array.isArray(dataPos)){
-            var datum = [key].concat(Array(map - 1).fill(''), accumulator(dataPos, accCatOrCB, accTypeOrInitVal), Array(headerLength - (map + 1)).fill(''));
-            var rawDataDatum = [key].concat(Array(map - 1).fill(''), [dataPos], Array(headerLength - (map + 1)).fill(''));
-            rawData.push(rawDataDatum);
-            dataRows.push(datum)
+            if(key === prevKey){
+              let datum = dataRows[dataRows.length - 1];
+              datum[map] =  accumulator(dataPos, accCatOrCB, accTypeOrInitVal);
+              dataRows[dataRows.length - 1] = datum;
+
+              let rawDataDatum = rawData[rawData.length - 1];
+              rawDataDatum[map] = [dataPos];
+              rawData[rawData.length - 1] = rawDataDatum; 
+            }else{
+              prevKey = key;
+              let datum = [key].concat(Array(map - 1).fill(''), accumulator(dataPos, accCatOrCB, accTypeOrInitVal), Array(headerLength - (map + 1)).fill(''));
+              let rawDataDatum = [key].concat(Array(map - 1).fill(''), [dataPos], Array(headerLength - (map + 1)).fill(''));
+              rawData.push(rawDataDatum);
+              dataRows.push(datum);
+            }
           }else{
             for(var innerKey in dataPos){
               recurseThroughMap(dataPos[innerKey], map[innerKey]);
             }
           }
-        })(recursedData, mapToHeader || 1)
+        })(recursedData, mapToHeader || 1);
 
       }else{
-        dataRows.push([key].concat(Array(headerLength - 1).fill('')))
-        rowRecurse(rowGroups[key], key)
+        dataRows.push([key].concat(Array(headerLength - 1).fill('')));
+        rowRecurse(rowGroups[key], key);
       }
     }
   }
@@ -176,7 +215,7 @@ function tableCreator(data, rows = [], cols = [], accCatOrCB, accTypeOrInitVal){
   
 }
 
-tableCreator(data, [], [], 'age', 'sum');
+tableCreator(data, [], ['borough'], 'age', 'sum');
 // tableCreator(data, ['gender'], ['borough'], function(acc, curr, index, array){
 //   if(index === array.length - 1) return (acc + parseInt(curr.age)) / array.length;
 //   return acc += parseInt(curr.age);
