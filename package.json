@@ -1,0 +1,26 @@
+{
+  "name": "quick-pivot",
+  "version": "1.0.0",
+  "description": "a utility for quickly pivoting data",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pat310/quick-pivot.git"
+  },
+  "keywords": [
+    "pivot"
+  ],
+  "author": "Patrick Trasborg",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pat310/quick-pivot/issues"
+  },
+  "homepage": "https://github.com/pat310/quick-pivot#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
+  }
+}
