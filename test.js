@@ -256,7 +256,6 @@ describe('accumulator', function(){
 describe('tableCreator', function(){
   it('should take an array of objects, an array of row categories, an array of column categories, an accumulation category, and an accumulation type and return an object containing the table and data comprising the table', function(){
     var tableResults = tableCreator(data, ['gender'], ['borough'], 'age', 'count');
-    console.log('table results', tableResults);
 
     var expectedTableResults = [['count age', 'brooklyn', 'manhattan', 'queens'],['m', 2, 3, 1], ['f', 1, '', 1]];
     var expectedRawDataResults = [
@@ -288,4 +287,67 @@ describe('tableCreator', function(){
     expect(tableResults.table).to.deep.equal(expectedTableResults);
     expect(tableResults.rawData).to.deep.equal(expectedRawDataResults);
   });
+
+  it('should take an array of objects, an array of row categories, an array of column categories, an accumulation function and initial value and return an object containing the table and data comprising the table', function(){
+    function accFunction(acc, curr){
+      acc += 1;
+      return acc;
+    }
+    var tableResults = tableCreator(data, ['gender'], ['borough'], accFunction, 0);
+
+    var expectedTableResults = [['Custom Agg', 'brooklyn', 'manhattan', 'queens'],['m', 2, 3, 1], ['f', 1, '', 1]];
+    var expectedRawDataResults = [
+      ['m',
+        [
+          {name: 'patrick', borough: 'brooklyn', age: '28', gender: 'm'},
+          {name: 'greg', borough: 'brooklyn', age: '29', gender: 'm'}
+        ],
+        [
+          {name: 'niles', borough: 'manhattan', age: '30', gender: 'm'},
+          {name: 'jared', borough: 'manhattan', age: '29', gender: 'm'},
+          {name: 'markus', borough: 'manhattan', age: '28', gender: 'm'}
+        ],
+        [
+          {name: 'vishakh', borough: 'queens', age: '28', gender: 'm'}
+        ]
+      ],
+      ['f',
+        [
+          {name: 'jessica', borough: 'brooklyn', age: '28', gender: 'f'}
+        ],
+        '',
+        [
+          {name: 'sarah', borough: 'queens', age: '30', gender: 'f'}
+        ]
+      ]
+    ];
+        
+    expect(tableResults.table).to.deep.equal(expectedTableResults);
+    expect(tableResults.rawData).to.deep.equal(expectedRawDataResults);
+  });
+
+  it('should print columns as rows if column groups are provided and row groups are not', function(){
+    var tableResults = tableCreator(data, [], ['borough'], 'age', 'count');
+    var expectedTableResults = [['count age', 'brooklyn', 'manhattan', 'queens'],['brooklyn', 3, '', ''], ['manhattan', '', 3, ''], ['queens', '', '', 2]];
+    expect(tableResults.table).to.deep.equal(expectedTableResults);
+  });
+  
+  it('should print rows under a single column if no column groups are provided', function(){
+    var tableResults = tableCreator(data, ['borough'], [], 'age', 'count');
+    var expectedTableResults = [['count age', 'count age'],['brooklyn', 3], ['manhattan', 3], ['queens', 2]];
+    expect(tableResults.table).to.deep.equal(expectedTableResults);
+  });
+
+  it('should accumulate to a single value if no row groups or column groups are provided', function(){
+    var tableResults = tableCreator(data, [], [], 'age', 'count');
+    var expectedTableResults = [['count age', 'count age'],['count age', 8]];
+    expect(tableResults.table).to.deep.equal(expectedTableResults);
+  });
+
+  it('should replace row header with provided row header', function(){
+    var tableResults = tableCreator(data, [], [], 'age', 'count', 'total');
+    var expectedTableResults = [['total', 'total'],['total', 8]];
+    expect(tableResults.table).to.deep.equal(expectedTableResults);
+  });
+
 });
