@@ -98,18 +98,18 @@ pivot(rows, columns, [accumulationCategory or CBfunction], [accumulationType or 
 ```
 
 #### First way to use it:
-`rows` is an array of strings (the rows you want to pivot on) or an empty array **required**
-`columns` is an array of strings (the columns you want to pivot on) or an empty array **required**
-`accumulationCategory` is a string (the category you want to accumulate values for) **required**
-`accumulationType` is an enumerated string - either `'sum'` or `'count'` (the type of accumulation you want to perform). If no type is selected, `'count'` is chosen by default 
-`rowHeader` is a string (this value will appear above the rows)
+* `rows` is an array of strings (the rows you want to pivot on) or an empty array **required**
+* `columns` is an array of strings (the columns you want to pivot on) or an empty array **required**
+* `accumulationCategory` is a string (the category you want to accumulate values for) **required**
+* `accumulationType` is an enumerated string - either `'sum'` or `'count'` (the type of accumulation you want to perform). If no type is selected, `'count'` is chosen by default 
+* `rowHeader` is a string (this value will appear above the rows)
 
 #### Second way to use it:
-`rows` is an array of strings (the rows you want to pivot on) or an empty array **required**
-`columns` is an array of strings (the columns you want to pivot on) or an empty array **required**
-`CBfunction` is a callback function that receives four parameters `CBfunction(acc, curr, index, arr)` where `acc` is an accumulation value, `curr` is the current element being processed, `index` is the index of the current element being processed and `arr` is the array that is being acted on. This function must return the accumulation value (this is very similar to javascript's `.reduce`) **required**
-`initialValue` is the starting value for the callback function. If no starting value is selected, `0` is used by default.
-`rowHeader` is a string (this value will appear above the rows)
+* `rows` is an array of strings (the rows you want to pivot on) or an empty array **required**
+* `columns` is an array of strings (the columns you want to pivot on) or an empty array **required**
+* `CBfunction` is a callback function that receives four parameters `CBfunction(acc, curr, index, arr)` where `acc` is an accumulation value, `curr` is the current element being processed, `index` is the index of the current element being processed and `arr` is the array that is being acted on. This function must return the accumulation value (this is very similar to javascript's `.reduce`) **required**
+* `initialValue` is the starting value for the callback function. If no starting value is selected, `0` is used by default.
+* `rowHeader` is a string (this value will appear above the rows)
 
 ###### Example with callback function
 
