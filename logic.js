@@ -4,18 +4,18 @@ function fixDataFormat(data){
  if(!Array.isArray(data) || !data.length) return [];
  else if(typeof data[0] === 'object' && !Array.isArray(data[0])) return data;
  else{
-  return data.reduce((dataColl, row, i, arr) => {
+  return data.reduce((dataCol, row, i, arr) => {
    if(i !== 0){
     if(Array.isArray(row)){
-     dataColl.push(row.reduce((acc, curr, index) =>{
+     dataCol.push(row.reduce((acc, curr, index) =>{
       acc[arr[0][index]] = curr;
       return acc;
      }, {})); 
     }else{
-     dataColl.push({[arr[0]]: row});
+     dataCol.push({[arr[0]]: row});
     }
    }
-   return dataColl;
+   return dataCol;
   },[]);
  }
 }
@@ -53,7 +53,7 @@ function groupByCategories(data, groups = [], acc = {}){
 }
 
 function createColumnHeaders(data, cols = [], firstColumn = ''){
-  if(!cols.length) return {columnHeaders: [firstColumn], mapToheader: 1};
+  if(!cols.length) return {columnHeaders: [firstColumn], mapToHeader: 1};
   
   var groupedData = groupByCategories(data, cols);
   var columnHeaders = [];
@@ -83,9 +83,6 @@ function createColumnHeaders(data, cols = [], firstColumn = ''){
     mapToHeader
   };
 }
-
-// console.log('headers', createColumnHeaders(data, ['borough', 'gender'], 'Table'));
-
 
 //accumulator has two different signatures
 //1. it takes an array of objects, an accumulation category as a string (like age), and supported accumulation type as a string (like count)
