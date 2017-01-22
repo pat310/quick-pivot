@@ -187,9 +187,3 @@ module.exports = {
   createColumnHeaders,
   accumulator
 };
-
-// tableCreator(data, [], ['borough'], 'age', 'sum');
-// tableCreator(data, ['gender'], ['borough'], function(acc, curr, index, array){
-//   if(index === array.length - 1) return (acc + parseInt(curr.age)) / array.length;
-//   return acc += parseInt(curr.age);
-// }, 0)
