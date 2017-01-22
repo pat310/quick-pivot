@@ -44,7 +44,7 @@ function groupByCategories(data, groups = [], acc = {}){
   var children = groupedDataKeys.map(el => {
     return groupedData[el];
   });
-  for(var i = 0; i < children.length; i++){
+  for(let i = 0; i < children.length; i++){
     acc[groupedDataKeys[i]] = groupCopy.length ? {} : [];
     acc[groupedDataKeys[i]] = groupByCategories(children[i], groupCopy, acc[groupedDataKeys[i]]);
   }
@@ -65,7 +65,7 @@ function createColumnHeaders(data, cols = [], firstColumn = ''){
     else{
       var currKeys = Object.keys(data);
       var reqLength = 0;
-      for(var i = 0; i < currKeys.length; i++){
+      for(let i = 0; i < currKeys.length; i++){
         var currLength = columnHeaderRecursion(data[currKeys[i]], pos + 1, headerMap[currKeys[i]]);
         if(Array.isArray(data[currKeys[i]])){
           headerMap[currKeys[i]] = mapPos;
@@ -131,7 +131,7 @@ function tableCreator(data, rows = [], cols = [], accCatOrCB, accTypeOrInitVal, 
   var prevKey = '';
   
   function rowRecurse(rowGroups){
-    for(var key in rowGroups){
+    for(let key in rowGroups){
       if(Array.isArray(rowGroups[key])){
         var recursedData = groupByCategories(rowGroups[key], cols);
         
@@ -153,7 +153,7 @@ function tableCreator(data, rows = [], cols = [], accCatOrCB, accTypeOrInitVal, 
               dataRows.push(datum);
             }
           }else{
-            for(var innerKey in dataPos){
+            for(let innerKey in dataPos){
               recurseThroughMap(dataPos[innerKey], map[innerKey]);
             }
           }
