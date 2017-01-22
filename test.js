@@ -212,3 +212,80 @@ describe('createColumnHeaders', function(){
     expect(columnData).to.deep.equal(expectedData);
   });
 });
+
+describe('accumulator', function(){
+  describe('should take an array of objects, an accumulation category and an accumulation type and return the accumulated value', function(){
+    it('sum', function(){
+      var accumulatedResults =  accumulator(data, 'age', 'sum');
+      expect(accumulatedResults).to.equal(230);
+    });
+    it('count', function(){
+      var accumulatedResults =  accumulator(data, 'age', 'count');
+      expect(accumulatedResults).to.equal(8);
+    });
+  });
+  
+  it('should take an accumulation start value', function(){
+      var accumulatedResults =  accumulator(data, 'age', 'count', 2);
+      expect(accumulatedResults).to.equal(10);
+  });
+
+  it('should accept an accumulation function which receives an accumulation value, current value, index, and array', function(){
+    function accFunction(acc, curr, index, array){
+      acc += Number(curr.age);
+      if(index === array.length - 1) return acc / array.length;
+      return acc;
+    }; 
+
+    function accFunctionNoType(acc, curr, index, array){
+      acc += Number(curr);
+      if(index === array.length - 1) return acc / array.length;
+      return acc;
+    }; 
+
+    var accumulatedResultsWithInit = accumulator(data, accFunction, 100);
+    var accumulatedResultsNoInit = accumulator(data, accFunction);
+    var accumulatedResultsWithTypeProvided = accumulator(data, 'age', accFunctionNoType);
+
+    expect(accumulatedResultsWithInit).to.equal(41.25);
+    expect(accumulatedResultsNoInit).to.equal(28.75);
+    expect(accumulatedResultsWithTypeProvided).to.equal(28.75);
+  });
+});
+
+describe('tableCreator', function(){
+  it('should take an array of objects, an array of row categories, an array of column categories, an accumulation category, and an accumulation type and return an object containing the table and data comprising the table', function(){
+    var tableResults = tableCreator(data, ['gender'], ['borough'], 'age', 'count');
+    console.log('table results', tableResults);
+
+    var expectedTableResults = [['count age', 'brooklyn', 'manhattan', 'queens'],['m', 2, 3, 1], ['f', 1, '', 1]];
+    var expectedRawDataResults = [
+      ['m',
+        [
+          {name: 'patrick', borough: 'brooklyn', age: '28', gender: 'm'},
+          {name: 'greg', borough: 'brooklyn', age: '29', gender: 'm'}
+        ],
+        [
+          {name: 'niles', borough: 'manhattan', age: '30', gender: 'm'},
+          {name: 'jared', borough: 'manhattan', age: '29', gender: 'm'},
+          {name: 'markus', borough: 'manhattan', age: '28', gender: 'm'}
+        ],
+        [
+          {name: 'vishakh', borough: 'queens', age: '28', gender: 'm'}
+        ]
+      ],
+      ['f',
+        [
+          {name: 'jessica', borough: 'brooklyn', age: '28', gender: 'f'}
+        ],
+        '',
+        [
+          {name: 'sarah', borough: 'queens', age: '30', gender: 'f'}
+        ]
+      ]
+    ];
+        
+    expect(tableResults.table).to.deep.equal(expectedTableResults);
+    expect(tableResults.rawData).to.deep.equal(expectedRawDataResults);
+  });
+});

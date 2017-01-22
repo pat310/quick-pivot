@@ -90,13 +90,13 @@ function createColumnHeaders(data, cols = [], firstColumn = ''){
 function accumulator(arr, accCat, accType, accValue){
   if(!accCat && typeof accType !== 'function') accType = 'count';
   else if(typeof accCat === 'function'){
-    accValue = accType;
+    accValue = accType || 0;
     accType = accCat;
   }
   
   return arr.reduce((acc, curr, index, array) => {
     if(typeof accType === 'function'){
-      return accType(acc, curr, index, array); 
+      return accType(acc, typeof accCat === 'string' ? curr[accCat] : curr, index, array); 
     }
     switch(accType){
       case('sum'):{
@@ -117,18 +117,12 @@ function accumulator(arr, accCat, accType, accValue){
   }, accValue || 0);
 }
 
-// accumulator(data, 'age', 'sum')
-// accumulator(data, function(acc, curr, index, array){
-//   if(index === array.length - 1) return (acc + parseInt(curr.age)) / array.length;
-//   return acc += parseInt(curr.age);
-// }, 0)
-
-function tableCreator(data, rows = [], cols = [], accCatOrCB, accTypeOrInitVal){
+function tableCreator(data, rows = [], cols = [], accCatOrCB, accTypeOrInitVal, rowHeader){
   data = fixDataFormat(data);
-
-  const columnData = createColumnHeaders(data, cols);
-  const messageIfNoHeaders = typeof accCatOrCB !== 'function' ? `${accTypeOrInitVal} ${accCatOrCB}` : 'Custom Agg';
-  const columnHeaders = Array.isArray(columnData.columnHeaders[0]) ? columnData.columnHeaders : [columnData.columnHeaders.concat(messageIfNoHeaders)];
+  if(typeof rowHeader === 'undefined') rowHeader = typeof accCatOrCB !== 'function' ? `${accTypeOrInitVal} ${accCatOrCB}` : 'Custom Agg';
+  
+  const columnData = createColumnHeaders(data, cols, rowHeader);
+  const columnHeaders = Array.isArray(columnData.columnHeaders[0]) ? columnData.columnHeaders : [columnData.columnHeaders.concat(rowHeader)];
   const mapToHeader = columnData.mapToHeader;
   const headerLength = columnHeaders[0].length;
   
@@ -149,7 +143,7 @@ function tableCreator(data, rows = [], cols = [], accCatOrCB, accTypeOrInitVal){
               dataRows[dataRows.length - 1] = datum;
 
               let rawDataDatum = rawData[rawData.length - 1];
-              rawDataDatum[map] = [dataPos];
+              rawDataDatum[map] = dataPos;
               rawData[rawData.length - 1] = rawDataDatum; 
             }else{
               prevKey = key;
@@ -174,7 +168,7 @@ function tableCreator(data, rows = [], cols = [], accCatOrCB, accTypeOrInitVal){
   
   if(rows.length || cols.length) rowRecurse(groupByCategories(data, rows.length ? rows : cols));
   else{
-    dataRows.push([messageIfNoHeaders, accumulator(data, accCatOrCB, accTypeOrInitVal)]);
+    dataRows.push([rowHeader, accumulator(data, accCatOrCB, accTypeOrInitVal)]);
     rawData = data;
   }
   
