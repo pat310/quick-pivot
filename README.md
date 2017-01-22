@@ -29,7 +29,7 @@ Install with npm:
 `npm install --save quick-pivot`
 
 
-```
+```js
 var pivot = require('quick-pivot');
 
 var dataArray = [
@@ -56,7 +56,7 @@ console.log(pivotedData);
 ```
 
 console logs:
-```
+```js
 { table:
  [ [ 'sum age',
      'Stark',
@@ -113,7 +113,7 @@ pivot(rows, columns, [accumulationCategory or CBfunction], [accumulationType or 
 
 ###### Example with callback function
 
-```
+```js
 function cbFunc(acc, curr, index, arr){
   acc += curr.age;
   if(index === arr.length - 1) return acc / arr.length;
