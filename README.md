@@ -119,7 +119,7 @@ function cbFunc(acc, curr, index, arr){
   if(index === arr.length - 1) return acc / arr.length;
   return acc;
 }
-var table = tableCreator(dataArray, ['gender'], ['house'], cbFunc, 0, 'average age');
+var table = pivot(dataArray, ['gender'], ['house'], cbFunc, 0, 'average age');
 
 console.log(table);
 /*
