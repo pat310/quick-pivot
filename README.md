@@ -11,16 +11,16 @@ A utility to quickly pivot data given rows and/or columns to pivot on.
 
 ## What it does
 Say you have this example data set:
-![example data](http://imgur.com/GysbXmx)
+![example data](/screenshots/ss1.png)
 
 With this tool you can pivot the data given a particular row and column category:
-![example pivot 1](http://imgur.com/NTHGU6t)
+![example pivot 1](/screenshots/ss2.png)
 
 Or given multiple rows and a column category:
-![example pivot 1](http://imgur.com/02TtZTD)
+![example pivot 2](/screenshots/ss3.png)
 
 Or multiple columns and a row category:
-![example pivot 1](http://imgur.com/jeeFXS4)
+![example pivot 3](/screenshots/ss4.png)
 
 Or any other combination of rows and/or columns
 
