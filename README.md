@@ -91,7 +91,7 @@ rawData:
 `quick-pivot` returns an object with keys `table` and `rawData`.  `table` is an array of arrays containing the result of the pivot. `rawData` is an array of arrays but rather than returning the result of the pivot, it returns the data points that make up the result in each corresponding index.  This allows the user to determine what data made up the pivoted value.
 
 ### Syntax
-````
+````js
 var pivot = require('quick-pivot');
 
 pivot(rows, columns, [accumulationCategory or CBfunction], [accumulationType or initialValue], rowHeader); 
