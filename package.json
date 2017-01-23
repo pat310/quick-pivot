@@ -1,6 +1,6 @@
 {
   "name": "quick-pivot",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "a utility for quickly pivoting data",
   "main": "index.js",
   "scripts": {
