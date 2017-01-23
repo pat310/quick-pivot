@@ -10,17 +10,17 @@ A utility to quickly pivot data given rows and/or columns to pivot on.
 [![Dependency Status](https://img.shields.io/david/pat310/quick-pivot.svg?style=flat-square)](https://david-dm.org/pat310/quick-pivot)
 
 ## What it does
-Say you have this example data set:
-![example data](/screenshots/ss1.png)
+Say you have this example data set:<br>
+[example data](/screenshots/ss1.png)
 
-With this tool you can pivot the data given a particular row and column category:
-![example pivot 1](/screenshots/ss2.png)
+With this tool you can pivot the data given a particular row and column category:<br>
+[example pivot 1](/screenshots/ss2.png)
 
-Or given multiple rows and a column category:
-![example pivot 2](/screenshots/ss3.png)
+Or given multiple rows and a column category:<br>
+[example pivot 2](/screenshots/ss3.png)
 
-Or multiple columns and a row category:
-![example pivot 3](/screenshots/ss4.png)
+Or multiple columns and a row category:<br>
+[example pivot 3](/screenshots/ss4.png)
 
 Or any other combination of rows and/or columns
 
