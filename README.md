@@ -50,7 +50,7 @@ var colsToPivot = ['house', 'gender'];
 var aggregationCategory = 'age';
 var aggregationType = 'sum';
 
-var pivotedData = pivot(rowsToPivot, colsToPivot, aggregationCategory, aggregationType);
+var pivotedData = pivot(dataArray, rowsToPivot, colsToPivot, aggregationCategory, aggregationType);
 
 console.log(pivotedData);
 ```
