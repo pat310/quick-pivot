@@ -6,8 +6,6 @@ engines:
     config:
       languages:
       - javascript
-  eslint:
-    enabled: true
     checks:
       wrap-iife:
         enabled: false
@@ -21,4 +19,4 @@ ratings:
   paths:
   - "**.js"
   - "**.jsx"
-exclude_paths: []
+exclude_paths: ["test.js"]
