@@ -7,6 +7,7 @@ A utility to quickly pivot data given rows and/or columns to pivot on.
 [![npm version](https://badge.fury.io/js/quick-pivot.svg)](https://badge.fury.io/js/quick-pivot)
 [![Build Status](https://img.shields.io/travis/pat310/quick-pivot.svg)](https://travis-ci.org/pat310/quick-pivot)
 [![Coverage Status](https://coveralls.io/repos/github/pat310/quick-pivot/badge.svg?branch=addingCoveralls)](https://coveralls.io/github/pat310/quick-pivot?branch=addingCoveralls)
+[![Code Climate](https://codeclimate.com/github/pat310/quick-pivot/badges/gpa.svg)](https://codeclimate.com/github/pat310/quick-pivot)
 [![Dependency Status](https://img.shields.io/david/pat310/quick-pivot.svg?style=flat-square)](https://david-dm.org/pat310/quick-pivot)
 
 ## What it does
@@ -92,7 +93,7 @@ rawData:
 
 ### Syntax
 
-````js
+```js
 var pivot = require('quick-pivot');
 
 pivot(dataArray, rows, columns, [accumulationCategory or CBfunction], [accumulationType or initialValue], rowHeader); 
