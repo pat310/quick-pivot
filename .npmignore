@@ -45,3 +45,8 @@ screenshots
 
 # ignore non-transpiled file
 logic.js
+
+# ignore code climate files
+.codeclimate.yml
+.eslintignore
+.eslintrc

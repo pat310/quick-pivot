@@ -1,24 +1,24 @@
 ---
 engines:
-  duplication:
+  # ... CONFIG CONTENT ...
+  eslint:
     enabled: true
     config:
       languages:
-      - ruby
       - javascript
-      - python
-      - php
   eslint:
     enabled: true
+    checks:
+      wrap-iife:
+        enabled: false
+      no-loop-func:
+        enabled: false       
+      guard-for-in:
+        enabled: false
   fixme:
     enabled: true
 ratings:
   paths:
-  - "**.inc"
   - "**.js"
   - "**.jsx"
-  - "**.module"
-  - "**.php"
-  - "**.py"
-  - "**.rb"
 exclude_paths: []
