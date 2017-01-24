@@ -1,7 +1,3 @@
-# pivot
-
-A utility to quickly pivot data given rows and/or columns to pivot on.
-
 [![NPM](https://nodei.co/npm/quick-pivot.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/quick-pivot/)
 
 [![npm version](https://badge.fury.io/js/quick-pivot.svg)](https://badge.fury.io/js/quick-pivot)
