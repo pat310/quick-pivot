@@ -42,3 +42,6 @@ jspm_packages
 
 # only want to host screenshots on github
 screenshots
+
+# ignore non-transpiled file
+logic.js

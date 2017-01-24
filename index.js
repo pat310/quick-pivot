@@ -1,3 +1,3 @@
 'use strict';
 
-module.exports = require(`${__dirname}/logic.js`).tableCreator;
+module.exports = require('./transpiled.js').tableCreator;

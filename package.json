@@ -1,12 +1,15 @@
 {
   "name": "quick-pivot",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "a utility for quickly pivoting data",
   "main": "index.js",
   "scripts": {
     "test": "mocha",
     "cover": "istanbul cover _mocha",
-    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
+    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
+    "transpile": "./node_modules/.bin/babel --presets es2015 logic.js -o transpiled.js",
+    "prepublish": "npm run transpile",
+    "postpublish": "rm -f ./transpiled.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +25,8 @@
   },
   "homepage": "https://github.com/pat310/quick-pivot#readme",
   "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-preset-es2015": "^6.22.0",
     "chai": "^3.5.0",
     "coveralls": "^2.11.15",
     "istanbul": "^0.4.5",
