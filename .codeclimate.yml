@@ -6,8 +6,6 @@ engines:
     config:
       languages:
       - javascript
-  eslint:
-    enabled: true
     checks:
       wrap-iife:
         enabled: false
