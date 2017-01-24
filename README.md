@@ -22,7 +22,7 @@ Or given multiple rows and a column category:<br>
 Or multiple columns and a row category:<br>
 ![example pivot 3](/screenshots/ss4.png)
 
-Or any other combination of rows and/or columns
+Or any combination of rows and/or columns
 
 ## Example use
 Install with npm:
@@ -91,13 +91,18 @@ rawData:
 `quick-pivot` returns an object with keys `table` and `rawData`.  `table` is an array of arrays containing the result of the pivot. `rawData` is an array of arrays but rather than returning the result of the pivot, it returns the data points that make up the result in each corresponding index.  This allows the user to determine what data made up the pivoted value.
 
 ### Syntax
+
 ````js
 var pivot = require('quick-pivot');
 
-pivot(rows, columns, [accumulationCategory or CBfunction], [accumulationType or initialValue], rowHeader); 
+pivot(dataArray, rows, columns, [accumulationCategory or CBfunction], [accumulationType or initialValue], rowHeader); 
 ```
 
 #### First way to use it:
+* `dataArray` **required** is one of the following:
+ * array of arrays ( the array in first index is assumed to be your headers, see the example above)
+ * array of objects (the keys of each object are the headers)
+ * a single array (a single column of data where the first element is the header)
 * `rows` is an array of strings (the rows you want to pivot on) or an empty array **required**
 * `columns` is an array of strings (the columns you want to pivot on) or an empty array **required**
 * `accumulationCategory` is a string (the category you want to accumulate values for) **required**
@@ -105,11 +110,9 @@ pivot(rows, columns, [accumulationCategory or CBfunction], [accumulationType or 
 * `rowHeader` is a string (this value will appear above the rows)
 
 #### Second way to use it:
-* `rows` is an array of strings (the rows you want to pivot on) or an empty array **required**
-* `columns` is an array of strings (the columns you want to pivot on) or an empty array **required**
+Parameters are the same as the first except for two, `accumulationCategory` and `accumulationType`. Instead of `accumulationCategory` and `accumulationType`, you can use the following:
 * `CBfunction` is a callback function that receives four parameters `CBfunction(acc, curr, index, arr)` where `acc` is an accumulation value, `curr` is the current element being processed, `index` is the index of the current element being processed and `arr` is the array that is being acted on. This function must return the accumulation value (this is very similar to javascript's `.reduce`) **required**
 * `initialValue` is the starting value for the callback function. If no starting value is selected, `0` is used by default.
-* `rowHeader` is a string (this value will appear above the rows)
 
 ###### Example with callback function
 
