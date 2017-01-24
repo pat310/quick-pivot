@@ -39,3 +39,6 @@ jspm_packages
 # ignore files created by vim
 *.swp
 *.*~
+
+# ignore transpiled file
+transpiled.js

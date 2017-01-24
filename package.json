@@ -8,7 +8,8 @@
     "cover": "istanbul cover _mocha",
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "transpile": "./node_modules/.bin/babel --presets es2015 logic.js -o transpiled.js",
-    "prepublish": "npm run transpile"
+    "prepublish": "npm run transpile",
+    "postpublish": "rm -f ./transpiled.js"
   },
   "repository": {
     "type": "git",
