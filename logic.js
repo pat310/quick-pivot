@@ -1,4 +1,69 @@
 'use strict';
+//polyfill for Object.assign
+function assignObject(target, varArgs) { // .length of function is 2
+  'use strict';
+  if (target == null) { // TypeError if undefined or null
+    throw new TypeError('Cannot convert undefined or null to object');
+  }
+
+  var to = Object(target);
+
+  for (var index = 1; index < arguments.length; index++) {
+    var nextSource = arguments[index];
+
+    if (nextSource != null) { // Skip over if undefined or null
+      for (var nextKey in nextSource) {
+        // Avoid bugs when hasOwnProperty is shadowed
+        if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+          to[nextKey] = nextSource[nextKey];
+        }
+      }
+    }
+  }
+  return to;
+};
+
+// polyfill for Array.fill
+function arrayFill(value) {
+
+  // Steps 1-2.
+  if (this == null) {
+    throw new TypeError('this is null or not defined');
+  }
+
+  var O = Object(this);
+
+  // Steps 3-5.
+  var len = O.length >>> 0;
+
+  // Steps 6-7.
+  var start = arguments[1];
+  var relativeStart = start >> 0;
+
+  // Step 8.
+  var k = relativeStart < 0 ?
+    Math.max(len + relativeStart, 0) :
+    Math.min(relativeStart, len);
+
+  // Steps 9-10.
+  var end = arguments[2];
+  var relativeEnd = end === undefined ?
+    len : end >> 0;
+
+  // Step 11.
+  var final = relativeEnd < 0 ?
+    Math.max(len + relativeEnd, 0) :
+    Math.min(relativeEnd, len);
+
+  // Step 12.
+  while (k < final) {
+    O[k] = value;
+    k++;
+  }
+
+  // Step 13.
+  return O;
+}
 
 function fixDataFormat(data){
  if(!Array.isArray(data) || !data.length) return [];
@@ -38,7 +103,7 @@ function groupByCategories(data, groups = [], acc = {}){
   
   if(!groups.length) return data;
   
-  var groupCopy = Object.assign([], groups);
+  var groupCopy = assignObject([], groups);
   var groupedData = groupByCategory(data, groupCopy.shift());
   var groupedDataKeys = Object.keys(groupedData);
   var children = groupedDataKeys.map(el => {
@@ -57,7 +122,7 @@ function createColumnHeaders(data, cols = [], firstColumn = ''){
   
   var groupedData = groupByCategories(data, cols);
   var columnHeaders = [];
-  var mapToHeader = Object.assign({}, groupedData);
+  var mapToHeader = assignObject({}, groupedData);
   var mapPos = 1;
   
   (function columnHeaderRecursion(data, pos = 0, headerMap){
@@ -72,7 +137,7 @@ function createColumnHeaders(data, cols = [], firstColumn = ''){
           mapPos += 1;
         }
         reqLength += currLength;
-        columnHeaders[pos] = !columnHeaders[pos] ? [firstColumn].concat(Array(currLength).fill(currKeys[i])) : columnHeaders[pos].concat(Array(currLength).fill(currKeys[i]));
+        columnHeaders[pos] = !columnHeaders[pos] ? [firstColumn].concat(arrayFill.call(Array(currLength), currKeys[i])) : columnHeaders[pos].concat(arrayFill.call(Array(currLength), currKeys[i]));
       }
       return reqLength;
     }
@@ -147,8 +212,8 @@ function tableCreator(data, rows = [], cols = [], accCatOrCB, accTypeOrInitVal, 
               rawData[rawData.length - 1] = rawDataDatum; 
             }else{
               prevKey = key;
-              let datum = [key].concat(Array(map - 1).fill(''), accumulator(dataPos, accCatOrCB, accTypeOrInitVal), Array(headerLength - (map + 1)).fill(''));
-              let rawDataDatum = [key].concat(Array(map - 1).fill(''), [dataPos], Array(headerLength - (map + 1)).fill(''));
+              let datum = [key].concat(arrayFill.call(Array(map - 1), ''), accumulator(dataPos, accCatOrCB, accTypeOrInitVal), arrayFill.call(Array(headerLength - (map + 1)), ''));
+              let rawDataDatum = [key].concat(arrayFill.call(Array(map - 1), ''), [dataPos], arrayFill.call(Array(headerLength - (map + 1)), ''));
               rawData.push(rawDataDatum);
               dataRows.push(datum);
             }
@@ -160,7 +225,7 @@ function tableCreator(data, rows = [], cols = [], accCatOrCB, accTypeOrInitVal, 
         })(recursedData, mapToHeader || 1);
 
       }else{
-        dataRows.push([key].concat(Array(headerLength - 1).fill('')));
+        dataRows.push([key].concat(arrayFill.call(Array(headerLength - 1), '')));
         rowRecurse(rowGroups[key], key);
       }
     }
