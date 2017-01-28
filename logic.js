@@ -122,8 +122,20 @@ function accumulator(arr, accCat, accType, accValue){
   }, accValue || 0);
 }
 
+function checkPivotCategories(actualCats, selectedCats){
+  var errMessage = [];
+  selectedCats.forEach(selectedCat =>{
+    if(actualCats.indexOf(selectedCat) === -1) errMessage.push(selectedCat); 
+  });
+  if(errMessage.length) throw new Error(`Check that these selected pivot categories exist: ${errMessage.join(',')}`);
+}
+
 function tableCreator(data, rows = [], cols = [], accCatOrCB, accTypeOrInitVal, rowHeader){
   data = fixDataFormat(data);
+  if(!data.length) return [];
+  checkPivotCategories(Object.keys(data[0]), rows);
+  checkPivotCategories(Object.keys(data[0]), cols);
+
   if(typeof rowHeader === 'undefined') rowHeader = typeof accCatOrCB !== 'function' ? `${accTypeOrInitVal} ${accCatOrCB}` : 'Custom Agg';
   
   const columnData = createColumnHeaders(data, cols, rowHeader);
@@ -190,5 +202,6 @@ module.exports = {
   groupByCategory,
   groupByCategories,
   createColumnHeaders,
-  accumulator
+  accumulator,
+  checkPivotCategories
 };

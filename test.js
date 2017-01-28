@@ -6,7 +6,8 @@ const {
   groupByCategories,
   createColumnHeaders,
   accumulator,
-  tableCreator
+  tableCreator,
+  checkPivotCategories
 } = require('./logic');
 
 const chai = require('chai');
@@ -250,6 +251,19 @@ describe('accumulator', function(){
     expect(accumulatedResultsWithInit).to.equal(41.25);
     expect(accumulatedResultsNoInit).to.equal(28.75);
     expect(accumulatedResultsWithTypeProvided).to.equal(28.75);
+  });
+});
+
+describe('checkPivotCategories', function(){
+  var actualCategories = ['pig', 'fish', 'dog'];
+
+  it('should return undefined if pivot category exists', function(){
+    expect(checkPivotCategories(actualCategories, ['dog'])).to.be.undefined;
+  });
+
+  it('should throw an error if pivot category does not exist', function(){
+    var errorFunc = checkPivotCategories.bind(null, actualCategories, ['cat']);
+    expect(errorFunc).to.throw(Error);
   });
 });
 
