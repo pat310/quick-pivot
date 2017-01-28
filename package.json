@@ -6,10 +6,12 @@
   "scripts": {
     "build": "webpack --mode=build",
     "dev": "webpack --progress --colors --watch --mode=dev",
+    "start": "npm run dev",
     "test": "mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
     "test:watch": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js",
     "cover": "nyc --reporter=lcov mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
-    "coveralls": "npm run cover && nyc report --reporter=text-lcov | coveralls"
+    "coveralls": "npm run cover && nyc report --reporter=text-lcov | coveralls",
+    "coverage": "nyc mocha --compilers js:babel-core/register --colors ./test/*.spec.js"
   },
   "repository": {
     "type": "git",
