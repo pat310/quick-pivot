@@ -2,7 +2,7 @@
   "name": "quick-pivot",
   "version": "1.0.11",
   "description": "a utility for quickly pivoting data",
-  "main": "lib/library.js",
+  "main": "lib/quick-pivot.min.js",
   "scripts": {
     "build": "webpack --mode=build",
     "dev": "webpack --progress --colors --watch --mode=dev",
