@@ -8,8 +8,8 @@
     "dev": "webpack --progress --colors --watch --mode=dev",
     "test": "mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
     "test:watch": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js",
-    "cover": "nyc mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls"
+    "cover": "nyc --reporter=lcov mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
+    "coveralls": "npm run cover && nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
