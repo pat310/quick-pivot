@@ -9,7 +9,7 @@
     "test": "mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
     "test:watch": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js",
     "cover": "nyc mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
-    "coveralls": "npm run cover report --reporter=text-lcov | coveralls"
+    "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
