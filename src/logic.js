@@ -141,7 +141,7 @@ function checkPivotCategories(actualCats, selectedCats) {
   }
 }
 
-function tableCreator(
+export function tableCreator(
     data, rows = [], cols = [], accCatOrCB, accTypeOrInitVal, rowHeader) {
   data = fixDataFormat(data);
   if (!data.length) return [];
@@ -223,13 +223,3 @@ function tableCreator(
   };
 
 }
-
-module.exports = {
-  tableCreator,
-  fixDataFormat,
-  groupByCategory,
-  groupByCategories,
-  createColumnHeaders,
-  accumulator,
-  checkPivotCategories
-};
