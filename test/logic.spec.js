@@ -277,6 +277,11 @@ describe('accumulator', function() {
 
           expect(accumulatedResults).to.equal(30);
         });
+        it('default', function() {
+          var accumulatedResults = accumulator(data, 'age', 'default');
+
+          expect(accumulatedResults).to.equal(8);
+        });
       });
 
   it('should take an accumulation start value', function() {
