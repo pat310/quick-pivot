@@ -262,6 +262,21 @@ describe('accumulator', function() {
 
           expect(accumulatedResults).to.equal(8);
         });
+        it('average', function() {
+          var accumulatedResults = accumulator(data, 'age', 'average');
+
+          expect(accumulatedResults).to.equal(28.75);
+        });
+        it('min', function() {
+          var accumulatedResults = accumulator(data, 'age', 'min');
+
+          expect(accumulatedResults).to.equal(28);
+        });
+        it('max', function() {
+          var accumulatedResults = accumulator(data, 'age', 'max');
+
+          expect(accumulatedResults).to.equal(30);
+        });
       });
 
   it('should take an accumulation start value', function() {
