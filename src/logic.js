@@ -86,7 +86,7 @@ function createColumnHeaders(data, cols = [], firstColumn = '') {
 
   return {
     columnHeaders,
-    mapToHeader
+    mapToHeader,
   };
 }
 
@@ -161,27 +161,28 @@ export function tableCreator(
   const mapToHeader = columnData.mapToHeader;
   const headerLength = columnHeaders[0].length;
 
-  var dataRows = [];
-  var rawData = [];
-  var prevKey = '';
+  let dataRows = [];
+  let rawData = [];
+  let prevKey = '';
 
-  function rowRecurse(rowGroups) {
+  function rowRecurse(rowGroups, depth) {
     for (let key in rowGroups) {
       if (Array.isArray(rowGroups[key])) {
         var recursedData = groupByCategories(rowGroups[key], cols);
 
         (function recurseThroughMap(dataPos, map) {
           if (Array.isArray(dataPos)) {
+            console.log('data Depth', dataPos, depth);
             if (key === prevKey) {
-              let datum = dataRows[dataRows.length - 1];
+              let datum = dataRows[dataRows.length - 1].value;
 
               datum[map] = accumulator(dataPos, accCatOrCB, accTypeOrInitVal);
-              dataRows[dataRows.length - 1] = datum;
+              dataRows[dataRows.length - 1].value = datum;
 
-              let rawDataDatum = rawData[rawData.length - 1];
+              let rawDataDatum = rawData[rawData.length - 1].value;
 
               rawDataDatum[map] = dataPos;
-              rawData[rawData.length - 1] = rawDataDatum;
+              rawData[rawData.length - 1].value = rawDataDatum;
             } else {
               prevKey = key;
               let datum = [key].concat(
@@ -193,8 +194,18 @@ export function tableCreator(
                 [dataPos],
                 Array(headerLength - (map + 1)).fill(''));
 
-              rawData.push(rawDataDatum);
-              dataRows.push(datum);
+              rawData.push({
+                value: rawDataDatum,
+                type: 'data',
+                depth,
+              });
+              // rawData.push(rawDataDatum);
+              dataRows.push({
+                value: datum,
+                type: 'data',
+                depth,
+              });
+              // dataRows.push(datum);
             }
           } else {
             for (let innerKey in dataPos) {
@@ -204,14 +215,27 @@ export function tableCreator(
         })(recursedData, mapToHeader || 1);
 
       } else {
-        dataRows.push([key].concat(Array(headerLength - 1).fill('')));
-        rowRecurse(rowGroups[key], key);
+        console.log('header depth', key, depth)
+        const value = [key].concat(Array(headerLength - 1).fill(''));
+
+        dataRows.push({
+          value,
+          depth,
+          type: 'header',
+        });
+        rawData.push({
+          value,
+          depth,
+          type: 'header',
+        });
+
+        rowRecurse(rowGroups[key], depth + 1);
       }
     }
   }
 
   if (rows.length || cols.length) {
-    rowRecurse(groupByCategories(data, rows.length ? rows : cols));
+    rowRecurse(groupByCategories(data, rows.length ? rows : cols), 0);
   } else {
     dataRows.push([rowHeader, accumulator(data, accCatOrCB, accTypeOrInitVal)]);
     rawData = data;
@@ -219,7 +243,7 @@ export function tableCreator(
 
   return {
     table: columnHeaders.concat(dataRows),
-    rawData
+    rawData,
   };
 
 }
