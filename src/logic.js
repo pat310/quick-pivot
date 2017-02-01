@@ -165,6 +165,7 @@ export default function tableCreator(
       value,
       depth,
       type: 'colHeader',
+      row: depth,
     };
   });
 
@@ -179,7 +180,7 @@ export default function tableCreator(
 
         (function recurseThroughMap(dataPos, map) {
           if (Array.isArray(dataPos)) {
-            console.log('data Depth', dataPos, depth);
+            // console.log('data Depth', dataPos, depth);
             if (key === prevKey) {
               let datum = dataRows[dataRows.length - 1].value;
 
@@ -210,6 +211,7 @@ export default function tableCreator(
                 value: datum,
                 type: 'data',
                 depth,
+                row: dataRows.length + formattedColumnHeaders.length,
               });
             }
           } else {
@@ -220,13 +222,14 @@ export default function tableCreator(
         })(recursedData, mapToHeader || 1);
 
       } else {
-        console.log('header depth', key, depth)
+        // console.log('header depth', key, depth)
         const value = [key].concat(Array(headerLength - 1).fill(''));
 
         dataRows.push({
           value,
           depth,
           type: 'rowHeader',
+          row: dataRows.length + formattedColumnHeaders.length,
         });
         rawData.push({
           value,
