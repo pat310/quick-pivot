@@ -33,14 +33,6 @@ var pivot = new Pivot(
 
 describe('this is a test', function() {
   it('is this a pivot?', function() {
-    console.log('testing 1 2 3 4 5 6', pivot.data);
+    console.log('testing', pivot.originalData.table);
   });
 });
-
-/**
-{
-  render: [this is what is existing now],
-  type: enum ['header', 'data'],
-  level: number children
-}
-*/

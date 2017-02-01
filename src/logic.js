@@ -141,7 +141,7 @@ function checkPivotCategories(actualCats, selectedCats) {
   }
 }
 
-export function tableCreator(
+export default function tableCreator(
     data, rows = [], cols = [], accCatOrCB, accTypeOrInitVal, rowHeader) {
   data = fixDataFormat(data);
   if (!data.length) return [];
@@ -160,6 +160,13 @@ export function tableCreator(
       [columnData.columnHeaders.concat(rowHeader)];
   const mapToHeader = columnData.mapToHeader;
   const headerLength = columnHeaders[0].length;
+  const formattedColumnHeaders = columnHeaders.map((value, depth) => {
+    return {
+      value,
+      depth,
+      type: 'colHeader',
+    };
+  });
 
   let dataRows = [];
   let rawData = [];
@@ -199,13 +206,11 @@ export function tableCreator(
                 type: 'data',
                 depth,
               });
-              // rawData.push(rawDataDatum);
               dataRows.push({
                 value: datum,
                 type: 'data',
                 depth,
               });
-              // dataRows.push(datum);
             }
           } else {
             for (let innerKey in dataPos) {
@@ -221,12 +226,12 @@ export function tableCreator(
         dataRows.push({
           value,
           depth,
-          type: 'header',
+          type: 'rowHeader',
         });
         rawData.push({
           value,
           depth,
-          type: 'header',
+          type: 'rowHeader',
         });
 
         rowRecurse(rowGroups[key], depth + 1);
@@ -242,8 +247,8 @@ export function tableCreator(
   }
 
   return {
-    table: columnHeaders.concat(dataRows),
-    rawData,
+    table: formattedColumnHeaders.concat(dataRows),
+    rawData: formattedColumnHeaders.concat(rawData),
   };
 
 }
