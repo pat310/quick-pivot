@@ -43,3 +43,5 @@ export function expand(rowNum, currData, collapsedRows) {
   currData.rawData.splice(rowNum + 1, 0, ...collapsedRows.rawData);
   return currData;
 }
+
+// function progressiveDiscoveryAccumulator(arr, accCat, accType, accValue)

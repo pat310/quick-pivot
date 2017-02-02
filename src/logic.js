@@ -173,14 +173,13 @@ export default function tableCreator(
   let rawData = [];
   let prevKey = '';
 
-  function rowRecurse(rowGroups, depth) {
+  function rowRecurse(rowGroups, depth, rowHeaders = []) {
     for (let key in rowGroups) {
       if (Array.isArray(rowGroups[key])) {
         var recursedData = groupByCategories(rowGroups[key], cols);
 
         (function recurseThroughMap(dataPos, map) {
           if (Array.isArray(dataPos)) {
-            console.log('data Depth', dataPos, depth);
             if (key === prevKey) {
               let datum = dataRows[dataRows.length - 1].value;
 
@@ -222,8 +221,10 @@ export default function tableCreator(
         })(recursedData, mapToHeader || 1);
 
       } else {
-        // console.log('header depth', key, depth)
-        const value = [key].concat(Array(headerLength - 1).fill(''));
+        const rowHeaderValue = rowHeaders.shift();
+        const value = rowHeaderValue ?
+          rowHeaderValue.value :
+          [key].concat(Array(headerLength - 1).fill(''));
 
         dataRows.push({
           value,
@@ -237,13 +238,25 @@ export default function tableCreator(
           type: 'rowHeader',
         });
 
-        rowRecurse(rowGroups[key], depth + 1);
+        rowRecurse(rowGroups[key], depth + 1, rowHeaders);
       }
     }
   }
 
-  if (rows.length || cols.length) {
-    rowRecurse(groupByCategories(data, rows.length ? rows : cols), 0);
+  let dataGroups = [];
+
+  if (rows.length > 0) {
+    for (let i = 0; i < rows.length; i++) {
+      rowRecurse(groupByCategories(data, rows.slice(0, i + 1)), 0, dataGroups);
+      dataGroups = Object.assign([], dataRows);
+      if (i + 1 < rows.length) {
+        dataRows = [];
+        rawData = [];
+        prevKey = '';
+      }
+    }
+  } else if (cols.length > 0) {
+    rowRecurse(groupByCategories(data, cols), 0);
   } else {
     dataRows.push([rowHeader, accumulator(data, accCatOrCB, accTypeOrInitVal)]);
     rawData = data;

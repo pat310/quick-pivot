@@ -18,7 +18,7 @@ var dataArray = [
  ['Sansa', 'f', 'Stark', 12],
 ];
 
-var rowsToPivot = ['house', 'gender'];
+var rowsToPivot = ['gender', 'name'];
 var colsToPivot = ['house'];
 var aggregationCategory = 'age';
 var aggregationType = 'sum';
@@ -40,6 +40,7 @@ describe('this is a test', function() {
     // console.log('table', pivot.originalData.table);
     // console.log('data', pivot.originalData.rawData)
     console.log('this is data', pivot.data.table)
+    console.log('this is rawData', pivot.data.rawData)
     // console.log('this is rawData', pivot.getData(1))
   });
 });
