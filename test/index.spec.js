@@ -18,8 +18,8 @@ var dataArray = [
  ['Sansa', 'f', 'Stark', 12],
 ];
 
-var rowsToPivot = ['gender', 'name'];
-var colsToPivot = ['house'];
+var rowsToPivot = [];
+var colsToPivot = [];
 var aggregationCategory = 'age';
 var aggregationType = 'sum';
 

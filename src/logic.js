@@ -256,10 +256,30 @@ export default function tableCreator(
       }
     }
   } else if (cols.length > 0) {
-    rowRecurse(groupByCategories(data, cols), 0);
+    for (let i = 0; i < cols.length; i++) {
+      rowRecurse(groupByCategories(data, cols.slice(0, i + 1)), 0, dataGroups);
+      dataGroups = Object.assign([], dataRows);
+      if (i + 1 < cols.length) {
+        dataRows = [];
+        rawData = [];
+        prevKey = '';
+      }
+    }
   } else {
-    dataRows.push([rowHeader, accumulator(data, accCatOrCB, accTypeOrInitVal)]);
-    rawData = data;
+    dataRows.push({
+      value: [rowHeader, accumulator(data, accCatOrCB, accTypeOrInitVal)],
+      type: 'data',
+      row: 0,
+      depth: 0,
+    });
+    rawData = data.map((value) => {
+      return {
+        value,
+        type: 0,
+        row: 0,
+        depth: 0,
+      };
+    });
   }
 
   return {
