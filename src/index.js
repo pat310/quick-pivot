@@ -10,40 +10,40 @@ export default class Pivot {
       this.originalData = tableCreator(data, rows, cols, agg, type, header);
     }
 
-    this.currData = this.originalData;
+    this.data = this.originalData;
     this.collapsedRows = {};
   }
 
   update(data, rows, cols, agg, type, header) {
     this.originalData = tableCreator(data, rows, cols, agg, type, header);
-    this.currData = this.originalData;
+    this.data = this.originalData;
   }
 
   collapse(rowNum) {
-    let returnedData = collapse(rowNum, this.currData);
+    let returnedData = collapse(rowNum, this.data);
 
-    this.collapsedRows[this.currData.table[rowNum].row] =
+    this.collapsedRows[this.data.table[rowNum].row] =
         returnedData.collapsed;
-    this.currData = returnedData.dataToReturn;
+    this.data = returnedData.dataToReturn;
     return this;
   }
 
   expand(rowNum) {
-    this.currData = expand(
+    this.data = expand(
       rowNum,
-      this.currData,
-      this.collapsedRows[this.currData.table[rowNum].row],
+      this.data,
+      this.collapsedRows[this.data.table[rowNum].row],
     );
-    delete this.collapsedRows[this.currData.table[rowNum].row];
+    delete this.collapsedRows[this.data.table[rowNum].row];
     return this;
   }
 
   getData(rowNum) {
-    if (this.collapsedRows[this.currData.table[rowNum].row]) {
-      return this.collapsedRows[this.currData.table[rowNum].row].rawData;
+    if (this.collapsedRows[this.data.table[rowNum].row]) {
+      return this.collapsedRows[this.data.table[rowNum].row].rawData;
     }
 
-    return this.originalData.rawData[this.currData.table[rowNum].row];
+    return this.originalData.rawData[this.data.table[rowNum].row];
   }
 
 }

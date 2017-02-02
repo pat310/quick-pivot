@@ -180,7 +180,7 @@ export default function tableCreator(
 
         (function recurseThroughMap(dataPos, map) {
           if (Array.isArray(dataPos)) {
-            // console.log('data Depth', dataPos, depth);
+            console.log('data Depth', dataPos, depth);
             if (key === prevKey) {
               let datum = dataRows[dataRows.length - 1].value;
 

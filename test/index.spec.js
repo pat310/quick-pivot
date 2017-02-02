@@ -36,9 +36,10 @@ describe('this is a test', function() {
     // console.log('testing', pivot.originalData.table);
     // pivot.collapse(1).collapse(2);
     // pivot.collapse(1).expand(1)
-    pivot.collapse(1);
+    // pivot.collapse(1);
     // console.log('table', pivot.originalData.table);
     // console.log('data', pivot.originalData.rawData)
-    console.log('this is data', pivot.getData(1))
+    console.log('this is data', pivot.data.table)
+    // console.log('this is rawData', pivot.getData(1))
   });
 });
