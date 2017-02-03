@@ -1,6 +1,6 @@
 'use strict';
 
-function fixDataFormat(data) {
+export function fixDataFormat(data) {
   if (!Array.isArray(data) || !data.length) return [];
   else if (typeof data[0] === 'object' && !Array.isArray(data[0])) return data;
   return data.reduce((dataCol, row, i, arr) => {
@@ -18,7 +18,7 @@ function fixDataFormat(data) {
   }, []);
 }
 
-function groupByCategory(data, groupBy) {
+export function groupByCategory(data, groupBy) {
   return data.reduce((acc, curr) =>{
     var category = curr[groupBy];
 
@@ -28,7 +28,7 @@ function groupByCategory(data, groupBy) {
   }, {});
 }
 
-function groupByCategories(data, groups = [], acc = {}) {
+export function groupByCategories(data, groups = [], acc = {}) {
   if (!data.length) return [];
 
   groups = groups.filter(ele =>{
@@ -53,7 +53,7 @@ function groupByCategories(data, groups = [], acc = {}) {
   return acc;
 }
 
-function createColumnHeaders(data, cols = [], firstColumn = '') {
+export function createColumnHeaders(data, cols = [], firstColumn = '') {
   if (!cols.length) return {columnHeaders: [firstColumn], mapToHeader: 1};
 
   var groupedData = groupByCategories(data, cols);
@@ -97,7 +97,7 @@ function createColumnHeaders(data, cols = [], firstColumn = '') {
  * 2. it takes an array of objects, a callback function (which operates
  *  the same as reduce), and an initial value
  */
-function accumulator(arr, accCat, accType, accValue) {
+export function accumulator(arr, accCat, accType, accValue) {
   if (!accCat && typeof accType !== 'function') accType = 'count';
   else if (typeof accCat === 'function') {
     accValue = accType || 0;
@@ -128,7 +128,7 @@ function accumulator(arr, accCat, accType, accValue) {
   }, accValue || 0);
 }
 
-function checkPivotCategories(actualCats, selectedCats) {
+export function checkPivotCategories(actualCats, selectedCats) {
   var errMessage = [];
 
   selectedCats.forEach(selectedCat =>{
@@ -141,8 +141,8 @@ function checkPivotCategories(actualCats, selectedCats) {
   }
 }
 
-export default function tableCreator(
-    data, rows = [], cols = [], accCatOrCB, accTypeOrInitVal, rowHeader) {
+export function tableCreator(
+  data, rows = [], cols = [], accCatOrCB, accTypeOrInitVal, rowHeader) {
   data = fixDataFormat(data);
   if (!data.length) return [];
   checkPivotCategories(Object.keys(data[0]), rows);
@@ -223,8 +223,8 @@ export default function tableCreator(
       } else {
         const rowHeaderValue = rowHeaders.shift();
         const value = rowHeaderValue ?
-          rowHeaderValue.value :
-          [key].concat(Array(headerLength - 1).fill(''));
+            rowHeaderValue.value :
+            [key].concat(Array(headerLength - 1).fill(''));
 
         dataRows.push({
           value,
@@ -247,6 +247,7 @@ export default function tableCreator(
 
   if (rows.length > 0) {
     for (let i = 0; i < rows.length; i++) {
+      // possible memoization opportunity
       rowRecurse(groupByCategories(data, rows.slice(0, i + 1)), 0, dataGroups);
       dataGroups = Object.assign([], dataRows);
       if (i + 1 < rows.length) {
@@ -269,14 +270,14 @@ export default function tableCreator(
     dataRows.push({
       value: [rowHeader, accumulator(data, accCatOrCB, accTypeOrInitVal)],
       type: 'data',
-      row: 0,
+      row: 1,
       depth: 0,
     });
     rawData = data.map((value) => {
       return {
         value,
         type: 0,
-        row: 0,
+        row: 1,
         depth: 0,
       };
     });

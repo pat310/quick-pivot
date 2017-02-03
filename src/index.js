@@ -1,4 +1,4 @@
-import tableCreator from './logic';
+import { tableCreator } from './logic';
 import { collapse, expand } from './progressiveDiscovery.js';
 
 export default class Pivot {
