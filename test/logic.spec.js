@@ -23,16 +23,16 @@ const data = [
   {name: 'jessica', borough: 'brooklyn', age: '28', gender: 'f'},
 ];
 
-describe('fixDataFormat', function() {
+describe('fixDataFormat', () => {
 
-  it('should leave data alone if it is properly formatted', function() {
-    var newData = fixDataFormat(data);
+  it('should leave data alone if it is properly formatted', () => {
+    const newData = fixDataFormat(data);
 
     expect(data).to.deep.equal(newData);
   });
 
-  it('should turn an array of data into array of objects', function() {
-    var arrayData = [
+  it('should turn an array of data into array of objects', () => {
+    const arrayData = [
       ['name', 'borough', 'age', 'gender'],
       ['patrick', 'brooklyn', '28', 'm'],
       ['greg', 'brooklyn', '29', 'm'],
@@ -44,40 +44,40 @@ describe('fixDataFormat', function() {
       ['jessica', 'brooklyn', '28', 'f'],
     ];
 
-    var newData = fixDataFormat(arrayData);
+    const newData = fixDataFormat(arrayData);
 
     expect(data).to.deep.equal(newData);
   });
 
-  it('should turn an array of data into an array of objects', function() {
-    var data = ['name', 'patrick', 'bill', 'greg'];
-    var newData = fixDataFormat(data);
-    var expectedData = [{name: 'patrick'}, {name: 'bill'}, {name: 'greg'}];
+  it('should turn an array of data into an array of objects', () => {
+    const data = ['name', 'patrick', 'bill', 'greg'];
+    const newData = fixDataFormat(data);
+    const expectedData = [{name: 'patrick'}, {name: 'bill'}, {name: 'greg'}];
 
     expect(expectedData).to.deep.equal(newData);
   });
 
-  it('should return an empty array if given an empty array', function() {
-    var newData = fixDataFormat([]);
+  it('should return an empty array if given an empty array', () => {
+    const newData = fixDataFormat([]);
 
     expect(newData).to.be.empty;
   });
 
   it('should return an empty array if given something other than an array',
-    function() {
-      var newData = fixDataFormat('i am data');
+    () => {
+      const newData = fixDataFormat('i am data');
 
       expect(Array.isArray(newData)).to.be.true;
       expect(newData).to.be.empty;
     });
 });
 
-describe('groupByCategory', function() {
+describe('groupByCategory', () => {
 
   it('should return an object of arrays based on a provided category',
-    function() {
-      var groupedData = groupByCategory(data, 'borough');
-      var expectedData = {
+    () => {
+      const groupedData = groupByCategory(data, 'borough');
+      const expectedData = {
         brooklyn: [
           {name: 'patrick', borough: 'brooklyn', age: '28', gender: 'm'},
           {name: 'greg', borough: 'brooklyn', age: '29', gender: 'm'},
@@ -98,11 +98,11 @@ describe('groupByCategory', function() {
     });
 });
 
-describe('groupByCategories', function() {
+describe('groupByCategories', () => {
   it('should return an object of arrays if given a single category',
-    function() {
-      var groupedData = groupByCategories(data, ['borough']);
-      var expectedData = {
+    () => {
+      const groupedData = groupByCategories(data, ['borough']);
+      const expectedData = {
         brooklyn: [
           {name: 'patrick', borough: 'brooklyn', age: '28', gender: 'm'},
           {name: 'greg', borough: 'brooklyn', age: '29', gender: 'm'},
@@ -122,23 +122,23 @@ describe('groupByCategories', function() {
       expect(groupedData).to.deep.equal(expectedData);
     });
 
-  it('should return an empty object if data is empty', function() {
-    var groupedData = groupByCategories([], ['borough']);
+  it('should return an empty object if data is empty', () => {
+    const groupedData = groupByCategories([], ['borough']);
 
     expect([]).to.deep.equal(groupedData);
   });
 
   it('should return the original data if the group category is empty',
-    function() {
-      var groupedData = groupByCategories(data, []);
+    () => {
+      const groupedData = groupByCategories(data, []);
 
       expect(data).to.deep.equal(groupedData);
     });
 
   it('should deeply nest arrays by the groups if provided multiple groups',
-    function() {
-      var groupedData = groupByCategories(data, ['borough', 'gender']);
-      var expectedData = {
+    () => {
+      const groupedData = groupByCategories(data, ['borough', 'gender']);
+      const expectedData = {
         brooklyn: {
           m: [
             {name: 'patrick', borough: 'brooklyn', age: '28', gender: 'm'},
@@ -169,12 +169,12 @@ describe('groupByCategories', function() {
     });
 });
 
-describe('createColumnHeaders', function() {
-  it(`should return an object containing column headers and a map to the headers
-      when given data and column header categories`,
-      function() {
-        var columnData = createColumnHeaders(data, ['borough']);
-        var expectedData = {
+describe('createColumnHeaders', () => {
+  it('should return an object containing column headers and a map to the' +
+    ' headers when given data and column header categories',
+      () => {
+        const columnData = createColumnHeaders(data, ['borough']);
+        const expectedData = {
           columnHeaders: [['', 'brooklyn', 'manhattan', 'queens']],
           mapToHeader: {
             brooklyn: 1,
@@ -186,19 +186,20 @@ describe('createColumnHeaders', function() {
         expect(columnData).to.deep.equal(expectedData);
       });
 
-  it(`should fill the first column spot with an empty string or a provided
-    string`,
-    function() {
-      var columnDataNoString = createColumnHeaders(data, ['borough']);
-      var columnDataWithString = createColumnHeaders(data, ['borough'], 'Test');
+  it('should fill the first column spot with an empty string or a provided' +
+    ' string',
+    () => {
+      const columnDataNoString = createColumnHeaders(data, ['borough']);
+      const columnDataWithString = createColumnHeaders(
+          data, ['borough'], 'Test');
 
       expect(columnDataNoString.columnHeaders[0][0]).to.equal('');
       expect(columnDataWithString.columnHeaders[0][0]).to.equal('Test');
     });
 
-  it('should work with multiple columns', function() {
-    var columnData = createColumnHeaders(data, ['borough', 'gender']);
-    var expectedData = {
+  it('should work with multiple columns', () => {
+    const columnData = createColumnHeaders(data, ['borough', 'gender']);
+    const expectedData = {
       columnHeaders: [
         [
           '',
@@ -235,11 +236,11 @@ describe('createColumnHeaders', function() {
     expect(columnData).to.deep.equal(expectedData);
   });
 
-  it(`should provide an array with an empty string if no column groups are
-    provided`,
-      function() {
-        var columnData = createColumnHeaders(data, [], '');
-        var expectedData = {
+  it('should provide an array with an empty string if no column groups are' +
+    ' provided',
+      () => {
+        const columnData = createColumnHeaders(data, [], '');
+        const expectedData = {
           columnHeaders: [''],
           mapToHeader: 1,
         };
@@ -248,31 +249,30 @@ describe('createColumnHeaders', function() {
       });
 });
 
-describe('accumulator', function() {
-  describe(`should take an array of objects, an accumulation category and an
-    accumulation type and return the accumulated value`,
-      function() {
-        it('sum', function() {
-          var accumulatedResults = accumulator(data, 'age', 'sum');
+describe('accumulator', () => {
+  describe('accumulation category check',
+      () => {
+        it('sum', () => {
+          const accumulatedResults = accumulator(data, 'age', 'sum');
 
           expect(accumulatedResults).to.equal(230);
         });
-        it('count', function() {
-          var accumulatedResults = accumulator(data, 'age', 'count');
+        it('count', () => {
+          const accumulatedResults = accumulator(data, 'age', 'count');
 
           expect(accumulatedResults).to.equal(8);
         });
       });
 
-  it('should take an accumulation start value', function() {
-    var accumulatedResults = accumulator(data, 'age', 'count', 2);
+  it('should take an accumulation start value', () => {
+    const accumulatedResults = accumulator(data, 'age', 'count', 2);
 
     expect(accumulatedResults).to.equal(10);
   });
 
-  it(`should accept an accumulation function which receives an accumulation
-    value, current value, index, and array`,
-    function() {
+  it('should accept an accumulation function which receives an accumulation' +
+    ' value, current value, index, and array',
+    () => {
       function accFunction(acc, curr, index, array) {
         acc += Number(curr.age);
         if (index === array.length - 1) return acc / array.length;
@@ -285,9 +285,9 @@ describe('accumulator', function() {
         return acc;
       }
 
-      var accumulatedResultsWithInit = accumulator(data, accFunction, 100);
-      var accumulatedResultsNoInit = accumulator(data, accFunction);
-      var accumulatedResultsWithTypeProvided = accumulator(
+      const accumulatedResultsWithInit = accumulator(data, accFunction, 100);
+      const accumulatedResultsNoInit = accumulator(data, accFunction);
+      const accumulatedResultsWithTypeProvided = accumulator(
           data, 'age', accFunctionNoType);
 
       expect(accumulatedResultsWithInit).to.equal(41.25);
@@ -296,29 +296,31 @@ describe('accumulator', function() {
     });
 });
 
-describe('checkPivotCategories', function() {
-  var actualCategories = ['pig', 'fish', 'dog'];
+describe('checkPivotCategories', () => {
+  const actualCategories = ['pig', 'fish', 'dog'];
 
-  it('should return undefined if pivot category exists', function() {
+  it('should return undefined if pivot category exists', () => {
     expect(checkPivotCategories(actualCategories, ['dog'])).to.be.undefined;
   });
 
-  it('should throw an error if pivot category does not exist', function() {
-    var errorFunc = checkPivotCategories.bind(null, actualCategories, ['cat']);
+  it('should throw an error if pivot category does not exist', () => {
+    const errorFunc = checkPivotCategories.bind(
+        null, actualCategories, ['cat']);
 
     expect(errorFunc).to.throw(Error);
   });
 });
 
-describe('tableCreator', function() {
-  it(`should take an array of objects, an array of row categories, an array of
-    column categories, an accumulation category, and an accumulation type and
-    return an object containing the table and data comprising the table`,
-      function() {
-        var tableResults = tableCreator(
+describe('tableCreator', () => {
+  it('should take an array of objects, an array of row categories, an array' +
+    ' of column categories, an accumulation category, and an accumulation' +
+    ' type and return an object containing the table and data comprising' +
+    ' the table',
+      () => {
+        const tableResults = tableCreator(
             data, ['gender'], ['borough'], 'age', 'count');
 
-        var expectedTableResults = [
+        const expectedTableResults = [
           {
             value: ['count age', 'brooklyn', 'manhattan', 'queens'],
             depth: 0,
@@ -338,7 +340,7 @@ describe('tableCreator', function() {
             depth: 0,
           },
         ];
-        var expectedRawDataResults = [
+        const expectedRawDataResults = [
           {
             value: ['count age', 'brooklyn', 'manhattan', 'queens'],
             depth: 0,
@@ -384,18 +386,18 @@ describe('tableCreator', function() {
         expect(tableResults.rawData).to.deep.equal(expectedRawDataResults);
       });
 
-  it(`should take an array of objects, an array of row categories, an array of
-    column categories, an accumulation function and initial value and return an
-    object containing the table and data comprising the table`,
-    function() {
+  it('should take an array of objects, an array of row categories, an array' +
+    ' of column categories, an accumulation function and initial value and' +
+    ' return an object containing the table and data comprising the table',
+    () => {
       function accFunction(acc, curr) {
         acc += 1;
         return acc;
       }
-      var tableResults = tableCreator(
+      const tableResults = tableCreator(
           data, ['gender'], ['borough'], accFunction, 0);
 
-      var expectedTableResults = [
+      const expectedTableResults = [
         {
           value: ['Custom Agg', 'brooklyn', 'manhattan', 'queens'],
           row: 0,
@@ -415,7 +417,7 @@ describe('tableCreator', function() {
           type: 'data',
         },
       ];
-      var expectedRawDataResults = [
+      const expectedRawDataResults = [
         {
           value: ['Custom Agg', 'brooklyn', 'manhattan', 'queens'],
           row: 0,
@@ -461,11 +463,11 @@ describe('tableCreator', function() {
       expect(tableResults.rawData).to.deep.equal(expectedRawDataResults);
     });
 
-  it(`should print columns as rows if column groups are provided and row groups
-    are not`,
-    function() {
-      var tableResults = tableCreator(data, [], ['borough'], 'age', 'count');
-      var expectedTableResults = [
+  it('should print columns as rows if column groups are provided and row' +
+    ' groups are not',
+    () => {
+      const tableResults = tableCreator(data, [], ['borough'], 'age', 'count');
+      const expectedTableResults = [
         {
           value: ['count age', 'brooklyn', 'manhattan', 'queens'],
           row: 0,
@@ -496,9 +498,9 @@ describe('tableCreator', function() {
     });
 
   it('should print rows under a single column if no column groups are provided',
-    function() {
-      var tableResults = tableCreator(data, ['borough'], [], 'age', 'count');
-      var expectedTableResults = [
+    () => {
+      const tableResults = tableCreator(data, ['borough'], [], 'age', 'count');
+      const expectedTableResults = [
         {
           value: ['count age', 'count age'],
           row: 0,
@@ -528,11 +530,11 @@ describe('tableCreator', function() {
       expect(tableResults.table).to.deep.equal(expectedTableResults);
     });
 
-  it(`should accumulate to a single value if no row groups or column groups are
-      provided`,
-        function() {
-          var tableResults = tableCreator(data, [], [], 'age', 'count');
-          var expectedTableResults = [
+  it('should accumulate to a single value if no row groups or column groups' +
+      ' are provided',
+        () => {
+          const tableResults = tableCreator(data, [], [], 'age', 'count');
+          const expectedTableResults = [
             {
               value: ['count age', 'count age'],
               row: 0,
@@ -550,9 +552,9 @@ describe('tableCreator', function() {
           expect(tableResults.table).to.deep.equal(expectedTableResults);
         });
 
-  it('should replace row header with provided row header', function() {
-    var tableResults = tableCreator(data, [], [], 'age', 'count', 'total');
-    var expectedTableResults = [
+  it('should replace row header with provided row header', () => {
+    const tableResults = tableCreator(data, [], [], 'age', 'count', 'total');
+    const expectedTableResults = [
       {
         value: ['total', 'total'],
         row: 0,
