@@ -231,22 +231,239 @@ describe('pivot', () => {
 
   describe('getData', () => {
     it('should return data of a collapsed row', () => {
+      const pivot = new Pivot(
+        dataArray,
+        rowsToPivot,
+        colsToPivot,
+        aggregationCategory,
+        aggregationType,
+      );
 
+      pivot.collapse(1);
+
+      const expectedCollapsedResult = [
+        {
+          value: [
+            'Jon',
+            [{name: 'Jon', gender: 'm', house: 'Stark', age: 14}],
+            '',
+            '',
+          ],
+          type: 'data',
+          depth: 1,
+        },
+        {
+          value: [
+            'Tywin',
+            '',
+            '',
+            [{ name: 'Tywin', gender: 'm', house: 'Lannister', age: 67 }],
+          ],
+          type: 'data',
+          depth: 1,
+        },
+        {
+          value: [
+            'Tyrion',
+            '',
+            '',
+            [{ name: 'Tyrion', gender: 'm', house: 'Lannister', age: 34 }],
+          ],
+          type: 'data',
+          depth: 1,
+        },
+        {
+          value: ['Joffrey',
+            '',
+            [{ name: 'Joffrey', gender: 'm', house: 'Baratheon', age: 18 }],
+            '',
+          ],
+          type: 'data',
+          depth: 1,
+        },
+        {
+          value: [
+            'Bran',
+            [{ name: 'Bran', gender: 'm', house: 'Stark', age: 8 }],
+            '',
+            '',
+          ],
+          type: 'data',
+          depth: 1,
+        },
+        {
+          value: [
+            'Jaime',
+            '',
+            '',
+            [{ name: 'Jaime', gender: 'm', house: 'Lannister', age: 32 }],
+          ],
+          type: 'data',
+          depth: 1,
+        },
+      ];
+
+      expect(pivot.getData(1)).to.deep.equal(expectedCollapsedResult);
+    });
+  });
+
+  describe('expand', () => {
+    it('should not expand a row that is not collapsed', () => {
+      const pivot = new Pivot(
+        dataArray,
+        rowsToPivot,
+        colsToPivot,
+        aggregationCategory,
+        aggregationType,
+      );
+
+      pivot.expand(1);
+      const uncollapsedData = {
+        value: [ 'm', 22, 18, 133 ],
+        depth: 0,
+        type: 'rowHeader',
+      };
+
+      expect(pivot.getData(1)).to.deep.equal(uncollapsedData);
     });
 
-  });
-});
+    it('should return table to normal state when completely expanded', () => {
+      const pivot = new Pivot(
+        dataArray,
+        rowsToPivot,
+        colsToPivot,
+        aggregationCategory,
+        aggregationType,
+      );
+      const uncollapsedData = {
+        value: [ 'm', 22, 18, 133 ],
+        depth: 0,
+        type: 'rowHeader',
+      };
+      const startState = pivot.data.table;
 
-// describe('this is a test', function() {
-//   it('is this a pivot?', function() {
-//     // console.log('testing', pivot.originalData.table);
-//     // pivot.collapse(1).collapse(2);
-//     // pivot.collapse(1).expand(1)
-//     // pivot.collapse(1);
-//     // console.log('table', pivot.originalData.table);
-//     // console.log('data', pivot.originalData.rawData)
-//     console.log('this is data', pivot.data.table)
-//     console.log('this is rawData', pivot.data.rawData)
-//     // console.log('this is rawData', pivot.getData(1))
-//   });
-// });
+      pivot.collapse(1).expand(1);
+
+      expect(startState).to.deep.equal(pivot.data.table);
+      expect(pivot.getData(1)).to.deep.equal(uncollapsedData);
+    });
+
+    it('should expand correct rows', () => {
+      const pivot = new Pivot(
+        dataArray,
+        rowsToPivot,
+        colsToPivot,
+        aggregationCategory,
+        aggregationType,
+      );
+
+      const expectedTable = [
+        {
+          value: [ 'sum age', 'Stark', 'Baratheon', 'Lannister' ],
+          depth: 0,
+          type: 'colHeader',
+          row: 0,
+        },
+        {
+          value: [ 'm', 22, 18, 133 ],
+          depth: 0,
+          type: 'rowHeader',
+          row: 1,
+        },
+        {
+          value: [ 'Jon', 14, '', '' ],
+          type: 'data',
+          depth: 1,
+          row: 2,
+        },
+        {
+          value: [ 'Tywin', '', '', 67 ],
+          type: 'data',
+          depth: 1,
+          row: 3,
+        },
+        {
+          value: [ 'Tyrion', '', '', 34 ],
+          type: 'data',
+          depth: 1,
+          row: 4,
+        },
+        {
+          value: [ 'Joffrey', '', 18, '' ],
+          type: 'data',
+          depth: 1,
+          row: 5,
+        },
+        {
+          value: [ 'Bran', 8, '', '' ],
+          type: 'data',
+          depth: 1,
+          row: 6,
+        },
+        {
+          value: [ 'Jaime', '', '', 32 ],
+          type: 'data',
+          depth: 1,
+          row: 7,
+        },
+        {
+          value: [ 'f', 22, 38, '' ],
+          depth: 0,
+          type: 'rowHeader',
+          row: 8,
+        },
+      ];
+
+      const expectedCollapsedResult = [
+        {
+          value: [
+            'Arya',
+            [{name: 'Arya', gender: 'f', house: 'Stark', age: 10}],
+            '',
+            '',
+          ],
+          depth: 1,
+          type: 'data',
+        },
+        {
+          value: [
+            'Cersei',
+            '',
+            [{name: 'Cersei', gender: 'f', house: 'Baratheon', age: 38}],
+            '',
+          ],
+          depth: 1,
+          type: 'data',
+        },
+        {
+          value: [
+            'Sansa',
+            [{name: 'Sansa', gender: 'f', house: 'Stark', age: 12}],
+            '',
+            '',
+          ],
+          depth: 1,
+          type: 'data',
+        },
+      ];
+
+      pivot.collapse(1).collapse(2).expand(1);
+      expect(pivot.data.table).to.deep.equal(expectedTable);
+      expect(pivot.getData(8)).to.deep.equal(expectedCollapsedResult);
+    });
+
+    it('should return null if row does not exist', () => {
+      const pivot = new Pivot(
+        dataArray,
+        rowsToPivot,
+        colsToPivot,
+        aggregationCategory,
+        aggregationType,
+      );
+
+      pivot.collapse(1).collapse(2).expand(1);
+      expect(pivot.getData(9)).to.be.null;
+    });
+  });
+
+});

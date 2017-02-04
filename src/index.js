@@ -39,6 +39,7 @@ export default class Pivot {
   }
 
   getData(rowNum) {
+    if (!this.data.table[rowNum]) return null;
     if (this.collapsedRows[this.data.table[rowNum].row]) {
       return this.collapsedRows[this.data.table[rowNum].row].rawData;
     }
