@@ -173,8 +173,60 @@ describe('pivot', () => {
       );
 
       pivot.collapse(1).collapse(2);
-      console.log('this is pivot', pivot.data.table);
+      const expectedTable = [
+        {
+          value: ['sum age', 'Stark', 'Baratheon', 'Lannister'],
+          depth: 0,
+          type: 'colHeader',
+          row: 0 },
+        {
+          value: ['m', 22, 18, 133],
+          depth: 0,
+          type: 'rowHeader',
+          row: 1,
+        },
+        { value: ['f', 22, 38, ''],
+          depth: 0,
+          type: 'rowHeader',
+          row: 8,
+        },
+      ];
+
+      expect(pivot.data.table).to.deep.equal(expectedTable);
     });
+
+    it('should collapse to the same result regardless of order collapsed',
+      () => {
+        const pivot = new Pivot(
+          dataArray,
+          rowsToPivot,
+          colsToPivot,
+          aggregationCategory,
+          aggregationType,
+        );
+
+        pivot.collapse(8).collapse(1);
+        const expectedTable = [
+          {
+            value: ['sum age', 'Stark', 'Baratheon', 'Lannister'],
+            depth: 0,
+            type: 'colHeader',
+            row: 0 },
+          {
+            value: ['m', 22, 18, 133],
+            depth: 0,
+            type: 'rowHeader',
+            row: 1,
+          },
+          { value: ['f', 22, 38, ''],
+            depth: 0,
+            type: 'rowHeader',
+            row: 8,
+          },
+        ];
+
+        expect(pivot.data.table).to.deep.equal(expectedTable);
+      });
   });
 
   describe('getData', () => {

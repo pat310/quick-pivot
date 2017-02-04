@@ -6,13 +6,13 @@ export function collapse(rowNum, data) {
 
   if (type !== 'rowHeader' && type !== 'colHeader') {
     return {
-      dataToReturn: data,
+      uncollapsed: data,
     };
   }
 
   let count = rowNum + 1;
   let currDepth = data.table[count].depth;
-  let dataToReturn = {
+  let uncollapsed = {
     table: data.table.slice(0, count),
     rawData: data.rawData.slice(0, count),
   };
@@ -22,17 +22,18 @@ export function collapse(rowNum, data) {
     rawData: [],
   };
 
-  while (count < data.table.length - 1 && currDepth > depth) {
+  while (count < data.table.length && currDepth > depth) {
     collapsed.rawData.push(data.rawData[count]);
     collapsed.table.push(data.table[count]);
     count += 1;
-    currDepth = data.table[count].depth;
+    if (count < data.table.length) currDepth = data.table[count].depth;
   }
-  dataToReturn.table = dataToReturn.table.concat(data.table.slice(count));
-  dataToReturn.rawData = dataToReturn.rawData.concat(data.rawData.slice(count));
+
+  uncollapsed.table = uncollapsed.table.concat(data.table.slice(count));
+  uncollapsed.rawData = uncollapsed.rawData.concat(data.rawData.slice(count));
 
   return {
-    dataToReturn,
+    uncollapsed,
     collapsed,
   };
 }
@@ -43,5 +44,3 @@ export function expand(rowNum, currData, collapsedRows) {
   currData.rawData.splice(rowNum + 1, 0, ...collapsedRows.rawData);
   return currData;
 }
-
-// function progressiveDiscoveryAccumulator(arr, accCat, accType, accValue)

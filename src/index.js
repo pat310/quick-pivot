@@ -24,7 +24,7 @@ export default class Pivot {
 
     this.collapsedRows[this.data.table[rowNum].row] =
         returnedData.collapsed;
-    this.data = returnedData.dataToReturn;
+    this.data = returnedData.uncollapsed;
     return this;
   }
 
