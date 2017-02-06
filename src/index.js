@@ -17,6 +17,7 @@ export default class Pivot {
   update(data, rows, cols, agg, type, header) {
     this.originalData = tableCreator(data, rows, cols, agg, type, header);
     this.data = this.originalData;
+    return this;
   }
 
   collapse(rowNum) {
