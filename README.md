@@ -27,9 +27,9 @@ Install with npm:
 
 
 ```js
-var pivot = require('quick-pivot');
+import Pivot from 'quick-pivot';
 
-var dataArray = [
+const dataArray = [
  ['name', 'gender', 'house', 'age'],
  ['Jon', 'm', 'Stark', 14],
  ['Arya', 'f', 'Stark', 10],
@@ -42,52 +42,118 @@ var dataArray = [
  ['Sansa', 'f', 'Stark', 12]
 ];
 
-var rowsToPivot = ['name'];
-var colsToPivot = ['house', 'gender'];
-var aggregationCategory = 'age';
-var aggregationType = 'sum';
+const rowsToPivot = ['name'];
+const colsToPivot = ['house', 'gender'];
+const aggregationCategory = 'age';
+const aggregationType = 'sum';
 
-var pivotedData = pivot(dataArray, rowsToPivot, colsToPivot, aggregationCategory, aggregationType);
+const pivot = new Pivot(dataArray, rowsToPivot, colsToPivot, aggregationCategory, aggregationType);
 
-console.log(pivotedData);
+console.log('pivot.data', pivot.data, 'pivot.data.table', pivot.data.table);
 ```
 
 console logs:
 ```js
+pivot.data
 { table:
- [ [ 'sum age', 'Stark', 'Stark', 'Baratheon', 'Baratheon', 'Lannister' ],
-   [ 'sum age', 'm', 'f', 'f', 'm', 'm' ],
-   [ 'Jon', 14, '', '', '', '' ],
-   [ 'Arya', '', 10, '', '', '' ],
-   [ 'Cersei', '', '', 38, '', '' ],
-   [ 'Tywin', '', '', '', '', 67 ],
-   [ 'Tyrion', '', '', '', '', 34 ],
-   [ 'Joffrey', '', '', '', 18, '' ],
-   [ 'Bran', 8, '', '', '', '' ],
-   [ 'Jaime', '', '', '', '', 32 ],
-   [ 'Sansa', '', 12, '', '', '' ] ],
-rawData:
- [ [ 'Jon', [Object], '', '', '', '' ],
-   [ 'Arya', '', [Object], '', '', '' ],
-   [ 'Cersei', '', '', [Object], '', '' ],
-   [ 'Tywin', '', '', '', '', [Object] ],
-   [ 'Tyrion', '', '', '', '', [Object] ],
-   [ 'Joffrey', '', '', '', [Object], '' ],
-   [ 'Bran', [Object], '', '', '', '' ],
-   [ 'Jaime', '', '', '', '', [Object] ],
-   [ 'Sansa', '', [Object], '', '', '' ] ] }
+   [ { value: [Object], depth: 0, type: 'colHeader', row: 0 },
+     { value: [Object], depth: 1, type: 'colHeader', row: 1 },
+     { value: [Object], type: 'data', depth: 0, row: 2 },
+     { value: [Object], type: 'data', depth: 0, row: 3 },
+     { value: [Object], type: 'data', depth: 0, row: 4 },
+     { value: [Object], type: 'data', depth: 0, row: 5 },
+     { value: [Object], type: 'data', depth: 0, row: 6 },
+     { value: [Object], type: 'data', depth: 0, row: 7 },
+     { value: [Object], type: 'data', depth: 0, row: 8 },
+     { value: [Object], type: 'data', depth: 0, row: 9 },
+     { value: [Object], type: 'data', depth: 0, row: 10 } ],
+  rawData:
+   [ { value: [Object], depth: 0, type: 'colHeader', row: 0 },
+     { value: [Object], depth: 1, type: 'colHeader', row: 1 },
+     { value: [Object], type: 'data', depth: 0 },
+     { value: [Object], type: 'data', depth: 0 },
+     { value: [Object], type: 'data', depth: 0 },
+     { value: [Object], type: 'data', depth: 0 },
+     { value: [Object], type: 'data', depth: 0 },
+     { value: [Object], type: 'data', depth: 0 },
+     { value: [Object], type: 'data', depth: 0 },
+     { value: [Object], type: 'data', depth: 0 },
+     { value: [Object], type: 'data', depth: 0 } ] }
+
+pivot.data.table
+[ { value:
+     [ 'sum age',
+       'Stark',
+       'Stark',
+       'Baratheon',
+       'Baratheon',
+       'Lannister' ],
+    depth: 0,
+    type: 'colHeader',
+    row: 0 },
+  { value: [ 'sum age', 'm', 'f', 'f', 'm', 'm' ],
+    depth: 1,
+    type: 'colHeader',
+    row: 1 },
+  { value: [ 'Jon', 14, '', '', '', '' ],
+    type: 'data',
+    depth: 0,
+    row: 2 },
+  { value: [ 'Arya', '', 10, '', '', '' ],
+    type: 'data',
+    depth: 0,
+    row: 3 },
+  { value: [ 'Cersei', '', '', 38, '', '' ],
+    type: 'data',
+    depth: 0,
+    row: 4 },
+  { value: [ 'Tywin', '', '', '', '', 67 ],
+    type: 'data',
+    depth: 0,
+    row: 5 },
+  { value: [ 'Tyrion', '', '', '', '', 34 ],
+    type: 'data',
+    depth: 0,
+    row: 6 },
+  { value: [ 'Joffrey', '', '', '', 18, '' ],
+    type: 'data',
+    depth: 0,
+    row: 7 },
+  { value: [ 'Bran', 8, '', '', '', '' ],
+    type: 'data',
+    depth: 0,
+    row: 8 },
+  { value: [ 'Jaime', '', '', '', '', 32 ],
+    type: 'data',
+    depth: 0,
+    row: 9 },
+  { value: [ 'Sansa', '', 12, '', '', '' ],
+    type: 'data',
+    depth: 0,
+    row: 10 } ]
 ```
 
 ## API
-### Return value
-`quick-pivot` returns an object with keys `table` and `rawData`.  `table` is an array of arrays containing the result of the pivot. `rawData` is an array of arrays but rather than returning the result of the pivot, it returns the data points that make up the result in each corresponding index.  This allows the user to determine what data made up the pivoted value.
+### Pivot `data` value
+The `data` value returns an object with keys `table` and `rawData`.  `table` is an array of objects with each object containing four keys:
+1. `value` - Array which contains the result of the pivot to be rendered
+2. `type` - Enumerated string describing what this data row contains, [`data`, `rowHeader`, or `colHeader`]
+3. `depth` - Number describing how deeply nested the row is within a parent row
+4. `row` - Number describing the original row index within the table
+
+`rawData` is an array of objects with three keys:
+1. `value` - Array which contains the data that makes up that particular row
+2. `type` - Enumerated string describing what this data row contains, [`data`, `rowHeader`, or `colHeader`]
+3. `depth` - Number describing how deeply nested the row is within a parent row
 
 ### Syntax
 
-```js
-var pivot = require('quick-pivot');
+**Note:** If modules are not supported in your environment, you can also require `var Pivot = require('quick-pivot');`
 
-pivot(dataArray, rows, columns, [accumulationCategory or CBfunction], [accumulationType or initialValue], rowHeader); 
+```js
+import Pivot from 'quick-pivot';
+
+const pivot = new Pivot(dataArray, rows, columns, [accumulationCategory or CBfunction], [accumulationType or initialValue], rowHeader);
 ```
 
 #### First way to use it:
@@ -98,7 +164,7 @@ pivot(dataArray, rows, columns, [accumulationCategory or CBfunction], [accumulat
 * `rows` is an array of strings (the rows you want to pivot on) or an empty array **required**
 * `columns` is an array of strings (the columns you want to pivot on) or an empty array **required**
 * `accumulationCategory` is a string (the category you want to accumulate values for) **required**
-* `accumulationType` is an enumerated string - either `'sum'` or `'count'` (the type of accumulation you want to perform). If no type is selected, `'count'` is chosen by default 
+* `accumulationType` is an enumerated string - either `'sum'` or `'count'` (the type of accumulation you want to perform). If no type is selected, `'count'` is chosen by default
 * `rowHeader` is a string (this value will appear above the rows)
 
 #### Second way to use it:
@@ -106,24 +172,178 @@ Parameters are the same as the first except for two, `accumulationCategory` and 
 * `CBfunction` is a callback function that receives four parameters `CBfunction(acc, curr, index, arr)` where `acc` is an accumulation value, `curr` is the current element being processed, `index` is the index of the current element being processed and `arr` is the array that is being acted on. This function must return the accumulation value (this is very similar to javascript's `.reduce`) **required**
 * `initialValue` is the starting value for the callback function. If no starting value is selected, `0` is used by default.
 
-###### Example with callback function
+### Methods/Instance Variables
+#### `.data`
+Instance variable that returns the data array shown above
+
+#### `.update(dataArray, rows, columns, [accumulationCategory or CBfunction], [accumulationType or initialValue], rowHeader)`
+Updates the `.data` instance variable.  The `update` method is chainable.
+
+#### `.collapse(rowNum)`
+Collapses data into the specified row header provided.  `rowNum` is the row header's current index within the table (**Not** the original row index that is provided in the object).  The `collapse` method is chainable
+
+#### `.expand(rowNum)`
+Expands collapsed data that has previously been collapsed.  The `expand` method is chainable.
+
+#### `.getData(rowNum)`
+Returns the data that comprises a collapsed row
+
+
+### Example with callback function
+Check out [the  test spec for more examples](/test/index.spec.js).
 
 ```js
+import Pivot from 'quick-pivot';
+
 function cbFunc(acc, curr, index, arr){
   acc += curr.age;
   if(index === arr.length - 1) return acc / arr.length;
   return acc;
 }
-var table = pivot(dataArray, ['gender'], ['house'], cbFunc, 0, 'average age');
+const pivot = new Pivot(dataArray, ['gender'], ['house'], cbFunc, 0, 'average age');
 
-console.log(table);
+console.log(pivot.data.table);
 /*
-{ table:
- [ [ 'average age', 'Stark', 'Baratheon', 'Lannister' ],
-   [ 'm', 11, 18, 44.333333333333336 ],
-   [ 'f', 11, 38, '' ] ],
-rawData:
- [ [ 'm', [Object], [Object], [Object] ],
-   [ 'f', [Object], [Object], '' ] ] }
+[ { value: [ 'average age', 'Stark', 'Baratheon', 'Lannister' ],
+    depth: 0,
+    type: 'colHeader',
+    row: 0 },
+  { value: [ 'm', 11, 18, 44.333333333333336 ], type: 'data', depth: 0, row: 1 }, { value: [ 'f', 11, 38, '' ], type: 'data', depth: 0, row: 2 }
+]
+*/
+
+pivot.update(dataArray, ['gender', 'name'], ['house'], cbFunc, 0, 'average age')
+
+console.log(pivot.data.table);
+/*
+[ { value: [ 'average age', 'Stark', 'Baratheon', 'Lannister' ],
+    depth: 0,
+    type: 'colHeader',
+    row: 0 },
+  { value: [ 'm', 11, 18, 44.333333333333336 ],
+    depth: 0,
+    type: 'rowHeader',
+    row: 1 },
+  { value: [ 'Jon', 14, '', '' ], type: 'data', depth: 1, row: 2 },
+  { value: [ 'Tywin', '', '', 67 ], type: 'data', depth: 1, row: 3 },
+  { value: [ 'Tyrion', '', '', 34 ],
+    type: 'data',
+    depth: 1,
+    row: 4 },
+  { value: [ 'Joffrey', '', 18, '' ],
+    type: 'data',
+    depth: 1,
+    row: 5 },
+  { value: [ 'Bran', 8, '', '' ], type: 'data', depth: 1, row: 6 },
+  { value: [ 'Jaime', '', '', 32 ], type: 'data', depth: 1, row: 7 },
+  { value: [ 'f', 11, 38, '' ],
+    depth: 0,
+    type: 'rowHeader',
+    row: 8 },
+  { value: [ 'Arya', 10, '', '' ], type: 'data', depth: 1, row: 9 },
+  { value: [ 'Cersei', '', 38, '' ],
+    type: 'data',
+    depth: 1,
+    row: 10 },
+  { value: [ 'Sansa', 12, '', '' ],
+    type: 'data',
+    depth: 1,
+    row: 11 } ]
+*/
+
+pivot.collapse(1);
+
+console.log(pivot.data.table);
+/*
+[ { value: [ 'average age', 'Stark', 'Baratheon', 'Lannister' ],
+    depth: 0,
+    type: 'colHeader',
+    row: 0 },
+  { value: [ 'm', 11, 18, 44.333333333333336 ],
+    depth: 0,
+    type: 'rowHeader',
+    row: 1 },
+  { value: [ 'f', 11, 38, '' ],
+    depth: 0,
+    type: 'rowHeader',
+    row: 8 },
+  { value: [ 'Arya', 10, '', '' ], type: 'data', depth: 1, row: 9 },
+  { value: [ 'Cersei', '', 38, '' ],
+    type: 'data',
+    depth: 1,
+    row: 10 },
+  { value: [ 'Sansa', 12, '', '' ],
+    type: 'data',
+    depth: 1,
+    row: 11 } ]
+*/
+
+console.log(pivot.getData(1));
+/*
+[ { value: [ 'Jon', [Object], '', '' ], type: 'data', depth: 1 },
+  { value: [ 'Tywin', '', '', [Object] ], type: 'data', depth: 1 },
+  { value: [ 'Tyrion', '', '', [Object] ], type: 'data', depth: 1 },
+  { value: [ 'Joffrey', '', [Object], '' ],
+    type: 'data',
+    depth: 1 },
+  { value: [ 'Bran', [Object], '', '' ], type: 'data', depth: 1 },
+  { value: [ 'Jaime', '', '', [Object] ], type: 'data', depth: 1 } ]
+*/
+
+console.log(pivot.getData(1)[0].value)
+/*
+[ 'Jon',
+  [ { name: 'Jon', gender: 'm', house: 'Stark', age: 14 } ],
+  '',
+  '' ]
+*/
+
+pivot.collapse(2);
+
+console.log(pivot.data.table);
+/*
+[ { value: [ 'average age', 'Stark', 'Baratheon', 'Lannister' ],
+    depth: 0,
+    type: 'colHeader',
+    row: 0 },
+  { value: [ 'm', 11, 18, 44.333333333333336 ],
+    depth: 0,
+    type: 'rowHeader',
+    row: 1 },
+  { value: [ 'f', 11, 38, '' ],
+    depth: 0,
+    type: 'rowHeader',
+    row: 8 } ]
+*/
+
+pivot.expand(1);
+/*
+[ { value: [ 'average age', 'Stark', 'Baratheon', 'Lannister' ],
+    depth: 0,
+    type: 'colHeader',
+    row: 0 },
+  { value: [ 'm', 11, 18, 44.333333333333336 ],
+    depth: 0,
+    type: 'rowHeader',
+    row: 1 },
+  { value: [ 'Jon', 14, '', '' ], type: 'data', depth: 1, row: 2 },
+  { value: [ 'Tywin', '', '', 67 ], type: 'data', depth: 1, row: 3 },
+  { value: [ 'Tyrion', '', '', 34 ],
+    type: 'data',
+    depth: 1,
+    row: 4 },
+  { value: [ 'Joffrey', '', 18, '' ],
+    type: 'data',
+    depth: 1,
+    row: 5 },
+  { value: [ 'Bran', 8, '', '' ], type: 'data', depth: 1, row: 6 },
+  { value: [ 'Jaime', '', '', 32 ], type: 'data', depth: 1, row: 7 },
+  { value: [ 'f', 11, 38, '' ],
+    depth: 0,
+    type: 'rowHeader',
+    row: 8 } ]
 */
 ```
+
+## Changes
+Check out the [change log](/CHANGES.md)
