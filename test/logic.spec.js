@@ -353,13 +353,23 @@ describe('logic functions', () => {
               value: [
                 'm',
                 [
-                  {name: 'patrick', borough: 'brooklyn', age: '28', gender: 'm'},
+                  {
+                    name: 'patrick',
+                    borough: 'brooklyn',
+                    age: '28',
+                    gender: 'm',
+                  },
                   {name: 'greg', borough: 'brooklyn', age: '29', gender: 'm'},
                 ],
                 [
                   {name: 'niles', borough: 'manhattan', age: '30', gender: 'm'},
                   {name: 'jared', borough: 'manhattan', age: '29', gender: 'm'},
-                  {name: 'markus', borough: 'manhattan', age: '28', gender: 'm'},
+                  {
+                    name: 'markus',
+                    borough: 'manhattan',
+                    age: '28',
+                    gender: 'm',
+                  },
                 ],
                 [
                   {name: 'vishakh', borough: 'queens', age: '28', gender: 'm'},
@@ -372,7 +382,12 @@ describe('logic functions', () => {
               value: [
                 'f',
                 [
-                  {name: 'jessica', borough: 'brooklyn', age: '28', gender: 'f'},
+                  {
+                    name: 'jessica',
+                    borough: 'brooklyn',
+                    age: '28',
+                    gender: 'f',
+                  },
                 ],
                 '',
                 [
@@ -468,7 +483,8 @@ describe('logic functions', () => {
     it('should print columns as rows if column groups are provided and row' +
       ' groups are not',
       () => {
-        const tableResults = tableCreator(data, [], ['borough'], 'age', 'count');
+        const tableResults = tableCreator(data, [], ['borough'], 'age',
+            'count');
         const expectedTableResults = [
           {
             value: ['count age', 'brooklyn', 'manhattan', 'queens'],
@@ -499,38 +515,40 @@ describe('logic functions', () => {
         expect(tableResults.table).to.deep.equal(expectedTableResults);
       });
 
-    it('should print rows under a single column if no column groups are provided',
-      () => {
-        const tableResults = tableCreator(data, ['borough'], [], 'age', 'count');
-        const expectedTableResults = [
-          {
-            value: ['count age', 'count age'],
-            row: 0,
-            depth: 0,
-            type: 'colHeader',
-          },
-          {
-            value: ['brooklyn', 3],
-            row: 1,
-            depth: 0,
-            type: 'data',
-          },
-          {
-            value: ['manhattan', 3],
-            row: 2,
-            depth: 0,
-            type: 'data',
-          },
-          {
-            value: ['queens', 2],
-            row: 3,
-            depth: 0,
-            type: 'data',
-          },
-        ];
+    it('should print rows under a single column if no column groups are' +
+        'provided',
+          () => {
+            const tableResults = tableCreator(data, ['borough'], [], 'age',
+                'count');
+            const expectedTableResults = [
+              {
+                value: ['count age', 'count age'],
+                row: 0,
+                depth: 0,
+                type: 'colHeader',
+              },
+              {
+                value: ['brooklyn', 3],
+                row: 1,
+                depth: 0,
+                type: 'data',
+              },
+              {
+                value: ['manhattan', 3],
+                row: 2,
+                depth: 0,
+                type: 'data',
+              },
+              {
+                value: ['queens', 2],
+                row: 3,
+                depth: 0,
+                type: 'data',
+              },
+            ];
 
-        expect(tableResults.table).to.deep.equal(expectedTableResults);
-      });
+            expect(tableResults.table).to.deep.equal(expectedTableResults);
+          });
 
     it('should accumulate to a single value if no row groups or column groups' +
         ' are provided',
@@ -572,6 +590,38 @@ describe('logic functions', () => {
       ];
 
       expect(tableResults.table).to.deep.equal(expectedTableResults);
+    });
+
+    it('should work with rows with the same key but different groups', () => {
+      const data = [
+        ['name', 'gender', 'house', 'age'],
+        ['Jon', 'm', 'Stark', 14],
+        ['Arya', 'f', 'Stark', 10],
+        ['Cersei', 'f', 'Baratheon', 38],
+        ['Tywin', 'm', 'Lannister', 67],
+        ['Tyrion', 'm', 'Lannister', 34],
+        ['Joffrey', 'm', 'Baratheon', 18],
+        ['Bran', 'm', 'Stark', 8],
+        ['Jaime', 'm', 'Lannister', 32],
+        ['Sansa', 'f', 'Stark', 12],
+      ];
+
+      const tableResults = tableCreator(data, ['house', 'gender'], [], '',
+          'count');
+
+      const expectedResults = [
+        {value: [ 'count ', 'count ' ], depth: 0, type: 'colHeader', row: 0 },
+        { value: [ 'Stark', 4 ], depth: 0, type: 'rowHeader', row: 1 },
+        { value: [ 'm', 2 ], type: 'data', depth: 1, row: 2 },
+        { value: [ 'f', 2 ], type: 'data', depth: 1, row: 3 },
+        { value: [ 'Baratheon', 2 ], depth: 0, type: 'rowHeader', row: 4 },
+        { value: [ 'f', 1 ], type: 'data', depth: 1, row: 5 },
+        { value: [ 'm', 1 ], type: 'data', depth: 1, row: 6 },
+        { value: [ 'Lannister', 3 ], depth: 0, type: 'rowHeader', row: 7 },
+        { value: [ 'm', 3 ], type: 'data', depth: 1, row: 8 },
+      ];
+
+      expect(tableResults.table).to.deep.equal(expectedResults);
     });
 
   });
