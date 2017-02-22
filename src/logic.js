@@ -176,7 +176,9 @@ export function tableCreator(
   function rowRecurse(rowGroups, depth, rowHeaders = []) {
     for (let key in rowGroups) {
       if (Array.isArray(rowGroups[key])) {
-        var recursedData = groupByCategories(rowGroups[key], cols);
+        const recursedData = groupByCategories(rowGroups[key], cols);
+
+        prevKey = '';
 
         (function recurseThroughMap(dataPos, map) {
           if (Array.isArray(dataPos)) {
