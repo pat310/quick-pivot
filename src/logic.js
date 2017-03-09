@@ -107,16 +107,39 @@ export function accumulator(arr, accCat, accType, accValue) {
   return arr.reduce((acc, curr, index, array) => {
     if (typeof accType === 'function') {
       return accType(acc, typeof accCat === 'string' ? curr[accCat] :
-                                                       curr, index, array);
+        curr, index, array);
     }
     switch (accType) {
-      case ('sum'): {
-        acc += Number(curr[accCat]);
+      case ('average'): {
+        acc += Number(curr[accCat]) / arr.length;
         return acc;
       }
 
       case ('count'): {
         acc += 1;
+        return acc;
+      }
+
+      case ('min'): {
+        if (index === 0) {
+          acc = Number(curr[accCat]);
+        } else if (curr[accCat] < acc) {
+          acc = Number(curr[accCat]);
+        }
+        return acc;
+      }
+
+      case ('max'): {
+        if (index === 0) {
+          acc = Number(curr[accCat]);
+        } else if (curr[accCat] > acc) {
+          acc = Number(curr[accCat]);
+        }
+        return acc;
+      }
+
+      case ('sum'): {
+        acc += Number(curr[accCat]);
         return acc;
       }
 
