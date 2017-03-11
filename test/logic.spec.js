@@ -254,13 +254,33 @@ describe('logic functions', () => {
   describe('accumulator', () => {
     describe('accumulation category check',
         () => {
+          it('average', () => {
+            const accumulatedResults = accumulator(data, 'age', 'average');
+
+            expect(accumulatedResults).to.equal(28.75);
+          });
+          it('count', () => {
+            const accumulatedResults = accumulator(data, 'age', 'count');
+
+            expect(accumulatedResults).to.equal(8);
+          });
+          it('min', () => {
+            const accumulatedResults = accumulator(data, 'age', 'min');
+
+            expect(accumulatedResults).to.equal(28);
+          });
+          it('max', () => {
+            const accumulatedResults = accumulator(data, 'age', 'max');
+
+            expect(accumulatedResults).to.equal(30);
+          });
           it('sum', () => {
             const accumulatedResults = accumulator(data, 'age', 'sum');
 
             expect(accumulatedResults).to.equal(230);
           });
-          it('count', () => {
-            const accumulatedResults = accumulator(data, 'age', 'count');
+          it('default', () => {
+            const accumulatedResults = accumulator(data, 'age', 'default');
 
             expect(accumulatedResults).to.equal(8);
           });

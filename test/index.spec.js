@@ -17,8 +17,10 @@ const dataArray = [
  ['Jaime', 'm', 'Lannister', 32],
  ['Sansa', 'f', 'Stark', 12],
 ];
-const rowsToPivot = ['gender', 'name'];
-const colsToPivot = ['house'];
+const rowsToPivotTestOne = ['gender', 'name'];
+const colsToPivotTestOne = ['house'];
+const rowsToPivotTestTwo = ['name'];
+const colsToPivotTestTwo = ['house', 'gender'];
 const aggregationCategory = 'age';
 const aggregationType = 'sum';
 
@@ -33,8 +35,8 @@ describe('pivot', () => {
     it('should create a pivot when passed data', () => {
       const pivot = new Pivot(
         dataArray,
-        rowsToPivot,
-        colsToPivot,
+        rowsToPivotTestOne,
+        colsToPivotTestOne,
         aggregationCategory,
         aggregationType,
       );
@@ -47,8 +49,8 @@ describe('pivot', () => {
     it('should collapse a header row when passed the index', () => {
       const pivot = new Pivot(
         dataArray,
-        rowsToPivot,
-        colsToPivot,
+        rowsToPivotTestOne,
+        colsToPivotTestOne,
         aggregationCategory,
         aggregationType,
       );
@@ -145,8 +147,8 @@ describe('pivot', () => {
     it('should not collapse a data row', () => {
       const pivot = new Pivot(
         dataArray,
-        rowsToPivot,
-        colsToPivot,
+        rowsToPivotTestOne,
+        colsToPivotTestOne,
         aggregationCategory,
         aggregationType,
       );
@@ -166,8 +168,8 @@ describe('pivot', () => {
     it('can chain to collapse multiple rows', () => {
       const pivot = new Pivot(
         dataArray,
-        rowsToPivot,
-        colsToPivot,
+        rowsToPivotTestOne,
+        colsToPivotTestOne,
         aggregationCategory,
         aggregationType,
       );
@@ -199,8 +201,8 @@ describe('pivot', () => {
       () => {
         const pivot = new Pivot(
           dataArray,
-          rowsToPivot,
-          colsToPivot,
+          rowsToPivotTestOne,
+          colsToPivotTestOne,
           aggregationCategory,
           aggregationType,
         );
@@ -233,8 +235,8 @@ describe('pivot', () => {
     it('should return data of a collapsed row', () => {
       const pivot = new Pivot(
         dataArray,
-        rowsToPivot,
-        colsToPivot,
+        rowsToPivotTestOne,
+        colsToPivotTestOne,
         aggregationCategory,
         aggregationType,
       );
@@ -311,8 +313,8 @@ describe('pivot', () => {
     it('should not expand a row that is not collapsed', () => {
       const pivot = new Pivot(
         dataArray,
-        rowsToPivot,
-        colsToPivot,
+        rowsToPivotTestOne,
+        colsToPivotTestOne,
         aggregationCategory,
         aggregationType,
       );
@@ -330,8 +332,8 @@ describe('pivot', () => {
     it('should return table to normal state when completely expanded', () => {
       const pivot = new Pivot(
         dataArray,
-        rowsToPivot,
-        colsToPivot,
+        rowsToPivotTestOne,
+        colsToPivotTestOne,
         aggregationCategory,
         aggregationType,
       );
@@ -351,8 +353,8 @@ describe('pivot', () => {
     it('should return table to normal state when toggled twice', () => {
       const pivot = new Pivot(
         dataArray,
-        rowsToPivot,
-        colsToPivot,
+        rowsToPivotTestOne,
+        colsToPivotTestOne,
         aggregationCategory,
         aggregationType,
       );
@@ -367,8 +369,8 @@ describe('pivot', () => {
     it('should expand correct rows', () => {
       const pivot = new Pivot(
         dataArray,
-        rowsToPivot,
-        colsToPivot,
+        rowsToPivotTestOne,
+        colsToPivotTestOne,
         aggregationCategory,
         aggregationType,
       );
@@ -471,14 +473,102 @@ describe('pivot', () => {
     it('should return null if row does not exist', () => {
       const pivot = new Pivot(
         dataArray,
-        rowsToPivot,
-        colsToPivot,
+        rowsToPivotTestOne,
+        colsToPivotTestOne,
         aggregationCategory,
         aggregationType,
       );
 
       pivot.collapse(1).collapse(2).expand(1);
       expect(pivot.getData(9)).to.be.null;
+    });
+
+    it('should pivot correctly provided multiple columns to pivot', () => {
+      const pivot = new Pivot(
+        dataArray,
+        rowsToPivotTestTwo,
+        colsToPivotTestTwo,
+        aggregationCategory,
+        aggregationType,
+      );
+
+      const expectedTable = [
+        {
+          value:
+          [ 'sum age',
+            'Stark',
+            'Stark',
+            'Baratheon',
+            'Baratheon',
+            'Lannister',
+          ],
+          depth: 0,
+          type: 'colHeader',
+          row: 0,
+        },
+        {
+          value: [ 'sum age', 'm', 'f', 'f', 'm', 'm' ],
+          depth: 1,
+          type: 'colHeader',
+          row: 1,
+        },
+        {
+          value: [ 'Jon', 14, '', '', '', '' ],
+          type: 'data',
+          depth: 0,
+          row: 2,
+        },
+        {
+          value: [ 'Arya', '', 10, '', '', '' ],
+          type: 'data',
+          depth: 0,
+          row: 3,
+        },
+        {
+          value: [ 'Cersei', '', '', 38, '', '' ],
+          type: 'data',
+          depth: 0,
+          row: 4,
+        },
+        {
+          value: [ 'Tywin', '', '', '', '', 67 ],
+          type: 'data',
+          depth: 0,
+          row: 5,
+        },
+        {
+          value: [ 'Tyrion', '', '', '', '', 34 ],
+          type: 'data',
+          depth: 0,
+          row: 6,
+        },
+        {
+          value: [ 'Joffrey', '', '', '', 18, '' ],
+          type: 'data',
+          depth: 0,
+          row: 7,
+        },
+        {
+          value: [ 'Bran', 8, '', '', '', '' ],
+          type: 'data',
+          depth: 0,
+          row: 8,
+        },
+        {
+          value: [ 'Jaime', '', '', '', '', 32 ],
+          type: 'data',
+          depth: 0,
+          row: 9,
+        },
+        {
+          value: [ 'Sansa', '', 12, '', '', '' ],
+          type: 'data',
+          depth: 0,
+          row: 10,
+        },
+      ];
+
+      expect(pivot.data.table).to.deep.equal(expectedTable);
     });
   });
 
