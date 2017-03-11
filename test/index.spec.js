@@ -1,6 +1,6 @@
 import chai from 'chai';
 
-import Pivot from '../lib/quick-pivot';
+import Pivot from '../src';
 
 chai.expect();
 const expect = chai.expect;
