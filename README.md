@@ -164,7 +164,7 @@ const pivot = new Pivot(dataArray, rows, columns, [accumulationCategory or CBfun
 * `rows` is an array of strings (the rows you want to pivot on) or an empty array **required**
 * `columns` is an array of strings (the columns you want to pivot on) or an empty array **required**
 * `accumulationCategory` is a string (the category you want to accumulate values for) **required**
-* `accumulationType` is an enumerated string - either `'sum'` or `'count'` (the type of accumulation you want to perform). If no type is selected, `'count'` is chosen by default
+* `accumulationType` is an enumerated string - either `'sum'`, `'count'`, `'min'`, `'max'`, or `'average'` (the type of accumulation you want to perform). If no type is selected, `'count'` is chosen by default
 * `rowHeader` is a string (this value will appear above the rows)
 
 #### Second way to use it:
@@ -184,6 +184,9 @@ Collapses data into the specified row header provided.  `rowNum` is the row head
 
 #### `.expand(rowNum)`
 Expands collapsed data that has previously been collapsed.  The `expand` method is chainable.
+
+#### `.toggle(rowNum)`
+Toggles data from collapsed to expanded or vice-versa. The `toggle` method is chainable.
 
 #### `.getData(rowNum)`
 Returns the data that comprises a collapsed row
