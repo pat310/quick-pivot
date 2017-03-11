@@ -350,6 +350,22 @@ describe('pivot', () => {
       expect(pivot.getData(1)).to.deep.equal(uncollapsedData);
     });
 
+    it('should return table to normal state when toggled twice', () => {
+      const pivot = new Pivot(
+        dataArray,
+        rowsToPivot,
+        colsToPivot,
+        aggregationCategory,
+        aggregationType,
+      );
+
+      const startState = pivot.data.table;
+
+      pivot.toggle(1).toggle(1);
+
+      expect(startState).to.deep.equal(pivot.data.table);
+    });
+
     it('should expand correct rows', () => {
       const pivot = new Pivot(
         dataArray,
