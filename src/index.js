@@ -39,6 +39,13 @@ export default class Pivot {
     return this;
   }
 
+  toggle(rowNum) {
+    if (rowNum in this.collapsedRows) {
+      return this.expand(rowNum);
+    }
+    return this.collapse(rowNum);
+  }
+
   getData(rowNum) {
     if (!this.data.table[rowNum]) return null;
     if (this.collapsedRows[this.data.table[rowNum].row]) {
