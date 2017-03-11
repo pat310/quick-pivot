@@ -353,8 +353,8 @@ describe('pivot', () => {
     it('should return table to normal state when toggled twice', () => {
       const pivot = new Pivot(
         dataArray,
-        rowsToPivot,
-        colsToPivot,
+        rowsToPivotTestOne,
+        colsToPivotTestOne,
         aggregationCategory,
         aggregationType,
       );
