@@ -27,5 +27,11 @@ build/Release
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
 
-# Ignore built files
-lib
+screenshots
+src
+text
+.babelrc
+.codeclimate.yml
+.eslintrc
+.travis.yml
+webpack.config.js
