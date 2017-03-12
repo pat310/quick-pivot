@@ -1,3 +1,10 @@
+## [v2.1.1]
+> Mar 12, 2017
+
+- Fixes bug in toggle function
+
+[#35]: https://github.com/pat310/quick-pivot/pull/35
+
 ## [v2.1.0]
 > Mar 11, 2017
 
@@ -6,7 +13,6 @@
   - `min`
   - `max`
 - Adding a `.toggle` method to toggle a row to collapsed if expanded or vice-versa
-
 
 [#30]: https://github.com/pat310/quick-pivot/pull/30
 [#31]: https://github.com/pat310/quick-pivot/pull/31
