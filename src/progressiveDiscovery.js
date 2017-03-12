@@ -1,5 +1,3 @@
-'use strict';
-
 export function collapse(rowNum, data) {
   const selectedRow = data.table[rowNum];
   const {type, depth} = selectedRow;

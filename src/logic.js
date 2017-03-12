@@ -1,5 +1,3 @@
-'use strict';
-
 export function fixDataFormat(data) {
   if (!Array.isArray(data) || !data.length) return [];
   else if (typeof data[0] === 'object' && !Array.isArray(data[0])) return data;
@@ -158,9 +156,8 @@ export function checkPivotCategories(actualCats, selectedCats) {
     if (actualCats.indexOf(selectedCat) === -1) errMessage.push(selectedCat);
   });
   if (errMessage.length) {
-    throw new Error(
-        `Check that these selected pivot categories exist: ${errMessage.join(
-            ',')}`);
+    throw new Error('Check that these selected pivot categories exist: ' +
+      errMessage.join(','));
   }
 }
 

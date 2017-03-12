@@ -4,11 +4,8 @@ import { collapse, expand } from './progressiveDiscovery.js';
 export default class Pivot {
 
   constructor(data, rows, cols, agg, type, header) {
-    if (!data) {
-      this.originalData = {};
-    }else {
-      this.originalData = tableCreator(data, rows, cols, agg, type, header);
-    }
+    if (!data) this.originalData = {};
+    else this.originalData = tableCreator(data, rows, cols, agg, type, header);
 
     this.data = this.originalData;
     this.collapsedRows = {};
@@ -17,15 +14,16 @@ export default class Pivot {
   update(data, rows, cols, agg, type, header) {
     this.originalData = tableCreator(data, rows, cols, agg, type, header);
     this.data = this.originalData;
+
     return this;
   }
 
   collapse(rowNum) {
     let returnedData = collapse(rowNum, this.data);
 
-    this.collapsedRows[this.data.table[rowNum].row] =
-        returnedData.collapsed;
+    this.collapsedRows[this.data.table[rowNum].row] = returnedData.collapsed;
     this.data = returnedData.uncollapsed;
+
     return this;
   }
 
@@ -36,13 +34,13 @@ export default class Pivot {
       this.collapsedRows[this.data.table[rowNum].row],
     );
     delete this.collapsedRows[this.data.table[rowNum].row];
+
     return this;
   }
 
   toggle(rowNum) {
-    if (rowNum in this.collapsedRows) {
-      return this.expand(rowNum);
-    }
+    if (rowNum in this.collapsedRows) return this.expand(rowNum);
+
     return this.collapse(rowNum);
   }
 
