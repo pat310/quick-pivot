@@ -40,7 +40,7 @@ export default class Pivot {
   }
 
   toggle(rowNum) {
-    if (rowNum in this.collapsedRows) {
+    if (this.data.table[rowNum].row in this.collapsedRows) {
       return this.expand(rowNum);
     }
     return this.collapse(rowNum);

@@ -361,7 +361,10 @@ describe('pivot', () => {
 
       const startState = pivot.data.table;
 
-      pivot.toggle(1).toggle(1);
+      pivot.toggle(1);
+      pivot.toggle(2);
+      pivot.toggle(2);
+      pivot.toggle(1);
 
       expect(startState).to.deep.equal(pivot.data.table);
     });
