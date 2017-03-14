@@ -16,8 +16,8 @@ const data = [
 ];
 
 export default () => {
-  it('should return an object containing column headers and a map to the' +
-    ' headers when given data and column header categories',
+  it('should return an object containing column headers and a map to the ' +
+    'headers when given data and column header categories',
       () => {
         const columnData = createColumnHeaders(data, ['borough']);
         const expectedData = {
@@ -88,7 +88,7 @@ export default () => {
         const columnData = createColumnHeaders(data, [], '');
         const expectedData = {
           columnHeaders: [''],
-          mapToHeader: 1,
+          mapToHeader: null,
         };
 
         expect(columnData).to.deep.equal(expectedData);

@@ -4,8 +4,8 @@
 
 /**
  * @description Format data into an array of objects where the headers are the keys
- * @param {!array|object} data Array of arrays or an object
- * @returns {array<object>} Formatted object
+ * @param {!Array|Object} data Array of arrays or an object
+ * @returns {Array<Object>} Formatted object
 */
 export function fixDataFormat(data) {
   if (!Array.isArray(data) || !data.length) return [];
@@ -27,10 +27,10 @@ export function fixDataFormat(data) {
 }
 
 /**
- * Groups the data into an object by the provided category
- * @param {!array<object>} data Array of objects
- * @param {!string} groupBy Category to group by
- * @returns {object} Each key in the object is one the category groups
+ * @description Groups the data into an object by the provided category
+ * @param {!Array<Object>} data Array of objects
+ * @param {string} groupBy Category to group by
+ * @returns {Object} Each key in the object is one the category groups
 */
 export function groupByCategory(data, groupBy) {
   return data.reduce((acc, curr) =>{
@@ -43,11 +43,11 @@ export function groupByCategory(data, groupBy) {
 }
 
 /**
- * Performs groupByCategory recursively (nesting objects within objects)
- * @param {!array<object>} data Array of objects
- * @param {array} groups Items to categorize by
- * @param {object} acc The accumulated results
- * @returns {object} Deeply nested object
+ * @description Performs groupByCategory recursively (nesting objects within objects)
+ * @param {!Array<Object>} data Array of objects
+ * @param {Array} groups Items to categorize by
+ * @param {Object} acc The accumulated results
+ * @returns {Object} Deeply nested object
  * where each key is one the category groups
 */
 export function groupByCategories(data, groups = [], acc = {}) {
@@ -70,36 +70,51 @@ export function groupByCategories(data, groups = [], acc = {}) {
   return acc;
 }
 
+/**
+ * @description Builds the column headers and a map to each header
+ * @param {!Array<Object>} data Array of objects
+ * @param {Array} cols Columns to pivot on
+ * @param {string} firstColumn A string to place in the first column header
+ * @returns {Object} columnHeaders (array of arrays) and mapToHeader (object)
+*/
 export function createColumnHeaders(data, cols = [], firstColumn = '') {
-  if (!cols.length) return {columnHeaders: [firstColumn], mapToHeader: 1};
+  if (cols.length === 0) {
+    return {
+      columnHeaders: [firstColumn],
+      mapToHeader: null,
+    };
+  }
 
-  var groupedData = groupByCategories(data, cols);
-  var columnHeaders = [];
-  var mapToHeader = Object.assign({}, groupedData);
-  var mapPos = 1;
+  const mapToHeader = groupByCategories(data, cols);
+  const columnHeaders = [];
+  let mapPos = 1;
 
   (function columnHeaderRecursion(data, pos = 0, headerMap) {
+    /** base case - at actual data as opposed to another grouping */
     if (typeof data !== 'object' || Array.isArray(data)) return 1;
 
-    var currKeys = Object.keys(data);
-    var reqLength = 0;
+    const currKeys = Object.keys(data);
+    let sumLength = 0;
 
     for (let i = 0; i < currKeys.length; i++) {
-      let currLength = columnHeaderRecursion(
+      const currLength = columnHeaderRecursion(
           data[currKeys[i]], pos + 1, headerMap[currKeys[i]]);
 
       if (Array.isArray(data[currKeys[i]])) {
         headerMap[currKeys[i]] = mapPos;
         mapPos += 1;
       }
-      reqLength += currLength;
-      columnHeaders[pos] = !columnHeaders[pos] ?
-          [firstColumn].concat(Array(currLength).fill(currKeys[i])) :
-          columnHeaders[pos].concat(Array(currLength).fill(currKeys[i]));
-    }
-    return reqLength;
 
-  })(groupedData, 0, mapToHeader);
+      columnHeaders[pos] = typeof columnHeaders[pos] === 'undefined' ?
+        [firstColumn].concat(Array(currLength).fill(currKeys[i])) :
+        columnHeaders[pos].concat(Array(currLength).fill(currKeys[i]));
+
+      sumLength += currLength;
+    }
+
+    return sumLength;
+
+  }(mapToHeader, 0, mapToHeader));
 
   return {
     columnHeaders,
@@ -108,71 +123,72 @@ export function createColumnHeaders(data, cols = [], firstColumn = '') {
 }
 
 /**
- * accumulator has two different signatures
- * 1. it takes an array of objects, an accumulation category as a string
- *  (like age), and supported accumulation type as a string (like count)
- * 2. it takes an array of objects, a callback function (which operates
- *  the same as reduce), and an initial value
- */
+ * @description Reduces an array of values to a result
+ * @param {!Array} arr The array to reduce
+ * @param {?requestCallback|string} accCat Callback, category to reduce, or null
+ * @param {string} accType Reduce type (count, average, min, max, etc) or initial value
+ * @param {*} accValue Initial value - string, number, array, or object
+ * @returns {*} Reduced value
+ * @todo Move accumulator to its own file since it will continue to grow
+*/
 export function accumulator(arr, accCat, accType, accValue) {
-  if (!accCat && typeof accType !== 'function') accType = 'count';
-  else if (typeof accCat === 'function') {
-    accValue = accType || 0;
-    accType = accCat;
-  }
+  if (typeof accCat === 'undefined') accType = 'count';
+  else if (typeof accCat === 'function') accValue = accType || 0;
 
   return arr.reduce((acc, curr, index, array) => {
-    if (typeof accType === 'function') {
-      return accType(acc, typeof accCat === 'string' ? curr[accCat] :
-        curr, index, array);
-    }
+    if (typeof accCat === 'function') return accCat(acc, curr, index, array);
+
     switch (accType) {
       case ('average'): {
         acc += Number(curr[accCat]) / arr.length;
+
         return acc;
       }
 
       case ('count'): {
         acc += 1;
+
         return acc;
       }
 
       case ('min'): {
-        if (index === 0) {
-          acc = Number(curr[accCat]);
-        } else if (curr[accCat] < acc) {
-          acc = Number(curr[accCat]);
-        }
+        if (index === 0) acc = Number(curr[accCat]);
+        else if (curr[accCat] < acc) acc = Number(curr[accCat]);
+
         return acc;
       }
 
       case ('max'): {
-        if (index === 0) {
-          acc = Number(curr[accCat]);
-        } else if (curr[accCat] > acc) {
-          acc = Number(curr[accCat]);
-        }
+        if (index === 0) acc = Number(curr[accCat]);
+        else if (curr[accCat] > acc) acc = Number(curr[accCat]);
+
         return acc;
       }
 
       case ('sum'): {
         acc += Number(curr[accCat]);
+
         return acc;
       }
 
       default: {
         acc += 1;
+
         return acc;
       }
     }
   }, accValue || 0);
 }
 
+/**
+ * @description Check that categories to pivot on actually exist
+ * @param {!Object} actualCats Categories that actually exist in the data
+ * @param {!Array<string>} selectedCats Categories to pivot selected by user
+ * @throws Will throw an error if the category does not exist
+*/
 export function checkPivotCategories(actualCats, selectedCats) {
-  const errMessage = [];
-
-  selectedCats.forEach((selectedCat) => {
-    if (!(selectedCat in actualCats)) errMessage.push(selectedCat);
+  const errMessage = selectedCats.filter((selectedCat) => {
+    return !(selectedCat in actualCats);
   });
 
   if (errMessage.length > 0) {
@@ -181,12 +197,13 @@ export function checkPivotCategories(actualCats, selectedCats) {
   }
 }
 
-export function tableCreator(
-  data, rows = [], cols = [], accCatOrCB, accTypeOrInitVal,
-  rowHeader) {
-  data = fixDataFormat(data);
+export function tableCreator(data, rows = [], cols = [], accCatOrCB,
+  accTypeOrInitVal, rowHeader) {
 
-  if (!data.length) return [];
+  data = fixDataFormat(data);
+  /** */
+  if (data.length === 0) return [];
+
   checkPivotCategories(data[0], rows);
   checkPivotCategories(data[0], cols);
 
@@ -198,8 +215,8 @@ export function tableCreator(
 
   const columnData = createColumnHeaders(data, cols, rowHeader);
   const columnHeaders = Array.isArray(columnData.columnHeaders[0]) ?
-      columnData.columnHeaders :
-      [columnData.columnHeaders.concat(rowHeader)];
+    columnData.columnHeaders :
+    [columnData.columnHeaders.concat(rowHeader)];
   const mapToHeader = columnData.mapToHeader;
   const headerLength = columnHeaders[0].length;
   const formattedColumnHeaders = columnHeaders.map((value, depth) => {
@@ -216,7 +233,7 @@ export function tableCreator(
   let prevKey = '';
 
   function rowRecurse(rowGroups, depth, rowHeaders = []) {
-    for (let key in rowGroups) {
+    for (const key in rowGroups) {
       if (Array.isArray(rowGroups[key])) {
         const recursedData = groupByCategories(rowGroups[key], cols);
 
@@ -225,25 +242,27 @@ export function tableCreator(
         (function recurseThroughMap(dataPos, map) {
           if (Array.isArray(dataPos)) {
             if (key === prevKey) {
-              let datum = dataRows[dataRows.length - 1].value;
+              const datum = dataRows[dataRows.length - 1].value;
 
               datum[map] = accumulator(dataPos, accCatOrCB, accTypeOrInitVal);
               dataRows[dataRows.length - 1].value = datum;
 
-              let rawDataDatum = rawData[rawData.length - 1].value;
+              const rawDataDatum = rawData[rawData.length - 1].value;
 
               rawDataDatum[map] = dataPos;
               rawData[rawData.length - 1].value = rawDataDatum;
             } else {
               prevKey = key;
-              let datum = [key].concat(
-                  Array(map - 1).fill(''),
-                  accumulator(dataPos, accCatOrCB, accTypeOrInitVal),
-                  Array(headerLength - (map + 1)).fill(''));
-              let rawDataDatum = [key].concat(
+              const datum = [key].concat(
+                Array(map - 1).fill(''),
+                accumulator(dataPos, accCatOrCB, accTypeOrInitVal),
+                Array(headerLength - (map + 1)).fill('')
+              );
+              const rawDataDatum = [key].concat(
                 Array(map - 1).fill(''),
                 [dataPos],
-                Array(headerLength - (map + 1)).fill(''));
+                Array(headerLength - (map + 1)).fill('')
+              );
 
               rawData.push({
                 value: rawDataDatum,
@@ -258,7 +277,7 @@ export function tableCreator(
               });
             }
           } else {
-            for (let innerKey in dataPos) {
+            for (const innerKey in dataPos) {
               recurseThroughMap(dataPos[innerKey], map[innerKey]);
             }
           }

@@ -10,12 +10,12 @@ export function collapse(rowNum, data) {
 
   let count = rowNum + 1;
   let currDepth = data.table[count].depth;
-  let uncollapsed = {
+  const uncollapsed = {
     table: data.table.slice(0, count),
     rawData: data.rawData.slice(0, count),
   };
 
-  let collapsed = {
+  const collapsed = {
     table: [],
     rawData: [],
   };
