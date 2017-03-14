@@ -3,7 +3,7 @@
 */
 
 /**
- * Format data into an array of objects where the headers are the keys
+ * @description Format data into an array of objects where the headers are the keys
  * @param {!array|object} data Array of arrays or an object
  * @returns {array<object>} Formatted object
 */
@@ -51,25 +51,23 @@ export function groupByCategory(data, groupBy) {
  * where each key is one the category groups
 */
 export function groupByCategories(data, groups = [], acc = {}) {
-  if (!data.length) return [];
+  /**
+   * base case - if data is empty
+   * or if there are no more groups to group by
+   * return result
+  */
+  if (data.length === 0 || groups.length === 0) return data;
 
-  groups = groups.filter(ele =>{
-    return ele in data[0];
-  });
-
-  if (!groups.length) return data;
-
-  const groupCopy = Object.assign([], groups);
-  const groupedData = groupByCategory(data, groupCopy.shift());
+  const groupedData = groupByCategory(data, groups[0]);
   const groupedDataKeys = Object.keys(groupedData);
-  const children = groupedDataKeys.map(el => {
+
+  const children = groupedDataKeys.map((el) => {
     return groupedData[el];
   });
 
   for (let i = 0; i < children.length; i++) {
-    acc[groupedDataKeys[i]] = groupCopy.length ? {} : [];
     acc[groupedDataKeys[i]] = groupByCategories(
-        children[i], groupCopy, acc[groupedDataKeys[i]]);
+        children[i], groups.slice(1), acc[groupedDataKeys[i]]);
   }
 
   return acc;
@@ -174,28 +172,31 @@ export function accumulator(arr, accCat, accType, accValue) {
 }
 
 export function checkPivotCategories(actualCats, selectedCats) {
-  var errMessage = [];
+  const errMessage = [];
 
-  selectedCats.forEach(selectedCat =>{
-    if (actualCats.indexOf(selectedCat) === -1) errMessage.push(selectedCat);
+  selectedCats.forEach((selectedCat) => {
+    if (!(selectedCat in actualCats)) errMessage.push(selectedCat);
   });
-  if (errMessage.length) {
+
+  if (errMessage.length > 0) {
     throw new Error('Check that these selected pivot categories exist: ' +
-      errMessage.join(','));
+      errMessage.join(', '));
   }
 }
 
 export function tableCreator(
-  data, rows = [], cols = [], accCatOrCB, accTypeOrInitVal, rowHeader) {
+  data, rows = [], cols = [], accCatOrCB, accTypeOrInitVal,
+  rowHeader) {
   data = fixDataFormat(data);
+
   if (!data.length) return [];
-  checkPivotCategories(Object.keys(data[0]), rows);
-  checkPivotCategories(Object.keys(data[0]), cols);
+  checkPivotCategories(data[0], rows);
+  checkPivotCategories(data[0], cols);
 
   if (typeof rowHeader === 'undefined') {
     rowHeader = typeof accCatOrCB !== 'function' ?
-        `${accTypeOrInitVal} ${accCatOrCB}` :
-        'Custom Agg';
+      `${accTypeOrInitVal} ${accCatOrCB}` :
+      'Custom Agg';
   }
 
   const columnData = createColumnHeaders(data, cols, rowHeader);

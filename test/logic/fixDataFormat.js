@@ -42,8 +42,7 @@ export default () => {
   });
 
   it('should turn an array of data into an array of objects', () => {
-    const data = ['name', 'patrick', 'bill', 'greg'];
-    const newData = fixDataFormat(data);
+    const newData = fixDataFormat(['name', 'patrick', 'bill', 'greg']);
     const expectedData = [{name: 'patrick'}, {name: 'bill'}, {name: 'greg'}];
 
     expect(expectedData).to.deep.equal(newData);

@@ -5,7 +5,11 @@ chai.expect();
 const expect = chai.expect;
 
 export default () => {
-  const actualCategories = ['pig', 'fish', 'dog'];
+  const actualCategories = {
+    pig: 'babe',
+    fish: 'filet',
+    dog: 'henry',
+  };
 
   it('should return undefined if pivot category exists', () => {
     expect(checkPivotCategories(actualCategories, ['dog'])).to.be.undefined;
