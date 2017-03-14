@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import fixDataFormatTest from './logic/fixDataFormat';
 import groupByCategoryTest from './logic/groupByCategory';
 import groupByCategoriesTest from './logic/groupByCategories';

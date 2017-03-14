@@ -1,11 +1,12 @@
-var webpack = require('webpack');
-var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
-var path = require('path');
-var env = require('yargs').argv.mode;
+const webpack = require('webpack');
+const UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
+const path = require('path');
+const env = require('yargs').argv.mode;
 
-var libraryName = 'quick-pivot';
+const libraryName = 'quick-pivot';
 
-var plugins = [], outputFile;
+const plugins = [];
+let outputFile;
 
 if (env === 'build') {
   plugins.push(new UglifyJsPlugin({ minimize: true }));
@@ -14,7 +15,7 @@ if (env === 'build') {
   outputFile = libraryName + '.js';
 }
 
-var config = {
+const config = {
   entry: ['babel-polyfill', __dirname + '/src/index.js'],
   devtool: 'source-map',
   output: {
@@ -22,27 +23,27 @@ var config = {
     filename: outputFile,
     library: libraryName,
     libraryTarget: 'umd',
-    umdNamedDefine: true
+    umdNamedDefine: true,
   },
   module: {
     loaders: [
       {
         test: /(\.jsx|\.js)$/,
         loader: 'babel',
-        exclude: /(node_modules|bower_components)/
+        exclude: /(node_modules|bower_components)/,
       },
       {
         test: /(\.jsx|\.js)$/,
-        loader: "eslint-loader",
-        exclude: /node_modules/
-      }
-    ]
+        loader: 'eslint-loader',
+        exclude: /node_modules/,
+      },
+    ],
   },
   resolve: {
     root: path.resolve('./src'),
-    extensions: ['', '.js']
+    extensions: ['', '.js'],
   },
-  plugins: plugins
+  plugins: plugins,
 };
 
 module.exports = config;

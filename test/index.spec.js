@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import constructorTest from './index/constructor';
 import collapseTest from './index/collapse';
 import getDataTest from './index/getData';

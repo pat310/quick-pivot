@@ -60,10 +60,7 @@ export function groupByCategories(data, groups = [], acc = {}) {
 
   const groupedData = groupByCategory(data, groups[0]);
   const groupedDataKeys = Object.keys(groupedData);
-
-  const children = groupedDataKeys.map((el) => {
-    return groupedData[el];
-  });
+  const children = Object.values(groupedData);
 
   for (let i = 0; i < children.length; i++) {
     acc[groupedDataKeys[i]] = groupByCategories(
