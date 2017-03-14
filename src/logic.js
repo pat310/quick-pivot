@@ -3,11 +3,14 @@
 */
 
 /**
- * Format data
+ * Format data into an array of objects where the headers are the keys
+ * @param {!array|object} data Array of arrays or an object
+ * @returns {array<object>} Formatted object
 */
 export function fixDataFormat(data) {
   if (!Array.isArray(data) || !data.length) return [];
-  else if (typeof data[0] === 'object' && !Array.isArray(data[0])) return data;
+  if (typeof data[0] === 'object' && !Array.isArray(data[0])) return data;
+
   return data.reduce((dataCol, row, i, arr) => {
     if (i !== 0) {
       if (Array.isArray(row)) {
@@ -23,9 +26,15 @@ export function fixDataFormat(data) {
   }, []);
 }
 
+/**
+ * Groups the data into an object by the provided category
+ * @param {!array<object>} data Array of objects
+ * @param {!string} groupBy Category to group by
+ * @returns {object} Each key in the object is one the category groups
+*/
 export function groupByCategory(data, groupBy) {
   return data.reduce((acc, curr) =>{
-    var category = curr[groupBy];
+    const category = curr[groupBy];
 
     if (!acc[category]) acc[category] = [];
     acc[category].push(curr);
@@ -33,6 +42,14 @@ export function groupByCategory(data, groupBy) {
   }, {});
 }
 
+/**
+ * Performs groupByCategory recursively (nesting objects within objects)
+ * @param {!array<object>} data Array of objects
+ * @param {array} groups Items to categorize by
+ * @param {object} acc The accumulated results
+ * @returns {object} Deeply nested object
+ * where each key is one the category groups
+*/
 export function groupByCategories(data, groups = [], acc = {}) {
   if (!data.length) return [];
 
@@ -42,10 +59,10 @@ export function groupByCategories(data, groups = [], acc = {}) {
 
   if (!groups.length) return data;
 
-  var groupCopy = Object.assign([], groups);
-  var groupedData = groupByCategory(data, groupCopy.shift());
-  var groupedDataKeys = Object.keys(groupedData);
-  var children = groupedDataKeys.map(el => {
+  const groupCopy = Object.assign([], groups);
+  const groupedData = groupByCategory(data, groupCopy.shift());
+  const groupedDataKeys = Object.keys(groupedData);
+  const children = groupedDataKeys.map(el => {
     return groupedData[el];
   });
 

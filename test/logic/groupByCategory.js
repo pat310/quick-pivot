@@ -16,7 +16,6 @@ const data = [
 ];
 
 export default () => {
-
   it('should return an object of arrays based on a provided category',
     () => {
       const groupedData = groupByCategory(data, 'borough');
