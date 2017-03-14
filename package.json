@@ -12,7 +12,8 @@
     "cover": "nyc --reporter=lcov mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
     "coveralls": "npm run cover && nyc report --reporter=text-lcov | coveralls",
     "coverage": "nyc mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
-    "preversion": "npm run build"
+    "preversion": "npm run build",
+    "create-jsdoc": "./node_modules/.bin/jsdoc ./lib/quick-pivot.js"
   },
   "repository": {
     "type": "git",
@@ -45,6 +46,7 @@
     "eslint": "1.7.2",
     "eslint-loader": "1.1.0",
     "istanbul": "^0.4.5",
+    "jsdoc": "^3.4.3",
     "mocha": "2.3.4",
     "mocha-lcov-reporter": "^1.2.0",
     "nyc": "^10.1.2",

@@ -29,7 +29,7 @@ node_modules
 
 screenshots
 src
-text
+test
 .babelrc
 .codeclimate.yml
 .eslintrc

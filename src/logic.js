@@ -1,3 +1,10 @@
+/**
+ * @file Contains logic to actually pivot data
+*/
+
+/**
+ * Format data
+*/
 export function fixDataFormat(data) {
   if (!Array.isArray(data) || !data.length) return [];
   else if (typeof data[0] === 'object' && !Array.isArray(data[0])) return data;
