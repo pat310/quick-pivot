@@ -22,9 +22,10 @@ export default class Pivot {
 
   collapse(rowNum) {
     let returnedData = collapse(rowNum, this.data);
+
     if (returnedData.collapsed) {
       this.collapsedRows[this.data.table[rowNum].row] =
-          returnedData.collapsed;
+        returnedData.collapsed;
     }
     this.data = returnedData.uncollapsed;
     return this;
