@@ -21,7 +21,9 @@ export default class Pivot {
   collapse(rowNum) {
     const returnedData = collapse(rowNum, this.data);
 
-    this.collapsedRows[this.data.table[rowNum].row] = returnedData.collapsed;
+    if (returnedData.collapsed) {
+      this.collapsedRows[this.data.table[rowNum].row] = returnedData.collapsed;
+    }
     this.data = returnedData.uncollapsed;
 
     return this;

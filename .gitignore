@@ -1,6 +1,3 @@
-# Ignore mac .DS_Store
-.DS_Store
-
 # Logs
 logs
 *.log
@@ -39,3 +36,6 @@ lib
 # Ignore browser test files
 test.html
 test.js
+
+# Ignore mac files
+.DS_Store
