@@ -35,3 +35,7 @@ out
 
 # Ignore built files
 lib
+
+# Ignore browser test files
+test.html
+test.js
