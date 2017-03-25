@@ -28,7 +28,7 @@ export function filter(data, fieldName, filterValues, filterType) {
     });
   }
 
-  return data.filter((dataRow) => {
-    return fieldName(dataRow);
+  return data.filter((dataRow, index, array) => {
+    return fieldName(dataRow, index, array);
   });
 };

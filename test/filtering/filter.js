@@ -96,5 +96,20 @@ export default () => {
 
     expect(filteredResults).to.deep.equal(expectedResults);
   });
+
+  it('should have access to data row, index, and arr in callback', () => {
+    const expectedResults = [
+      { name: 'Bran', gender: 'm', house: 'Stark', age: 8 },
+      { name: 'Sansa', gender: 'f', house: 'Stark', age: 12 },
+    ];
+
+    function filterFunc(dataRow, index, array) {
+      return dataRow.age < 15 && index > 1 && array.length > 5;
+    }
+
+    const filteredResults = filter(data, filterFunc);
+
+    expect(filteredResults).to.deep.equal(expectedResults);
+  });
 };
 
