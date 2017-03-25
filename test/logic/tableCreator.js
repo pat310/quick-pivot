@@ -1,5 +1,5 @@
 import chai from 'chai';
-import { tableCreator } from '../../src/logic.js';
+import { tableCreator, fixDataFormat } from '../../src/logic.js';
 
 chai.expect();
 const expect = chai.expect;
@@ -296,16 +296,15 @@ export default () => {
 
   it('should work with rows with the same key but different groups', () => {
     const data = [
-      ['name', 'gender', 'house', 'age'],
-      ['Jon', 'm', 'Stark', 14],
-      ['Arya', 'f', 'Stark', 10],
-      ['Cersei', 'f', 'Baratheon', 38],
-      ['Tywin', 'm', 'Lannister', 67],
-      ['Tyrion', 'm', 'Lannister', 34],
-      ['Joffrey', 'm', 'Baratheon', 18],
-      ['Bran', 'm', 'Stark', 8],
-      ['Jaime', 'm', 'Lannister', 32],
-      ['Sansa', 'f', 'Stark', 12],
+      { name: 'Jon', gender: 'm', house: 'Stark', age: 14 },
+      { name: 'Arya', gender: 'f', house: 'Stark', age: 10 },
+      { name: 'Cersei', gender: 'f', house: 'Baratheon', age: 38 },
+      { name: 'Tywin', gender: 'm', house: 'Lannister', age: 67 },
+      { name: 'Tyrion', gender: 'm', house: 'Lannister', age: 34 },
+      { name: 'Joffrey', gender: 'm', house: 'Baratheon', age: 18 },
+      { name: 'Bran', gender: 'm', house: 'Stark', age: 8 },
+      { name: 'Jaime', gender: 'm', house: 'Lannister', age: 32 },
+      { name: 'Sansa', gender: 'f', house: 'Stark', age: 12 },
     ];
 
     const tableResults = tableCreator(data, ['house', 'gender'], [], '',

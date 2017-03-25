@@ -200,7 +200,6 @@ export function checkPivotCategories(actualCats, selectedCats) {
 export function tableCreator(data, rows = [], cols = [], accCatOrCB,
   accTypeOrInitVal, rowHeader) {
 
-  data = fixDataFormat(data);
   /** */
   if (data.length === 0) return [];
 
