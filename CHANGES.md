@@ -7,6 +7,7 @@
   - `getUniqueValues`
 
 [#38]: https://github.com/pat310/quick-pivot/pull/38
+[#39]: https://github.com/pat310/quick-pivot/pull/39
 
 ## [v2.1.1]
 > Mar 12, 2017
