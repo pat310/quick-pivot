@@ -1,3 +1,13 @@
+## [v2.2.0]
+> Mar 25, 2017
+
+- No longer adds `undefined` as a collapsed row
+- Adding the following methods to the `Pivot` class
+  - `filter`
+  - `getUniqueValues`
+
+[#38]: https://github.com/pat310/quick-pivot/pull/38
+
 ## [v2.1.1]
 > Mar 12, 2017
 

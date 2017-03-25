@@ -1,8 +1,16 @@
-'use strict';
+/**
+ * @file Contains logic to actually pivot data
+*/
 
+/**
+ * @description Format data into an array of objects where the headers are the keys
+ * @param {!Array|Object} data Array of arrays or an object
+ * @returns {Array<Object>} Formatted object
+*/
 export function fixDataFormat(data) {
   if (!Array.isArray(data) || !data.length) return [];
-  else if (typeof data[0] === 'object' && !Array.isArray(data[0])) return data;
+  if (typeof data[0] === 'object' && !Array.isArray(data[0])) return data;
+
   return data.reduce((dataCol, row, i, arr) => {
     if (i !== 0) {
       if (Array.isArray(row)) {
@@ -18,9 +26,15 @@ export function fixDataFormat(data) {
   }, []);
 }
 
+/**
+ * @description Groups the data into an object by the provided category
+ * @param {!Array<Object>} data Array of objects
+ * @param {string} groupBy Category to group by
+ * @returns {Object} Each key in the object is one the category groups
+*/
 export function groupByCategory(data, groupBy) {
   return data.reduce((acc, curr) =>{
-    var category = curr[groupBy];
+    const category = curr[groupBy];
 
     if (!acc[category]) acc[category] = [];
     acc[category].push(curr);
@@ -28,61 +42,79 @@ export function groupByCategory(data, groupBy) {
   }, {});
 }
 
+/**
+ * @description Performs groupByCategory recursively (nesting objects within objects)
+ * @param {!Array<Object>} data Array of objects
+ * @param {Array} groups Items to categorize by
+ * @param {Object} acc The accumulated results
+ * @returns {Object} Deeply nested object
+ * where each key is one the category groups
+*/
 export function groupByCategories(data, groups = [], acc = {}) {
-  if (!data.length) return [];
+  /**
+   * base case - if data is empty
+   * or if there are no more groups to group by
+   * return result
+  */
+  if (data.length === 0 || groups.length === 0) return data;
 
-  groups = groups.filter(ele =>{
-    return ele in data[0];
-  });
-
-  if (!groups.length) return data;
-
-  var groupCopy = Object.assign([], groups);
-  var groupedData = groupByCategory(data, groupCopy.shift());
-  var groupedDataKeys = Object.keys(groupedData);
-  var children = groupedDataKeys.map(el => {
-    return groupedData[el];
-  });
+  const groupedData = groupByCategory(data, groups[0]);
+  const groupedDataKeys = Object.keys(groupedData);
+  const children = Object.values(groupedData);
 
   for (let i = 0; i < children.length; i++) {
-    acc[groupedDataKeys[i]] = groupCopy.length ? {} : [];
     acc[groupedDataKeys[i]] = groupByCategories(
-        children[i], groupCopy, acc[groupedDataKeys[i]]);
+        children[i], groups.slice(1), acc[groupedDataKeys[i]]);
   }
 
   return acc;
 }
 
+/**
+ * @description Builds the column headers and a map to each header
+ * @param {!Array<Object>} data Array of objects
+ * @param {Array} cols Columns to pivot on
+ * @param {string} firstColumn A string to place in the first column header
+ * @returns {Object} columnHeaders (array of arrays) and mapToHeader (object)
+*/
 export function createColumnHeaders(data, cols = [], firstColumn = '') {
-  if (!cols.length) return {columnHeaders: [firstColumn], mapToHeader: 1};
+  if (cols.length === 0) {
+    return {
+      columnHeaders: [firstColumn],
+      mapToHeader: null,
+    };
+  }
 
-  var groupedData = groupByCategories(data, cols);
-  var columnHeaders = [];
-  var mapToHeader = Object.assign({}, groupedData);
-  var mapPos = 1;
+  const mapToHeader = groupByCategories(data, cols);
+  const columnHeaders = [];
+  let mapPos = 1;
 
   (function columnHeaderRecursion(data, pos = 0, headerMap) {
+    /** base case - at actual data as opposed to another grouping */
     if (typeof data !== 'object' || Array.isArray(data)) return 1;
 
-    var currKeys = Object.keys(data);
-    var reqLength = 0;
+    const currKeys = Object.keys(data);
+    let sumLength = 0;
 
     for (let i = 0; i < currKeys.length; i++) {
-      let currLength = columnHeaderRecursion(
+      const currLength = columnHeaderRecursion(
           data[currKeys[i]], pos + 1, headerMap[currKeys[i]]);
 
       if (Array.isArray(data[currKeys[i]])) {
         headerMap[currKeys[i]] = mapPos;
         mapPos += 1;
       }
-      reqLength += currLength;
-      columnHeaders[pos] = !columnHeaders[pos] ?
-          [firstColumn].concat(Array(currLength).fill(currKeys[i])) :
-          columnHeaders[pos].concat(Array(currLength).fill(currKeys[i]));
-    }
-    return reqLength;
 
-  })(groupedData, 0, mapToHeader);
+      columnHeaders[pos] = typeof columnHeaders[pos] === 'undefined' ?
+        [firstColumn].concat(Array(currLength).fill(currKeys[i])) :
+        columnHeaders[pos].concat(Array(currLength).fill(currKeys[i]));
+
+      sumLength += currLength;
+    }
+
+    return sumLength;
+
+  }(mapToHeader, 0, mapToHeader));
 
   return {
     columnHeaders,
@@ -91,96 +123,99 @@ export function createColumnHeaders(data, cols = [], firstColumn = '') {
 }
 
 /**
- * accumulator has two different signatures
- * 1. it takes an array of objects, an accumulation category as a string
- *  (like age), and supported accumulation type as a string (like count)
- * 2. it takes an array of objects, a callback function (which operates
- *  the same as reduce), and an initial value
- */
+ * @description Reduces an array of values to a result
+ * @param {!Array} arr The array to reduce
+ * @param {?requestCallback|string} accCat Callback, category to reduce, or null
+ * @param {string} accType Reduce type (count, average, min, max, etc) or initial value
+ * @param {*} accValue Initial value - string, number, array, or object
+ * @returns {*} Reduced value
+ * @todo Move accumulator to its own file since it will continue to grow
+*/
 export function accumulator(arr, accCat, accType, accValue) {
-  if (!accCat && typeof accType !== 'function') accType = 'count';
-  else if (typeof accCat === 'function') {
-    accValue = accType || 0;
-    accType = accCat;
-  }
+  if (typeof accCat === 'undefined') accType = 'count';
+  else if (typeof accCat === 'function') accValue = accType || 0;
 
   return arr.reduce((acc, curr, index, array) => {
-    if (typeof accType === 'function') {
-      return accType(acc, typeof accCat === 'string' ? curr[accCat] :
-        curr, index, array);
-    }
+    if (typeof accCat === 'function') return accCat(acc, curr, index, array);
+
     switch (accType) {
       case ('average'): {
         acc += Number(curr[accCat]) / arr.length;
+
         return acc;
       }
 
       case ('count'): {
         acc += 1;
+
         return acc;
       }
 
       case ('min'): {
-        if (index === 0) {
-          acc = Number(curr[accCat]);
-        } else if (curr[accCat] < acc) {
-          acc = Number(curr[accCat]);
-        }
+        if (index === 0) acc = Number(curr[accCat]);
+        else if (curr[accCat] < acc) acc = Number(curr[accCat]);
+
         return acc;
       }
 
       case ('max'): {
-        if (index === 0) {
-          acc = Number(curr[accCat]);
-        } else if (curr[accCat] > acc) {
-          acc = Number(curr[accCat]);
-        }
+        if (index === 0) acc = Number(curr[accCat]);
+        else if (curr[accCat] > acc) acc = Number(curr[accCat]);
+
         return acc;
       }
 
       case ('sum'): {
         acc += Number(curr[accCat]);
+
         return acc;
       }
 
       default: {
         acc += 1;
+
         return acc;
       }
     }
   }, accValue || 0);
 }
 
+/**
+ * @description Check that categories to pivot on actually exist
+ * @param {!Object} actualCats Categories that actually exist in the data
+ * @param {!Array<string>} selectedCats Categories to pivot selected by user
+ * @throws Will throw an error if the category does not exist
+*/
 export function checkPivotCategories(actualCats, selectedCats) {
-  var errMessage = [];
-
-  selectedCats.forEach(selectedCat =>{
-    if (actualCats.indexOf(selectedCat) === -1) errMessage.push(selectedCat);
+  const errMessage = selectedCats.filter((selectedCat) => {
+    return !(selectedCat in actualCats);
   });
-  if (errMessage.length) {
-    throw new Error(
-        `Check that these selected pivot categories exist: ${errMessage.join(
-            ',')}`);
+
+  if (errMessage.length > 0) {
+    throw new Error('Check that these selected pivot categories exist: ' +
+      errMessage.join(', '));
   }
 }
 
-export function tableCreator(
-  data, rows = [], cols = [], accCatOrCB, accTypeOrInitVal, rowHeader) {
-  data = fixDataFormat(data);
-  if (!data.length) return [];
-  checkPivotCategories(Object.keys(data[0]), rows);
-  checkPivotCategories(Object.keys(data[0]), cols);
+export function tableCreator(data, rows = [], cols = [], accCatOrCB,
+  accTypeOrInitVal, rowHeader) {
+
+  /** */
+  if (data.length === 0) return [];
+
+  checkPivotCategories(data[0], rows);
+  checkPivotCategories(data[0], cols);
 
   if (typeof rowHeader === 'undefined') {
     rowHeader = typeof accCatOrCB !== 'function' ?
-        `${accTypeOrInitVal} ${accCatOrCB}` :
-        'Custom Agg';
+      `${accTypeOrInitVal} ${accCatOrCB}` :
+      'Custom Agg';
   }
 
   const columnData = createColumnHeaders(data, cols, rowHeader);
   const columnHeaders = Array.isArray(columnData.columnHeaders[0]) ?
-      columnData.columnHeaders :
-      [columnData.columnHeaders.concat(rowHeader)];
+    columnData.columnHeaders :
+    [columnData.columnHeaders.concat(rowHeader)];
   const mapToHeader = columnData.mapToHeader;
   const headerLength = columnHeaders[0].length;
   const formattedColumnHeaders = columnHeaders.map((value, depth) => {
@@ -197,7 +232,7 @@ export function tableCreator(
   let prevKey = '';
 
   function rowRecurse(rowGroups, depth, rowHeaders = []) {
-    for (let key in rowGroups) {
+    for (const key in rowGroups) {
       if (Array.isArray(rowGroups[key])) {
         const recursedData = groupByCategories(rowGroups[key], cols);
 
@@ -206,25 +241,27 @@ export function tableCreator(
         (function recurseThroughMap(dataPos, map) {
           if (Array.isArray(dataPos)) {
             if (key === prevKey) {
-              let datum = dataRows[dataRows.length - 1].value;
+              const datum = dataRows[dataRows.length - 1].value;
 
               datum[map] = accumulator(dataPos, accCatOrCB, accTypeOrInitVal);
               dataRows[dataRows.length - 1].value = datum;
 
-              let rawDataDatum = rawData[rawData.length - 1].value;
+              const rawDataDatum = rawData[rawData.length - 1].value;
 
               rawDataDatum[map] = dataPos;
               rawData[rawData.length - 1].value = rawDataDatum;
             } else {
               prevKey = key;
-              let datum = [key].concat(
-                  Array(map - 1).fill(''),
-                  accumulator(dataPos, accCatOrCB, accTypeOrInitVal),
-                  Array(headerLength - (map + 1)).fill(''));
-              let rawDataDatum = [key].concat(
+              const datum = [key].concat(
+                Array(map - 1).fill(''),
+                accumulator(dataPos, accCatOrCB, accTypeOrInitVal),
+                Array(headerLength - (map + 1)).fill('')
+              );
+              const rawDataDatum = [key].concat(
                 Array(map - 1).fill(''),
                 [dataPos],
-                Array(headerLength - (map + 1)).fill(''));
+                Array(headerLength - (map + 1)).fill('')
+              );
 
               rawData.push({
                 value: rawDataDatum,
@@ -239,7 +276,7 @@ export function tableCreator(
               });
             }
           } else {
-            for (let innerKey in dataPos) {
+            for (const innerKey in dataPos) {
               recurseThroughMap(dataPos[innerKey], map[innerKey]);
             }
           }

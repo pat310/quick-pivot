@@ -191,6 +191,14 @@ Toggles data from collapsed to expanded or vice-versa. The `toggle` method is ch
 #### `.getData(rowNum)`
 Returns the data that comprises a collapsed row
 
+#### `.getUniqueValues(fieldName)`
+Returns all the unique values for a particular field as an array
+
+#### `.filter([fieldName or CBfunction], filterValues, [filterType])`
+Filters out values based on either:
+- string `fieldName` field to filter on, array `filterValues` values to filter, string `filterType` option enumerated string either `'include'` or `'exclude'` (defaults to exclude if not provided)
+- function `CBfunction(element, index, array)` which iterates over each element in array (similar to Javascript array `.filter` method)
+
 
 ### Example with callback function
 Check out [the  test spec for more examples](/test/index.spec.js).
