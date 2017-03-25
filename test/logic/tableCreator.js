@@ -1,5 +1,5 @@
 import chai from 'chai';
-import { tableCreator, fixDataFormat } from '../../src/logic.js';
+import { tableCreator } from '../../src/logic.js';
 
 chai.expect();
 const expect = chai.expect;
