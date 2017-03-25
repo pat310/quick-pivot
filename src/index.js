@@ -67,7 +67,11 @@ export default class Pivot {
   }
 
   getUniqueValues(fieldName) {
-    return Object.keys(this.uniqueValues[fieldName]);
+    if (this.uniqueValues[fieldName]) {
+      return Object.keys(this.uniqueValues[fieldName]);
+    }
+
+    return [];
   }
 
   filter(fieldName, filterValues, filterType) {
