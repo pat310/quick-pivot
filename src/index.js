@@ -1,6 +1,6 @@
 import { tableCreator, fixDataFormat } from './logic';
 import { collapse, expand } from './progressiveDiscovery.js';
-import { createUniqueValues } from './filtering.js';
+import { createUniqueValues, filter } from './filtering.js';
 
 export default class Pivot {
 
@@ -8,6 +8,7 @@ export default class Pivot {
     if (!data) this.originalData = {};
     else {
       data = fixDataFormat(data);
+      this.originalArgs = {data, rows, cols, agg, type, header};
       this.originalData = tableCreator(data, rows, cols, agg, type, header);
       this.uniqueValues = createUniqueValues(data);
     }
@@ -16,11 +17,13 @@ export default class Pivot {
     this.collapsedRows = {};
   }
 
-  update(data, rows, cols, agg, type, header) {
+  update(data, rows, cols, agg, type, header, isFiltering) {
     data = fixDataFormat(data);
+    if (!isFiltering) this.originalArgs = {data, rows, cols, agg, type, header};
     this.originalData = tableCreator(data, rows, cols, agg, type, header);
     this.data = this.originalData;
     this.uniqueValues = createUniqueValues(data);
+    this.collapsedRows = {};
 
     return this;
   }
@@ -65,6 +68,16 @@ export default class Pivot {
 
   getUniqueValues(fieldName) {
     return Object.keys(this.uniqueValues[fieldName]);
+  }
+
+  filter(fieldName, filterValues, filterType) {
+    const filteredData =
+      filter(this.originalArgs.data, fieldName, filterValues, filterType);
+    const {rows, cols, agg, type, header} = this.originalArgs;
+
+    this.update(filteredData, rows, cols, agg, type, header, true);
+
+    return this;
   }
 
 }
