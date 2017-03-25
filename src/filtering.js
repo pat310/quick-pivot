@@ -10,8 +10,8 @@ export function createUniqueValues(data) {
 };
 
 export function filter(data, fieldName, filterValues, filterType) {
-  return data.filter(({[fieldName]: value}) => {
-    if (typeof filterValues !== 'function') {
+  if (typeof fieldName !== 'function') {
+    return data.filter(({[fieldName]: value}) => {
       switch (filterType) {
         case ('include'): {
           return filterValues.indexOf(value) !== -1;
@@ -25,8 +25,10 @@ export function filter(data, fieldName, filterValues, filterType) {
           return filterValues.indexOf(value) === -1;
         }
       }
-    }
+    });
+  }
 
-    return filterValues(value);
+  return data.filter((dataRow) => {
+    return fieldName(dataRow);
   });
 };

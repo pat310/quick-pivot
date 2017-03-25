@@ -4,6 +4,8 @@ import collapseTest from './index/collapse';
 import getDataTest from './index/getData';
 import expandTest from './index/expand';
 import toggleTest from './index/toggle';
+import getUniqueValuesTest from './index/getUniqueValues';
+import filterTest from './index/filter';
 
 describe('pivot', () => {
   describe('constructor', constructorTest);
@@ -11,4 +13,6 @@ describe('pivot', () => {
   describe('getData', getDataTest);
   describe('expand', expandTest);
   describe('toggle', toggleTest);
+  describe('getUniqueValues', getUniqueValuesTest);
+  describe('filter', filterTest);
 });
