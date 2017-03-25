@@ -74,8 +74,27 @@ export default class Pivot {
     const filteredData =
       filter(this.originalArgs.data, fieldName, filterValues, filterType);
     const {rows, cols, agg, type, header} = this.originalArgs;
+    const collapsedRowKeys = Object.keys(this.collapsedRows).reverse();
+    const collapsedRows = collapsedRowKeys.map((num) => {
+      return this.originalData.table[num].value[0];
+    });
 
     this.update(filteredData, rows, cols, agg, type, header, true);
+
+    if (collapsedRows.length > 0) {
+      let pointer = this.data.table.length - 1;
+
+      collapsedRows.forEach((rowValue) => {
+        while (pointer >= 0) {
+          if ((this.data.table[pointer].type === 'rowHeader') &&
+            (rowValue === this.data.table[pointer].value[0])) {
+            this.collapse(pointer);
+            break;
+          }
+          pointer -= 1;
+        }
+      });
+    }
 
     return this;
   }
