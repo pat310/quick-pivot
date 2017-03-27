@@ -1,4 +1,8 @@
 /**
+ * @file Utility functions for filtering functionality
+*/
+
+/**
  * Construct an object of field names with the unique values for each field
  * @param {!Array<Object>} data
  * @returns {!Object} Keys are field names, each value is an object with the unique values as keys

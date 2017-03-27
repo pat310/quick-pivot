@@ -1,9 +1,22 @@
+/**
+ * @file Pivot class with methods
+*/
 import { tableCreator, fixDataFormat } from './logic';
 import { collapse, expand } from './progressiveDiscovery.js';
 import { createUniqueValues, filter } from './filtering.js';
 
 export default class Pivot {
 
+  /**
+   * instantiates the Pivot class
+   * @param {Array<Array|Object>} data
+   * @param {Array<string>} rows Rows to pivot on
+   * @param {Array<string>} cols Cols to pivot on
+   * @param {string} agg Aggregation category
+   * @param {string} type Aggregation type, enumerated value
+   * @param {string} header Table header (displayed at hte top left)
+   * @returns {Object} instantiated pivot object
+  */
   constructor(data, rows, cols, agg, type, header) {
     if (!data) this.originalData = {};
     else {
@@ -17,6 +30,17 @@ export default class Pivot {
     this.collapsedRows = {};
   }
 
+  /**
+   * Creates a new pivot object based on the new arguments
+   * @param {Array<Array|Object>} data
+   * @param {Array<string>} rows Rows to pivot on
+   * @param {Array<string>} cols Cols to pivot on
+   * @param {string} agg Aggregation category
+   * @param {string} type Aggregation type, enumerated value
+   * @param {string} header Table header (displayed at hte top left)
+   * @param {boolean} isFiltering If the method is being called by the filter method
+   * @returns {Object} instantiated pivot object
+  */
   update(data, rows, cols, agg, type, header, isFiltering) {
     data = fixDataFormat(data);
     /** if update isn't being used by filter, need to reset the original arguments */
@@ -29,6 +53,11 @@ export default class Pivot {
     return this;
   }
 
+  /**
+   * Collapses the given header row
+   * @param {number} rowNum The header row to collapse
+   * @returns {Object} pivot object
+  */
   collapse(rowNum) {
     const returnedData = collapse(rowNum, this.data);
 
@@ -40,6 +69,11 @@ export default class Pivot {
     return this;
   }
 
+  /**
+   * Expands the given header row
+   * @param {number} rowNum The header row to expand
+   * @returns {Object} pivot object
+  */
   expand(rowNum) {
     this.data = expand(
       rowNum,
@@ -51,13 +85,23 @@ export default class Pivot {
     return this;
   }
 
+  /**
+   * Toggles the given header row
+   * @param {number} rowNum The header row to toggle the collapsed/expanded state
+   * @returns {Object} pivot object
+  */
   toggle(rowNum) {
-    if (this.data.table[rowNum].row in this.collapsedRows) {
-      return this.expand(rowNum);
-    }
-    return this.collapse(rowNum);
+    if (this.data.table[rowNum].row in this.collapsedRows) this.expand(rowNum);
+    else this.collapse(rowNum);
+
+    return this;
   }
 
+  /**
+   * Returns the data for a selected row
+   * @param {number} rowNum
+   * @returns {Object} the data for a selected row
+  */
   getData(rowNum) {
     if (!this.data.table[rowNum]) return null;
     if (this.collapsedRows[this.data.table[rowNum].row]) {
