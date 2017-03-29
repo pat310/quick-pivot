@@ -48,7 +48,7 @@
     "eslint-loader": "1.1.0",
     "istanbul": "^0.4.5",
     "jsdoc": "^3.4.3",
-    "mocha": "2.3.4",
+    "mocha": "^3.2.0",
     "mocha-lcov-reporter": "^1.2.0",
     "nyc": "^10.1.2",
     "webpack": "1.12.9",
