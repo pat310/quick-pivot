@@ -13,7 +13,7 @@
     "coveralls": "npm run cover && nyc report --reporter=text-lcov | coveralls",
     "coverage": "nyc mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
     "preversion": "npm run build",
-    "create-jsdoc": "./node_modules/.bin/jsdoc ./lib/quick-pivot.js"
+    "create-jsdoc": "jsdoc ./lib/quick-pivot.js"
   },
   "repository": {
     "type": "git",
