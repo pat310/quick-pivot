@@ -325,4 +325,14 @@ export default () => {
     expect(tableResults.table).to.deep.equal(expectedResults);
   });
 
+  it('should throw an error if rows/cols are not provided as an array', () => {
+    const rowError = tableCreator.bind(null, data, 'gender', ['house'], 'age',
+      'count');
+    const colError = tableCreator.bind(null, data, ['gender'], 'house', 'age',
+      'count');
+
+    expect(rowError).to.throw(Error);
+    expect(colError).to.throw(Error);
+  });
+
 };
