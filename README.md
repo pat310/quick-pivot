@@ -44,10 +44,10 @@ const dataArray = [
 
 const rowsToPivot = ['name'];
 const colsToPivot = ['house', 'gender'];
-const aggregationCategory = 'age';
-const aggregationType = 'sum';
+const aggregationDimension = 'age';
+const aggregator = 'sum';
 
-const pivot = new Pivot(dataArray, rowsToPivot, colsToPivot, aggregationCategory, aggregationType);
+const pivot = new Pivot(dataArray, rowsToPivot, colsToPivot, aggregationDimension, aggregator);
 
 console.log('pivot.data', pivot.data, 'pivot.data.table', pivot.data.table);
 ```
@@ -153,7 +153,7 @@ The `data` value returns an object with keys `table` and `rawData`.  `table` is 
 ```js
 import Pivot from 'quick-pivot';
 
-const pivot = new Pivot(dataArray, rows, columns, [accumulationCategory or CBfunction], [accumulationType or initialValue], rowHeader);
+const pivot = new Pivot(dataArray, rows, columns, [aggregationDimension or CBfunction], [aggregator or initialValue], rowHeader);
 ```
 
 #### First way to use it:
@@ -163,12 +163,12 @@ const pivot = new Pivot(dataArray, rows, columns, [accumulationCategory or CBfun
   * a single array (a single column of data where the first element is the header)
 * `rows` is an array of strings (the rows you want to pivot on) or an empty array **required**
 * `columns` is an array of strings (the columns you want to pivot on) or an empty array **required**
-* `accumulationCategory` is a string (the category you want to accumulate values for) **required**
-* `accumulationType` is an enumerated string - either `'sum'`, `'count'`, `'min'`, `'max'`, or `'average'` (the type of accumulation you want to perform). If no type is selected, `'count'` is chosen by default
+* `aggregationDimension` is a string (the category you want to accumulate values for) **required**
+* `aggregator` is an enumerated string - either `'sum'`, `'count'`, `'min'`, `'max'`, or `'average'` (the type of accumulation you want to perform). If no type is selected, `'count'` is chosen by default
 * `rowHeader` is a string (this value will appear above the rows)
 
 #### Second way to use it:
-Parameters are the same as the first except for two, `accumulationCategory` and `accumulationType`. Instead of `accumulationCategory` and `accumulationType`, you can use the following:
+Parameters are the same as the first except for two, `aggregationDimension` and `aggregator`. Instead of `aggregationDimension` and `aggregator`, you can use the following:
 * `CBfunction` is a callback function that receives four parameters `CBfunction(acc, curr, index, arr)` where `acc` is an accumulation value, `curr` is the current element being processed, `index` is the index of the current element being processed and `arr` is the array that is being acted on. This function must return the accumulation value (this is very similar to javascript's `.reduce`) **required**
 * `initialValue` is the starting value for the callback function. If no starting value is selected, `0` is used by default.
 
@@ -176,7 +176,7 @@ Parameters are the same as the first except for two, `accumulationCategory` and 
 #### `.data`
 Instance variable that returns the data array shown above
 
-#### `.update(dataArray, rows, columns, [accumulationCategory or CBfunction], [accumulationType or initialValue], rowHeader)`
+#### `.update(dataArray, rows, columns, [aggregationDimension or CBfunction], [aggregator or initialValue], rowHeader)`
 Updates the `.data` instance variable.  The `update` method is chainable.
 
 #### `.collapse(rowNum)`
