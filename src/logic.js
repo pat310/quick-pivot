@@ -200,8 +200,13 @@ export function checkPivotCategories(actualCats, selectedCats) {
 export function tableCreator(data, rows = [], cols = [], accCatOrCB,
   accTypeOrInitVal, rowHeader) {
 
-  /** */
+  /** if data is empty, return empty array */
   if (data.length === 0) return [];
+
+  /** if rows/cols are not arrays, return throw an error */
+  if (!Array.isArray(rows) || !Array.isArray(cols)) {
+    throw new Error('rowsToPivot and colsToPivot must be of type array');
+  }
 
   checkPivotCategories(data[0], rows);
   checkPivotCategories(data[0], cols);
