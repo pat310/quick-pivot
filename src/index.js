@@ -50,6 +50,7 @@ export default class Pivot {
     this.uniqueValues = createUniqueValues(data);
     this.collapsedRows = {};
 
+    console.log('data!', this);
     return this;
   }
 
@@ -163,6 +164,7 @@ export default class Pivot {
        * also so we don't need to reloop through entire data array
        * since we know that the filters should be in order
       */
+      console.log('table?', this)
       let pointer = this.data.table.length - 1;
 
       /**
