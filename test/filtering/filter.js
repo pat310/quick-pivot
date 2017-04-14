@@ -111,5 +111,11 @@ export default () => {
 
     expect(filteredResults).to.deep.equal(expectedResults);
   });
+
+  it('should work if pivot filters out all the results', () => {
+    const results = filter(data, 'gender', ['m', 'f'], 'exclude');
+
+    expect(results).to.deep.equal([]);
+  });
 };
 
