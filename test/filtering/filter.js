@@ -117,5 +117,17 @@ export default () => {
 
     expect(results).to.deep.equal([]);
   });
+
+  it('should return an empty array if including a value that does not exist', () => {
+    const results = filter(data, 'gender', ['dogman'], 'include');
+
+    expect(results).to.deep.equal([]);
+  });
+
+  it('should return all values if excluding a value that does not exist', () => {
+    const results = filter(data, 'gender', ['dogman'], 'exclude');
+
+    expect(results).to.deep.equal(data);
+  });
 };
 
