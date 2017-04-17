@@ -118,25 +118,29 @@ export default () => {
     expect(results).to.deep.equal([]);
   });
 
-  it('should return an empty array if including a value that does not exist', () => {
+  it('should return an empty array if including a value that does not ' +
+    'exist', () => {
     const results = filter(data, 'gender', ['dogman'], 'include');
 
     expect(results).to.deep.equal([]);
   });
 
-  it('should return all values if excluding a value that does not exist', () => {
+  it('should return all values if excluding a value that does not ' +
+    'exist', () => {
     const results = filter(data, 'gender', ['dogman'], 'exclude');
 
     expect(results).to.deep.equal(data);
   });
 
-  it('should return an empty array if including on a dimension that does not exist', () => {
+  it('should return an empty array if including on a dimension that does not ' +
+    'exist', () => {
     const results = filter(data, 'dogman', ['dogman'], 'include');
 
     expect(results).to.deep.equal([]);
   });
 
-  it('should return all values if excluding on a dimension that does not exist', () => {
+  it('should return all values if excluding on a dimension that does not ' +
+    'exist', () => {
     const results = filter(data, 'dogman', ['dogman'], 'exclude');
 
     expect(results).to.deep.equal(data);
