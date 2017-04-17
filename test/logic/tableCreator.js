@@ -335,4 +335,10 @@ export default () => {
     expect(colError).to.throw(Error);
   });
 
+  it('should return empty rawData and empty table if data is empty', () => {
+    const results = tableCreator([], ['house'], ['gender'], 'age', 'count');
+
+    expect(results).to.deep.equal({table: [], rawData: []});
+  });
+
 };

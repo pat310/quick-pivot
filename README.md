@@ -196,7 +196,7 @@ Returns all the unique values for a particular field as an array
 
 #### `.filter([fieldName or CBfunction], filterValues, [filterType])`
 Filters out values based on either:
-- string `fieldName` field to filter on, array `filterValues` values to filter, string `filterType` option enumerated string either `'include'` or `'exclude'` (defaults to exclude if not provided)
+- string `fieldName` field to filter on, array `filterValues` values to filter, string `filterType` optional enumerated string either `'include'` or `'exclude'` (defaults to exclude if not provided)
 - function `CBfunction(element, index, array)` which iterates over each element in array (similar to Javascript array `.filter` method)
 
 

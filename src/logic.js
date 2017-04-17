@@ -201,7 +201,12 @@ export function tableCreator(data, rows = [], cols = [], accCatOrCB,
   accTypeOrInitVal, rowHeader) {
 
   /** if data is empty, return empty array */
-  if (data.length === 0) return [];
+  if (data.length === 0) {
+    return {
+      rawData: [],
+      table: [],
+    };
+  };
 
   /** if rows/cols are not arrays, return throw an error */
   if (!Array.isArray(rows) || !Array.isArray(cols)) {
