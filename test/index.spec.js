@@ -6,6 +6,7 @@ import expandTest from './index/expand';
 import toggleTest from './index/toggle';
 import getUniqueValuesTest from './index/getUniqueValues';
 import filterTest from './index/filter';
+import updateTest from './index/update';
 
 describe('pivot', () => {
   describe('constructor', constructorTest);
@@ -15,4 +16,5 @@ describe('pivot', () => {
   describe('toggle', toggleTest);
   describe('getUniqueValues', getUniqueValuesTest);
   describe('filter', filterTest);
+  describe('update', updateTest);
 });

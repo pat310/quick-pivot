@@ -48,7 +48,7 @@ export default () => {
   });
 
   it('should return all the unique values from the original data on multiple ' +
-    'filers', () => {
+    'filters', () => {
     const pivot = new Pivot(dataArray, ['gender'], [], 'age', 'count');
 
     expect(pivot.getUniqueValues('gender')).to.deep.equal(['m', 'f']);
