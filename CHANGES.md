@@ -1,3 +1,14 @@
+## [v2.2.1]
+> Apr 18, 2017
+
+- Providing an error message if pivot dimensions are not of type array
+- Correctly filtering out all data (returns an empty array rather than creating an error)
+- `getUniqueValues` method now returns all the unique values on the original data set, even when values are filtered out
+
+[#47]: https://github.com/pat310/quick-pivot/pull/47
+[#49]: https://github.com/pat310/quick-pivot/pull/49
+[#51]: https://github.com/pat310/quick-pivot/pull/51
+
 ## [v2.2.0]
 > Mar 25, 2017
 
