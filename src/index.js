@@ -44,10 +44,12 @@ export default class Pivot {
   update(data, rows, cols, agg, type, header, isFiltering) {
     data = fixDataFormat(data);
     /** if update isn't being used by filter, need to reset the original arguments */
-    if (!isFiltering) this.originalArgs = {data, rows, cols, agg, type, header};
+    if (!isFiltering) {
+      this.originalArgs = {data, rows, cols, agg, type, header};
+      this.uniqueValues = createUniqueValues(data);
+    }
     this.originalData = tableCreator(data, rows, cols, agg, type, header);
     this.data = this.originalData;
-    this.uniqueValues = createUniqueValues(data);
     this.collapsedRows = {};
 
     return this;

@@ -46,5 +46,16 @@ export default () => {
 
     expect(pivot.getUniqueValues('dogman')).to.deep.equal([]);
   });
+
+  it('should return all the unique values from the original data on multiple ' +
+    'filers', () => {
+    const pivot = new Pivot(dataArray, ['gender'], [], 'age', 'count');
+
+    expect(pivot.getUniqueValues('gender')).to.deep.equal(['m', 'f']);
+    pivot.filter('gender', ['m'], 'exclude');
+    expect(pivot.getUniqueValues('gender')).to.deep.equal(['m', 'f']);
+    pivot.filter('gender', ['f'], 'exclude');
+    expect(pivot.getUniqueValues('gender')).to.deep.equal(['m', 'f']);
+  });
 };
 
