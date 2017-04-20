@@ -1,9 +1,5 @@
-import chai from 'chai';
-
+import { expect } from 'chai';
 import Pivot from '../../src';
-
-chai.expect();
-const expect = chai.expect;
 
 const dataArray = [
  ['name', 'gender', 'house', 'age'],

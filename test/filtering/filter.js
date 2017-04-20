@@ -1,8 +1,6 @@
-import chai from 'chai';
+import { expect } from 'chai';
 import { filter } from '../../src/filtering.js';
 
-chai.expect();
-const expect = chai.expect;
 const data = [
   { name: 'Jon', gender: 'm', house: 'Stark', age: 14 },
   { name: 'Arya', gender: 'f', house: 'Stark', age: 10 },

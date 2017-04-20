@@ -1,8 +1,5 @@
-import chai from 'chai';
+import { expect } from 'chai';
 import { tableCreator } from '../../src/logic.js';
-
-chai.expect();
-const expect = chai.expect;
 
 const data = [
   {name: 'patrick', borough: 'brooklyn', age: '28', gender: 'm'},

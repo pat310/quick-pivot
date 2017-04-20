@@ -1,8 +1,5 @@
-import chai from 'chai';
+import { expect } from 'chai';
 import { checkPivotCategories } from '../../src/logic.js';
-
-chai.expect();
-const expect = chai.expect;
 
 export default () => {
   const actualCategories = {
