@@ -188,7 +188,8 @@ export default () => {
     expect(pivot.data.table).to.deep.equal(expectedResult);
   });
 
-  it('should progressively filter, when the filter method is called in succession', () => {
+  it('should progressively filter, when the filter method is called in' +
+    'succession', () => {
     const pivot = new Pivot(
       dataArray,
       rowsToPivotTestOne,
@@ -202,13 +203,15 @@ export default () => {
       { value: [ 'Baratheon', 38 ], depth: 0, type: 'rowHeader', row: 1 },
       { value: [ 'f', 38 ], depth: 1, type: 'rowHeader', row: 2 },
       { value: [ 'Cersei', 38 ], type: 'data', depth: 2, row: 3 }
-    ]
+    ];
 
-    pivot.filter('house', ['Stark'], 'exclude').filter('gender', ['m'], 'exclude');
+    pivot.filter('house', ['Stark'], 'exclude')
+         .filter('gender', ['m'], 'exclude');
 
     expect(pivot.data.table).to.deep.equal(expectedResult);
   });
-  it('should progressively filter, when the filter method is called in succession and then collapse', () => {
+  it('should progressively filter, when the filter method is called in' +
+    'succession and then collapse', () => {
     const pivot = new Pivot(
       dataArray,
       rowsToPivotTestOne,
@@ -217,14 +220,16 @@ export default () => {
       aggregationType,
     );
 
-    const expectedResult = [ { value: [ 'sum age', 'sum age' ], depth: 0, type: 'colHeader', row: 0 },
+    const expectedResult = [
+      { value: [ 'sum age', 'sum age' ], depth: 0, type: 'colHeader', row: 0 },
       { value: [ 'Stark', 44 ], depth: 0, type: 'rowHeader', row: 1 },
       { value: [ 'Lannister', 34 ], depth: 0, type: 'rowHeader', row: 8 },
       { value: [ 'm', 34 ], depth: 1, type: 'rowHeader', row: 9 },
       { value: [ 'Tyrion', 34 ], type: 'data', depth: 2, row: 10 },
       { value: [ 'Baratheon', 18 ], depth: 0, type: 'rowHeader', row: 11 },
       { value: [ 'm', 18 ], depth: 1, type: 'rowHeader', row: 12 },
-      { value: [ 'Joffrey', 18 ], type: 'data', depth: 2, row: 13 } ];
+      { value: [ 'Joffrey', 18 ], type: 'data', depth: 2, row: 13 }
+    ];
 
     pivot.filter('name', ['Cersei'], 'exclude')
          .filter('name', ['Jaime'], 'exclude')
@@ -233,7 +238,8 @@ export default () => {
 
     expect(pivot.data.table).to.deep.equal(expectedResult);
   });
-  it('should progressively filter, when the filter method is called in succession and then collapse and then expand', () => {
+  it('should progressively filter, when the filter method is called in' +
+    'succession and then collapse and then expand', () => {
     const pivot = new Pivot(
       dataArray,
       rowsToPivotTestOne,
@@ -242,7 +248,8 @@ export default () => {
       aggregationType,
     );
 
-    const expectedResult = [ { value: [ 'sum age', 'sum age' ],depth: 0,type: 'colHeader',row: 0 },
+    const expectedResult = [
+        { value: [ 'sum age', 'sum age' ], depth: 0, type: 'colHeader', row: 0 },
         { value: [ 'Stark', 44 ], depth: 0, type: 'rowHeader', row: 1 },
         { value: [ 'm', 22 ], depth: 1, type: 'rowHeader', row: 2 },
         { value: [ 'Jon', 14 ], type: 'data', depth: 2, row: 3 },
@@ -250,12 +257,13 @@ export default () => {
         { value: [ 'f', 22 ], depth: 1, type: 'rowHeader', row: 5 },
         { value: [ 'Arya', 10 ], type: 'data', depth: 2, row: 6 },
         { value: [ 'Sansa', 12 ], type: 'data', depth: 2, row: 7 },
-        { value: [ 'Lannister', 34 ],depth: 0,type: 'rowHeader',row: 8 },
+        { value: [ 'Lannister', 34 ], depth: 0, type: 'rowHeader', row: 8 },
         { value: [ 'm', 34 ], depth: 1, type: 'rowHeader', row: 9 },
         { value: [ 'Tyrion', 34 ], type: 'data', depth: 2, row: 10 },
-        { value: [ 'Baratheon', 18 ],depth: 0,type: 'rowHeader',row: 11 },
+        { value: [ 'Baratheon', 18 ], depth: 0, type: 'rowHeader', row: 11 },
         { value: [ 'm', 18 ], depth: 1, type: 'rowHeader', row: 12 },
-        { value: [ 'Joffrey', 18 ], type: 'data', depth: 2, row: 13 } ];
+        { value: [ 'Joffrey', 18 ], type: 'data', depth: 2, row: 13 }
+      ];
 
     pivot.filter('name', ['Cersei'], 'exclude')
          .filter('name', ['Jaime'], 'exclude')
