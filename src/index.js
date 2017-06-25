@@ -22,6 +22,7 @@ export default class Pivot {
     else {
       data = fixDataFormat(data);
       this.originalArgs = {data, rows, cols, agg, type, header};
+      this.filteredArgs = {data, rows, cols, agg, type, header};
       this.originalData = tableCreator(data, rows, cols, agg, type, header);
       this.uniqueValues = createUniqueValues(data);
     }
@@ -48,8 +49,11 @@ export default class Pivot {
       this.originalArgs = {data, rows, cols, agg, type, header};
       this.uniqueValues = createUniqueValues(data);
     }
+
     this.originalData = tableCreator(data, rows, cols, agg, type, header);
     this.data = this.originalData;
+    this.originalArgs.data = data;
+
     this.collapsedRows = {};
 
     return this;
@@ -144,7 +148,6 @@ export default class Pivot {
         filter(this.originalArgs.data, fieldName, filterValues, filterType);
       /** collect the original arguments provided */
       const {rows, cols, agg, type, header} = this.originalArgs;
-
       /**
        * get the current rows that are collapsed in reverse because we
        * will recollapse them from bottom to top to ensure nested collapses

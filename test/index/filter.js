@@ -187,4 +187,25 @@ export default () => {
 
     expect(pivot.data.table).to.deep.equal(expectedResult);
   });
+
+  it('should progressively filter, when the filter method is called in succession', () => {
+    const pivot = new Pivot(
+      dataArray,
+      rowsToPivotTestOne,
+      colsToPivotTestOne,
+      aggregationCategory,
+      aggregationType,
+    );
+
+    const expectedResult = [
+      { value: [ 'sum age', 'sum age' ], depth: 0, type: 'colHeader', row: 0 },
+      { value: [ 'Baratheon', 38 ], depth: 0, type: 'rowHeader', row: 1 },
+      { value: [ 'f', 38 ], depth: 1, type: 'rowHeader', row: 2 },
+      { value: [ 'Cersei', 38 ], type: 'data', depth: 2, row: 3 }
+    ]
+
+    pivot.filter('house', ['Stark'], 'exclude').filter('gender', ['m'], 'exclude');
+
+    expect(pivot.data.table).to.deep.equal(expectedResult);
+  });
 };
