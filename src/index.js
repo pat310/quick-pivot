@@ -146,6 +146,7 @@ export default class Pivot {
         filter(this.originalArgs.data, fieldName, filterValues, filterType);
       /** collect the original arguments provided */
       const {rows, cols, agg, type, header} = this.originalArgs;
+
       /**
        * get the current rows that are collapsed in reverse because we
        * will recollapse them from bottom to top to ensure nested collapses
