@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import { filter } from '../../src/filtering.js';
-import Pivot from '../../src';
 
 const data = [
   { name: 'Jon', gender: 'm', house: 'Stark', age: 14 },

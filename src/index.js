@@ -22,7 +22,6 @@ export default class Pivot {
     else {
       data = fixDataFormat(data);
       this.originalArgs = {data, rows, cols, agg, type, header};
-      this.filteredArgs = {data, rows, cols, agg, type, header};
       this.originalData = tableCreator(data, rows, cols, agg, type, header);
       this.uniqueValues = createUniqueValues(data);
     }
@@ -53,7 +52,6 @@ export default class Pivot {
     this.originalData = tableCreator(data, rows, cols, agg, type, header);
     this.data = this.originalData;
     this.originalArgs.data = data;
-
     this.collapsedRows = {};
 
     return this;
