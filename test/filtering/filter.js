@@ -144,4 +144,3 @@ export default () => {
     expect(results).to.deep.equal(data);
   });
 };
-
