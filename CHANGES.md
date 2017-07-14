@@ -1,3 +1,15 @@
+## [v2.2.3]
+> Jul 14, 2017
+
+- Removing `babel-polyfill` from webpack entry and replacing it with `babel-runtime`. [If you’re writing a module you intend to be consumed by other projects, never use the polyfill. Since you won’t control the entirety of the context in which you’ll be executing, you cannot guarantee there won’t be multiple versions of various polyfills. Better to play it safe and have all your ES2015 methods and objects be namespaced by babel-runtime.](https://medium.com/@jcse/clearing-up-the-babel-6-ecosystem-c7678a314bf3)
+
+## [v2.2.2]
+> Jun 25, 2017
+
+- Allows for progressive filtering (i.e. newly applied filters do not erase old filters)
+
+[#54]: https://github.com/pat310/quick-pivot/pull/54
+
 ## [v2.2.1]
 > Apr 18, 2017
 
