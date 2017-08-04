@@ -9,21 +9,31 @@
 */
 export function fixDataFormat(data) {
   if (!Array.isArray(data) || !data.length) return [];
-  if (typeof data[0] === 'object' && !Array.isArray(data[0])) return data;
 
-  return data.reduce((dataCol, row, i, arr) => {
-    if (i !== 0) {
-      if (Array.isArray(row)) {
-        dataCol.push(row.reduce((acc, curr, index) =>{
-          acc[arr[0][index]] = curr;
-          return acc;
-        }, {}));
-      } else {
-        dataCol.push({[arr[0]]: row});
+  let formattedData = [];
+
+  if (typeof data[0] === 'object' && !Array.isArray(data[0])) {
+    formattedData = data;
+  } else {
+    formattedData = data.reduce((dataCol, row, i, arr) => {
+      if (i !== 0) {
+        if (Array.isArray(row)) {
+          dataCol.push(row.reduce((acc, curr, index) =>{
+            acc[arr[0][index]] = curr;
+            return acc;
+          }, {}));
+        } else {
+          dataCol.push({[arr[0]]: row});
+        }
       }
-    }
-    return dataCol;
-  }, []);
+      return dataCol;
+    }, []);
+  }
+
+  // sorting data initially to prevent changes in data ordering
+  return formattedData.sort((a, b) => {
+    return JSON.stringify(a) > JSON.stringify(b);
+  });
 }
 
 /**
