@@ -31,31 +31,28 @@ export default () => {
     pivot.collapse(1);
 
     const expectedCollapsedResult = [
-      { value:
-        [
-          'Arya',
-          [ { name: 'Arya', gender: 'f', house: 'Stark', age: 10 } ],
-          '',
-          '',
-        ],
+      { value: [
+        'Arya',
+        [ { name: 'Arya', gender: 'f', house: 'Stark', age: 10 } ],
+        '',
+        '',
+      ],
         type: 'data',
         depth: 1 },
-      { value:
-        [
-          'Cersei',
-          '',
-          [ { name: 'Cersei', gender: 'f', house: 'Baratheon', age: 38 } ],
-          '',
-        ],
+      { value: [
+        'Cersei',
+        '',
+        [ { name: 'Cersei', gender: 'f', house: 'Baratheon', age: 38 } ],
+        '',
+      ],
         type: 'data',
         depth: 1 },
-      { value:
-        [
-          'Sansa',
-          [ { name: 'Sansa', gender: 'f', house: 'Stark', age: 12 } ],
-          '',
-          '',
-        ],
+      { value: [
+        'Sansa',
+        [ { name: 'Sansa', gender: 'f', house: 'Stark', age: 12 } ],
+        '',
+        '',
+      ],
         type: 'data',
         depth: 1 },
     ];

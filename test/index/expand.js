@@ -92,58 +92,52 @@ export default () => {
     ];
 
     const expectedCollapsedResult = [
-      { value:
-        [
-          'Bran',
-          [ { name: 'Bran', gender: 'm', house: 'Stark', age: 8 } ],
-          '',
-          '',
-        ],
+      { value: [
+        'Bran',
+        [ { name: 'Bran', gender: 'm', house: 'Stark', age: 8 } ],
+        '',
+        '',
+      ],
         type: 'data',
         depth: 1 },
-      { value:
-        [
-          'Jaime',
-          '',
-          '',
-          [ { name: 'Jaime', gender: 'm', house: 'Lannister', age: 32 } ],
-        ],
+      { value: [
+        'Jaime',
+        '',
+        '',
+        [ { name: 'Jaime', gender: 'm', house: 'Lannister', age: 32 } ],
+      ],
         type: 'data',
         depth: 1 },
-      { value:
-        [
-          'Joffrey',
-          '',
-          [ { name: 'Joffrey', gender: 'm', house: 'Baratheon', age: 18 } ],
-          '',
-        ],
+      { value: [
+        'Joffrey',
+        '',
+        [ { name: 'Joffrey', gender: 'm', house: 'Baratheon', age: 18 } ],
+        '',
+      ],
         type: 'data',
         depth: 1 },
-      { value:
-        [
-          'Jon',
-          [ { name: 'Jon', gender: 'm', house: 'Stark', age: 14 } ],
-          '',
-          '',
-        ],
+      { value: [
+        'Jon',
+        [ { name: 'Jon', gender: 'm', house: 'Stark', age: 14 } ],
+        '',
+        '',
+      ],
         type: 'data',
         depth: 1 },
-      { value:
-        [
-          'Tyrion',
-          '',
-          '',
-          [ { name: 'Tyrion', gender: 'm', house: 'Lannister', age: 34 } ],
-        ],
+      { value: [
+        'Tyrion',
+        '',
+        '',
+        [ { name: 'Tyrion', gender: 'm', house: 'Lannister', age: 34 } ],
+      ],
         type: 'data',
         depth: 1 },
-      { value:
-        [
-          'Tywin',
-          '',
-          '',
-          [ { name: 'Tywin', gender: 'm', house: 'Lannister', age: 67 } ],
-        ],
+      { value: [
+        'Tywin',
+        '',
+        '',
+        [ { name: 'Tywin', gender: 'm', house: 'Lannister', age: 67 } ],
+      ],
         type: 'data',
         depth: 1 },
     ];
