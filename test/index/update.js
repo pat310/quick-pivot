@@ -25,18 +25,18 @@ const dataArray2 = [
 export default () => {
   it('should return a new pivoted table if not filtering', () => {
     const expected = [
-      { value: [ 'sum age', 'Lannister', 'Baratheon', 'Stark' ],
+      { value: [ 'sum age', 'Stark', 'Lannister', 'Baratheon' ],
         depth: 0,
         type: 'colHeader',
         row: 0,
       },
-      { value: [ 'm', 66, 18, 8 ], depth: 0, type: 'rowHeader', row: 1 },
-      { value: [ 'Tyrion', 34, '', '' ], type: 'data', depth: 1, row: 2 },
-      { value: [ 'Joffrey', '', 18, '' ], type: 'data', depth: 1, row: 3 },
-      { value: [ 'Bran', '', '', 8 ], type: 'data', depth: 1, row: 4 },
-      { value: [ 'Jaime', 32, '', '' ], type: 'data', depth: 1, row: 5 },
-      { value: [ 'f', '', '', 12 ], depth: 0, type: 'rowHeader', row: 6 },
-      { value: [ 'Sansa', '', '', 12 ], type: 'data', depth: 1, row: 7 },
+      { value: [ 'm', 8, 66, 18 ], depth: 0, type: 'rowHeader', row: 1 },
+      { value: [ 'Bran', 8, '', ''], type: 'data', depth: 1, row: 2 },
+      { value: [ 'Jaime', '', 32, '' ], type: 'data', depth: 1, row: 3 },
+      { value: [ 'Joffrey', '', '', 18 ], type: 'data', depth: 1, row: 4 },
+      { value: [ 'Tyrion', '', 34, '' ], type: 'data', depth: 1, row: 5 },
+      { value: [ 'f', 12, '', ''], depth: 0, type: 'rowHeader', row: 6 },
+      { value: [ 'Sansa', 12, '', '' ], type: 'data', depth: 1, row: 7 },
     ];
 
     const pivot = new Pivot(

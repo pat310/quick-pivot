@@ -57,9 +57,9 @@ export default () => {
       { value: [ 'Joffrey', 18 ], type: 'data', depth: 2, row: 11 },
       { value: [ 'Lannister', 133 ], depth: 0, type: 'rowHeader', row: 12 },
       { value: [ 'm', 133 ], depth: 1, type: 'rowHeader', row: 13 },
-      { value: [ 'Tywin', 67 ], type: 'data', depth: 2, row: 14 },
+      { value: [ 'Jaime', 32 ], type: 'data', depth: 2, row: 14 },
       { value: [ 'Tyrion', 34 ], type: 'data', depth: 2, row: 15 },
-      { value: [ 'Jaime', 32 ], type: 'data', depth: 2, row: 16 },
+      { value: [ 'Tywin', 67 ], type: 'data', depth: 2, row: 16 },
     ];
 
     pivot.filter('name', ['Jon'], 'exclude');
@@ -90,9 +90,9 @@ export default () => {
       { value: [ 'Joffrey', 18 ], type: 'data', depth: 2, row: 11 },
       { value: [ 'Lannister', 133 ], depth: 0, type: 'rowHeader', row: 12 },
       { value: [ 'm', 133 ], depth: 1, type: 'rowHeader', row: 13 },
-      { value: [ 'Tywin', 67 ], type: 'data', depth: 2, row: 14 },
+      { value: [ 'Jaime', 32 ], type: 'data', depth: 2, row: 14 },
       { value: [ 'Tyrion', 34 ], type: 'data', depth: 2, row: 15 },
-      { value: [ 'Jaime', 32 ], type: 'data', depth: 2, row: 16 },
+      { value: [ 'Tywin', 67 ], type: 'data', depth: 2, row: 16 },
     ];
 
     pivot.filter('name', ['Jon']);
@@ -111,12 +111,12 @@ export default () => {
     const expectedResult = [
       { value: [ 'sum age', 'sum age' ], depth: 0, type: 'colHeader', row: 0 },
       { value: [ 'Stark', 44 ], depth: 0, type: 'rowHeader', row: 1 },
-      { value: [ 'm', 22 ], depth: 1, type: 'rowHeader', row: 2 },
-      { value: [ 'Jon', 14 ], type: 'data', depth: 2, row: 3 },
-      { value: [ 'Bran', 8 ], type: 'data', depth: 2, row: 4 },
-      { value: [ 'f', 22 ], depth: 1, type: 'rowHeader', row: 5 },
-      { value: [ 'Arya', 10 ], type: 'data', depth: 2, row: 6 },
-      { value: [ 'Sansa', 12 ], type: 'data', depth: 2, row: 7 },
+      { value: [ 'f', 22 ], depth: 1, type: 'rowHeader', row: 2 },
+      { value: [ 'Arya', 10 ], type: 'data', depth: 2, row: 3 },
+      { value: [ 'Sansa', 12 ], type: 'data', depth: 2, row: 4 },
+      { value: [ 'm', 22 ], depth: 1, type: 'rowHeader', row: 5 },
+      { value: [ 'Bran', 8 ], type: 'data', depth: 2, row: 6 },
+      { value: [ 'Jon', 14 ], type: 'data', depth: 2, row: 7 },
     ];
 
     function filterFunc(dataRow) {
@@ -152,9 +152,6 @@ export default () => {
         type: 'rowHeader',
         row: 12 },
       { value: [ 'm', 133 ], depth: 1, type: 'rowHeader', row: 13 },
-      { value: [ 'Tywin', 67 ], type: 'data', depth: 2, row: 14 },
-      { value: [ 'Tyrion', 34 ], type: 'data', depth: 2, row: 15 },
-      { value: [ 'Jaime', 32 ], type: 'data', depth: 2, row: 16 },
     ];
 
     pivot.collapse(2).collapse(3).collapse(1);
@@ -189,7 +186,7 @@ export default () => {
   });
 
   it('should progressively filter, when the filter method is called in' +
-    'succession', () => {
+    ' succession', () => {
     const pivot = new Pivot(
       dataArray,
       rowsToPivotTestOne,
@@ -211,7 +208,7 @@ export default () => {
     expect(pivot.data.table).to.deep.equal(expectedResult);
   });
   it('should progressively filter, when the filter method is called in' +
-    'succession and then collapse', () => {
+    ' succession and then collapse', () => {
     const pivot = new Pivot(
       dataArray,
       rowsToPivotTestOne,
@@ -223,12 +220,12 @@ export default () => {
     const expectedResult = [
       { value: [ 'sum age', 'sum age' ], depth: 0, type: 'colHeader', row: 0 },
       { value: [ 'Stark', 44 ], depth: 0, type: 'rowHeader', row: 1 },
-      { value: [ 'Lannister', 34 ], depth: 0, type: 'rowHeader', row: 8 },
-      { value: [ 'm', 34 ], depth: 1, type: 'rowHeader', row: 9 },
-      { value: [ 'Tyrion', 34 ], type: 'data', depth: 2, row: 10 },
-      { value: [ 'Baratheon', 18 ], depth: 0, type: 'rowHeader', row: 11 },
-      { value: [ 'm', 18 ], depth: 1, type: 'rowHeader', row: 12 },
-      { value: [ 'Joffrey', 18 ], type: 'data', depth: 2, row: 13 },
+      { value: [ 'Baratheon', 18 ], depth: 0, type: 'rowHeader', row: 8 },
+      { value: [ 'm', 18 ], depth: 1, type: 'rowHeader', row: 9 },
+      { value: [ 'Joffrey', 18 ], type: 'data', depth: 2, row: 10 },
+      { value: [ 'Lannister', 34 ], depth: 0, type: 'rowHeader', row: 11 },
+      { value: [ 'm', 34 ], depth: 1, type: 'rowHeader', row: 12 },
+      { value: [ 'Tyrion', 34 ], type: 'data', depth: 2, row: 13 },
     ];
 
     pivot.filter('name', ['Cersei'], 'exclude')
@@ -239,7 +236,7 @@ export default () => {
     expect(pivot.data.table).to.deep.equal(expectedResult);
   });
   it('should progressively filter, when the filter method is called in' +
-    'succession and then collapse and then expand', () => {
+    ' succession and then collapse and then expand', () => {
     const pivot = new Pivot(
       dataArray,
       rowsToPivotTestOne,
@@ -251,18 +248,18 @@ export default () => {
     const expectedResult = [
       { value: [ 'sum age', 'sum age' ], depth: 0, type: 'colHeader', row: 0 },
       { value: [ 'Stark', 44 ], depth: 0, type: 'rowHeader', row: 1 },
-      { value: [ 'm', 22 ], depth: 1, type: 'rowHeader', row: 2 },
-      { value: [ 'Jon', 14 ], type: 'data', depth: 2, row: 3 },
-      { value: [ 'Bran', 8 ], type: 'data', depth: 2, row: 4 },
-      { value: [ 'f', 22 ], depth: 1, type: 'rowHeader', row: 5 },
-      { value: [ 'Arya', 10 ], type: 'data', depth: 2, row: 6 },
-      { value: [ 'Sansa', 12 ], type: 'data', depth: 2, row: 7 },
-      { value: [ 'Lannister', 34 ], depth: 0, type: 'rowHeader', row: 8 },
-      { value: [ 'm', 34 ], depth: 1, type: 'rowHeader', row: 9 },
-      { value: [ 'Tyrion', 34 ], type: 'data', depth: 2, row: 10 },
-      { value: [ 'Baratheon', 18 ], depth: 0, type: 'rowHeader', row: 11 },
-      { value: [ 'm', 18 ], depth: 1, type: 'rowHeader', row: 12 },
-      { value: [ 'Joffrey', 18 ], type: 'data', depth: 2, row: 13 },
+      { value: [ 'f', 22 ], depth: 1, type: 'rowHeader', row: 2 },
+      { value: [ 'Arya', 10 ], type: 'data', depth: 2, row: 3 },
+      { value: [ 'Sansa', 12 ], type: 'data', depth: 2, row: 4 },
+      { value: [ 'm', 22 ], depth: 1, type: 'rowHeader', row: 5 },
+      { value: [ 'Bran', 8 ], type: 'data', depth: 2, row: 6 },
+      { value: [ 'Jon', 14 ], type: 'data', depth: 2, row: 7 },
+      { value: [ 'Baratheon', 18 ], depth: 0, type: 'rowHeader', row: 8 },
+      { value: [ 'm', 18 ], depth: 1, type: 'rowHeader', row: 9 },
+      { value: [ 'Joffrey', 18 ], type: 'data', depth: 2, row: 10 },
+      { value: [ 'Lannister', 34 ], depth: 0, type: 'rowHeader', row: 11 },
+      { value: [ 'm', 34 ], depth: 1, type: 'rowHeader', row: 12 },
+      { value: [ 'Tyrion', 34 ], type: 'data', depth: 2, row: 13 },
     ];
 
     pivot.filter('name', ['Cersei'], 'exclude')

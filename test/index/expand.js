@@ -2,16 +2,16 @@ import { expect } from 'chai';
 import Pivot from '../../src';
 
 const dataArray = [
- ['name', 'gender', 'house', 'age'],
- ['Jon', 'm', 'Stark', 14],
- ['Arya', 'f', 'Stark', 10],
- ['Cersei', 'f', 'Baratheon', 38],
- ['Tywin', 'm', 'Lannister', 67],
- ['Tyrion', 'm', 'Lannister', 34],
- ['Joffrey', 'm', 'Baratheon', 18],
- ['Bran', 'm', 'Stark', 8],
- ['Jaime', 'm', 'Lannister', 32],
- ['Sansa', 'f', 'Stark', 12],
+  ['name', 'gender', 'house', 'age'],
+  ['Jon', 'm', 'Stark', 14],
+  ['Arya', 'f', 'Stark', 10],
+  ['Cersei', 'f', 'Baratheon', 38],
+  ['Tywin', 'm', 'Lannister', 67],
+  ['Tyrion', 'm', 'Lannister', 34],
+  ['Joffrey', 'm', 'Baratheon', 18],
+  ['Bran', 'm', 'Stark', 8],
+  ['Jaime', 'm', 'Lannister', 32],
+  ['Sansa', 'f', 'Stark', 12],
 ];
 const rowsToPivotTestOne = ['gender', 'name'];
 const colsToPivotTestOne = ['house'];
@@ -32,7 +32,7 @@ export default () => {
 
     pivot.expand(1);
     const uncollapsedData = {
-      value: [ 'm', 22, 18, 133 ],
+      value: [ 'f', 22, 38, '' ],
       depth: 0,
       type: 'rowHeader',
     };
@@ -49,7 +49,7 @@ export default () => {
       aggregationType,
     );
     const uncollapsedData = {
-      value: [ 'm', 22, 18, 133 ],
+      value: [ 'f', 22, 38, '' ],
       depth: 0,
       type: 'rowHeader',
     };
@@ -71,98 +71,81 @@ export default () => {
     );
 
     const expectedTable = [
-      {
-        value: [ 'sum age', 'Stark', 'Baratheon', 'Lannister' ],
+      { value: [ 'sum age', 'Stark', 'Baratheon', 'Lannister' ],
         depth: 0,
         type: 'colHeader',
-        row: 0,
-      },
-      {
-        value: [ 'm', 22, 18, 133 ],
+        row: 0 },
+      { value: [ 'f', 22, 38, '' ],
         depth: 0,
         type: 'rowHeader',
-        row: 1,
-      },
-      {
-        value: [ 'Jon', 14, '', '' ],
+        row: 1 },
+      { value: [ 'Arya', 10, '', '' ], type: 'data', depth: 1, row: 2 },
+      { value: [ 'Cersei', '', 38, '' ],
         type: 'data',
         depth: 1,
-        row: 2,
-      },
-      {
-        value: [ 'Tywin', '', '', 67 ],
-        type: 'data',
-        depth: 1,
-        row: 3,
-      },
-      {
-        value: [ 'Tyrion', '', '', 34 ],
-        type: 'data',
-        depth: 1,
-        row: 4,
-      },
-      {
-        value: [ 'Joffrey', '', 18, '' ],
-        type: 'data',
-        depth: 1,
-        row: 5,
-      },
-      {
-        value: [ 'Bran', 8, '', '' ],
-        type: 'data',
-        depth: 1,
-        row: 6,
-      },
-      {
-        value: [ 'Jaime', '', '', 32 ],
-        type: 'data',
-        depth: 1,
-        row: 7,
-      },
-      {
-        value: [ 'f', 22, 38, '' ],
+        row: 3 },
+      { value: [ 'Sansa', 12, '', '' ], type: 'data', depth: 1, row: 4 },
+      { value: [ 'm', 22, 18, 133 ],
         depth: 0,
         type: 'rowHeader',
-        row: 8,
-      },
+        row: 5 },
     ];
 
     const expectedCollapsedResult = [
-      {
-        value: [
-          'Arya',
-          [{name: 'Arya', gender: 'f', house: 'Stark', age: 10}],
-          '',
-          '',
-        ],
-        depth: 1,
+      { value: [
+        'Bran',
+        [ { name: 'Bran', gender: 'm', house: 'Stark', age: 8 } ],
+        '',
+        '',
+      ],
         type: 'data',
-      },
-      {
-        value: [
-          'Cersei',
-          '',
-          [{name: 'Cersei', gender: 'f', house: 'Baratheon', age: 38}],
-          '',
-        ],
-        depth: 1,
+        depth: 1 },
+      { value: [
+        'Jaime',
+        '',
+        '',
+        [ { name: 'Jaime', gender: 'm', house: 'Lannister', age: 32 } ],
+      ],
         type: 'data',
-      },
-      {
-        value: [
-          'Sansa',
-          [{name: 'Sansa', gender: 'f', house: 'Stark', age: 12}],
-          '',
-          '',
-        ],
-        depth: 1,
+        depth: 1 },
+      { value: [
+        'Joffrey',
+        '',
+        [ { name: 'Joffrey', gender: 'm', house: 'Baratheon', age: 18 } ],
+        '',
+      ],
         type: 'data',
-      },
+        depth: 1 },
+      { value: [
+        'Jon',
+        [ { name: 'Jon', gender: 'm', house: 'Stark', age: 14 } ],
+        '',
+        '',
+      ],
+        type: 'data',
+        depth: 1 },
+      { value: [
+        'Tyrion',
+        '',
+        '',
+        [ { name: 'Tyrion', gender: 'm', house: 'Lannister', age: 34 } ],
+      ],
+        type: 'data',
+        depth: 1 },
+      { value: [
+        'Tywin',
+        '',
+        '',
+        [ { name: 'Tywin', gender: 'm', house: 'Lannister', age: 67 } ],
+      ],
+        type: 'data',
+        depth: 1 },
     ];
 
     pivot.collapse(1).collapse(2).expand(1);
+
     expect(pivot.data.table).to.deep.equal(expectedTable);
-    expect(pivot.getData(8)).to.deep.equal(expectedCollapsedResult);
+    expect(pivot.getData(5)).to.deep.equal(expectedCollapsedResult);
   });
 
   it('should return null if row does not exist', () => {
@@ -202,19 +185,19 @@ export default () => {
         row: 0,
       },
       {
-        value: [ 'sum age', 'm', 'f', 'f', 'm', 'm' ],
+        value: [ 'sum age', 'f', 'm', 'f', 'm', 'm' ],
         depth: 1,
         type: 'colHeader',
         row: 1,
       },
       {
-        value: [ 'Jon', 14, '', '', '', '' ],
+        value: [ 'Arya', 10, '', '', '', '' ],
         type: 'data',
         depth: 0,
         row: 2,
       },
       {
-        value: [ 'Arya', '', 10, '', '', '' ],
+        value: [ 'Bran', '', 8, '', '', '' ],
         type: 'data',
         depth: 0,
         row: 3,
@@ -226,37 +209,37 @@ export default () => {
         row: 4,
       },
       {
-        value: [ 'Tywin', '', '', '', '', 67 ],
+        value: [ 'Jaime', '', '', '', '', 32 ],
         type: 'data',
         depth: 0,
         row: 5,
       },
       {
-        value: [ 'Tyrion', '', '', '', '', 34 ],
+        value: [ 'Joffrey', '', '', '', 18, '' ],
         type: 'data',
         depth: 0,
         row: 6,
       },
       {
-        value: [ 'Joffrey', '', '', '', 18, '' ],
+        value: [ 'Jon', '', 14, '', '', ''],
         type: 'data',
         depth: 0,
         row: 7,
       },
       {
-        value: [ 'Bran', 8, '', '', '', '' ],
+        value: [ 'Sansa', 12, '', '', '', ''],
         type: 'data',
         depth: 0,
         row: 8,
       },
       {
-        value: [ 'Jaime', '', '', '', '', 32 ],
+        value: [ 'Tyrion', '', '', '', '', 34],
         type: 'data',
         depth: 0,
         row: 9,
       },
       {
-        value: [ 'Sansa', '', 12, '', '', '' ],
+        value: [ 'Tywin', '', '', '', '', 67],
         type: 'data',
         depth: 0,
         row: 10,

@@ -49,11 +49,11 @@ export default () => {
     'filters', () => {
     const pivot = new Pivot(dataArray, ['gender'], [], 'age', 'count');
 
-    expect(pivot.getUniqueValues('gender')).to.deep.equal(['m', 'f']);
+    expect(pivot.getUniqueValues('gender')).to.deep.equal(['f', 'm']);
     pivot.filter('gender', ['m'], 'exclude');
-    expect(pivot.getUniqueValues('gender')).to.deep.equal(['m', 'f']);
+    expect(pivot.getUniqueValues('gender')).to.deep.equal(['f', 'm']);
     pivot.filter('gender', ['f'], 'exclude');
-    expect(pivot.getUniqueValues('gender')).to.deep.equal(['m', 'f']);
+    expect(pivot.getUniqueValues('gender')).to.deep.equal(['f', 'm']);
   });
 };
 
