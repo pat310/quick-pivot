@@ -12,6 +12,18 @@ const data = [
   {name: 'jessica', borough: 'brooklyn', age: '28', gender: 'f'},
 ];
 
+const dataEmptyStrings = [
+  {name: 'Jon', gender: 'm', house: 'Stark', age: 14},
+  {name: '', gender: 'f', house: 'Stark', age: 10},
+  {name: 'Cersei', gender: 'f', house: 'Baratheon', age: 38},
+  {name: '', gender: 'm', house: 'Lannister', age: 67},
+  {name: 'Tyrion', gender: 'm', house: 'Lannister', age: 34},
+  {name: 'Joffrey', gender: 'm', house: 'Baratheon', age: 18},
+  {name: 'Bran', gender: 'm', house: 'Stark', age: 8},
+  {name: 'Jaime', gender: 'm', house: 'Lannister', age: 32},
+  {name: 'Sansa', gender: 'f', house: 'Stark', age: 12},
+];
+
 export default () => {
   it('should take an array of objects, an array of row categories, an array' +
     ' of column categories, an accumulation category, and an accumulation' +
@@ -336,6 +348,15 @@ export default () => {
     const results = tableCreator([], ['house'], ['gender'], 'age', 'count');
 
     expect(results).to.deep.equal({table: [], rawData: []});
+  });
+
+  it('should work with empty strings that are pivoted upon', () => {
+    const results = tableCreator(dataEmptyStrings, ['house', 'name'], [], 'age',
+      'sum');
+
+    const expectedResults = '[{"value":["sum age","sum age"],"depth":0,"type":"colHeader","row":0},{"value":["Stark",44],"depth":0,"type":"rowHeader","row":1},{"value":["Jon",14],"type":"data","depth":1,"row":2},{"value":["",10],"type":"data","depth":1,"row":3},{"value":["Bran",8],"type":"data","depth":1,"row":4},{"value":["Sansa",12],"type":"data","depth":1,"row":5},{"value":["Baratheon",56],"depth":0,"type":"rowHeader","row":6},{"value":["Cersei",38],"type":"data","depth":1,"row":7},{"value":["Joffrey",18],"type":"data","depth":1,"row":8},{"value":["Lannister",133],"depth":0,"type":"rowHeader","row":9},{"value":["",67],"type":"data","depth":1,"row":10},{"value":["Tyrion",34],"type":"data","depth":1,"row":11},{"value":["Jaime",32],"type":"data","depth":1,"row":12}]'; // eslint-disable-line max-len
+
+    expect(expectedResults).to.equal(JSON.stringify(results.table));
   });
 
 };
