@@ -249,14 +249,14 @@ export function tableCreator(data, rows = [], cols = [], accCatOrCB,
 
   let dataRows = [];
   let rawData = [];
-  let prevKey = '';
+  let prevKey = null;
 
   function rowRecurse(rowGroups, depth, rowHeaders = []) {
     for (const key in rowGroups) {
       if (Array.isArray(rowGroups[key])) {
         const recursedData = groupByCategories(rowGroups[key], cols);
 
-        prevKey = '';
+        prevKey = null;
 
         (function recurseThroughMap(dataPos, map) {
           if (Array.isArray(dataPos)) {
@@ -335,7 +335,7 @@ export function tableCreator(data, rows = [], cols = [], accCatOrCB,
       if (i + 1 < rows.length) {
         dataRows = [];
         rawData = [];
-        prevKey = '';
+        prevKey = null;
       }
     }
   } else if (cols.length > 0) {
@@ -345,7 +345,7 @@ export function tableCreator(data, rows = [], cols = [], accCatOrCB,
       if (i + 1 < cols.length) {
         dataRows = [];
         rawData = [];
-        prevKey = '';
+        prevKey = null;
       }
     }
   } else {
