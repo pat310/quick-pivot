@@ -58,4 +58,37 @@ export default () => {
       expect(Array.isArray(newData)).to.be.true;
       expect(newData).to.be.empty;
     });
+
+  it('should sort data in reverse order if provided an array of headers to ' +
+    'sort on', () => {
+    const newData = fixDataFormat(data, ['borough', 'gender', 'name']);
+    const expectedData = [
+      { name: 'jessica', borough: 'brooklyn', age: '28', gender: 'f' },
+      { name: 'greg', borough: 'brooklyn', age: '29', gender: 'm' },
+      { name: 'patrick', borough: 'brooklyn', age: '28', gender: 'm' },
+      { name: 'jared', borough: 'manhattan', age: '29', gender: 'm' },
+      { name: 'markus', borough: 'manhattan', age: '28', gender: 'm' },
+      { name: 'niles', borough: 'manhattan', age: '30', gender: 'm' },
+      { name: 'sarah', borough: 'queens', age: '30', gender: 'f' },
+      { name: 'vishakh', borough: 'queens', age: '28', gender: 'm' },
+    ];
+
+    expect(newData).to.deep.equal(expectedData);
+  });
+
+  it('should sort data as stringified obj if no headers are provided', () => {
+    const newData = fixDataFormat(data);
+    const expectedData = [
+      {name: 'greg', borough: 'brooklyn', age: '29', gender: 'm'},
+      {name: 'jared', borough: 'manhattan', age: '29', gender: 'm'},
+      {name: 'jessica', borough: 'brooklyn', age: '28', gender: 'f'},
+      {name: 'markus', borough: 'manhattan', age: '28', gender: 'm'},
+      {name: 'niles', borough: 'manhattan', age: '30', gender: 'm'},
+      {name: 'patrick', borough: 'brooklyn', age: '28', gender: 'm'},
+      {name: 'sarah', borough: 'queens', age: '30', gender: 'f'},
+      {name: 'vishakh', borough: 'queens', age: '28', gender: 'm'},
+    ];
+
+    expect(newData).to.deep.equal(expectedData);
+  });
 };

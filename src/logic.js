@@ -7,7 +7,7 @@
  * @param {!Array|Object} data Array of arrays or an object
  * @returns {Array<Object>} Formatted object
 */
-export function fixDataFormat(data) {
+export function fixDataFormat(data, rows = []) {
   if (!Array.isArray(data) || !data.length) return [];
 
   let formattedData = [];
@@ -31,6 +31,14 @@ export function fixDataFormat(data) {
   }
 
   // sorting data initially to prevent changes in data ordering
+  if (rows.length > 0) {
+    return rows.reduceRight((acc, row) => {
+      return acc.sort((a, b) => {
+        return a[row] > b[row];
+      });
+    }, formattedData);
+  }
+
   return formattedData.sort((a, b) => {
     return JSON.stringify(a) > JSON.stringify(b);
   });
