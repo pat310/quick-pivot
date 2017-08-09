@@ -20,7 +20,7 @@ export default class Pivot {
   constructor(data, rows, cols, agg, type, header) {
     if (!data) this.originalData = {};
     else {
-      data = fixDataFormat(data);
+      data = fixDataFormat(data, rows);
       this.originalArgs = {data, rows, cols, agg, type, header};
       this.originalData = tableCreator(data, rows, cols, agg, type, header);
       this.uniqueValues = createUniqueValues(data);
@@ -42,7 +42,7 @@ export default class Pivot {
    * @returns {Object} instantiated pivot object
   */
   update(data, rows, cols, agg, type, header, isFiltering) {
-    data = fixDataFormat(data);
+    data = fixDataFormat(data, rows);
     /** if update isn't being used by filter, need to reset the original arguments */
     if (!isFiltering) {
       this.originalArgs = {data, rows, cols, agg, type, header};
