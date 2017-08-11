@@ -33,7 +33,7 @@ const config = {
         test: /(\.jsx|\.js)$/,
         loader: 'babel',
         exclude: /(node_modules|bower_components)/,
-        options: {
+        query: {
           plugins: ['transform-runtime'],
         },
       },
