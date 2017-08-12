@@ -1,3 +1,24 @@
+## [v2.2.7]
+> Aug 10, 2017
+
+- Fixing webpack config to actually use babel runtime
+
+## [v2.2.6]
+> Aug 9, 2017
+
+- Somehow did not build minified version prior to last publish...
+
+## [v2.2.5]
+> Aug 8, 2017
+
+- Sorting on multiple keys rather than just a stringified version of the data object
+
+## [v2.2.4]
+> Aug 7, 2017
+
+- Fixed bug when pivoting on rows that are empty strings
+- Sorting JSON stringified version of data prior to performing any pivoting logic
+
 ## [v2.2.3]
 > Jul 14, 2017
 
