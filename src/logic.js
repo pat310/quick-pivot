@@ -373,8 +373,27 @@ export function tableCreator(data, rows = [], cols = [], accCatOrCB,
     });
   }
 
+  function completedTableAccumulator(rows) {
+    if (rows.length > 0) {
+      return rows.reduce((acc, { type, value }) => {
+        if (type === 'data') {
+          value.forEach((val, index) => {
+            if (index > 0) {
+              acc[index] = val !== '' ? acc[index] + 1 : acc[index];
+            }
+          });
+        }
+        return acc;
+      }, [''].concat(Array(rows[0].value.length - 1).fill(0)));
+    }
+
+    return [];
+  }
+
+  const summedRows = {value: completedTableAccumulator(dataRows), type: 'sum'};
+
   return {
-    table: formattedColumnHeaders.concat(dataRows),
+    table: formattedColumnHeaders.concat(dataRows, summedRows),
     rawData: formattedColumnHeaders.concat(rawData),
   };
 
