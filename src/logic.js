@@ -374,27 +374,38 @@ export function tableCreator(data, rows = [], cols = [], accCatOrCB,
   }
 
   function completedTableAccumulator(rows) {
-    if (rows.length > 0) {
-      return rows.reduce((acc, { type, value }) => {
-        if (type === 'data') {
-          value.forEach((val, index) => {
-            if (index > 0) {
-              acc[index] = val !== '' ? acc[index] + 1 : acc[index];
-            }
-          });
-        }
-        return acc;
-      }, [''].concat(Array(rows[0].value.length - 1).fill(0)));
-    }
+    const filteredRows = rows.reduce((acc, { type, value }) => {
+      if (acc.length === 0) {
+        acc = Array(value.length).fill([]);
+      }
 
-    return [];
+      if (type === 'data') {
+        value.forEach((valueElem, i) => {
+          if (Array.isArray(valueElem)) {
+            acc[i] = acc[i].concat(valueElem);
+          }
+        });
+      }
+
+      return acc;
+    }, []);
+
+    return filteredRows.map((accumulatedRawData) => {
+      if (accumulatedRawData.length > 0) {
+        return accumulator(accumulatedRawData, accCatOrCB, accTypeOrInitVal);
+      }
+
+      return '';
+    });
   }
 
-  const summedRows = {value: completedTableAccumulator(dataRows), type: 'sum'};
-
-  return {
-    table: formattedColumnHeaders.concat(dataRows, summedRows),
-    rawData: formattedColumnHeaders.concat(rawData),
+  const accumulatedRows = {
+    value: completedTableAccumulator(rawData),
+    type: 'aggregated',
   };
 
+  return {
+    table: formattedColumnHeaders.concat(dataRows, accumulatedRows),
+    rawData: formattedColumnHeaders.concat(rawData),
+  };
 }
