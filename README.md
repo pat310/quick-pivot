@@ -222,8 +222,13 @@ console.log(pivot.data.table);
     depth: 0,
     type: 'colHeader',
     row: 0 },
-  { value: [ 'm', 11, 18, 44.333333333333336 ], type: 'data', depth: 0, row: 1 }, { value: [ 'f', 11, 38, '' ], type: 'data', depth: 0, row: 2 }
-]
+  { value: [ 'f', 11, 38, '' ], type: 'data', depth: 0, row: 1 },
+  { value: [ 'm', 11, 18, 44.333333333333336 ],
+    type: 'data',
+    depth: 0,
+    row: 2 },
+  { value: [ '', 11, 28, 44.333333333333336 ],
+    type: 'aggregated' } ]
 */
 
 pivot.update(dataArray, ['gender', 'name'], ['house'], cbFunc, 0, 'average age')
@@ -234,35 +239,37 @@ console.log(pivot.data.table);
     depth: 0,
     type: 'colHeader',
     row: 0 },
-  { value: [ 'm', 11, 18, 44.333333333333336 ],
-    depth: 0,
-    type: 'rowHeader',
-    row: 1 },
-  { value: [ 'Jon', 14, '', '' ], type: 'data', depth: 1, row: 2 },
-  { value: [ 'Tywin', '', '', 67 ], type: 'data', depth: 1, row: 3 },
-  { value: [ 'Tyrion', '', '', 34 ],
-    type: 'data',
-    depth: 1,
-    row: 4 },
-  { value: [ 'Joffrey', '', 18, '' ],
-    type: 'data',
-    depth: 1,
-    row: 5 },
-  { value: [ 'Bran', 8, '', '' ], type: 'data', depth: 1, row: 6 },
-  { value: [ 'Jaime', '', '', 32 ], type: 'data', depth: 1, row: 7 },
   { value: [ 'f', 11, 38, '' ],
     depth: 0,
     type: 'rowHeader',
-    row: 8 },
-  { value: [ 'Arya', 10, '', '' ], type: 'data', depth: 1, row: 9 },
+    row: 1 },
+  { value: [ 'Arya', 10, '', '' ], type: 'data', depth: 1, row: 2 },
   { value: [ 'Cersei', '', 38, '' ],
     type: 'data',
     depth: 1,
-    row: 10 },
-  { value: [ 'Sansa', 12, '', '' ],
+    row: 3 },
+  { value: [ 'Sansa', 12, '', '' ], type: 'data', depth: 1, row: 4 },
+  { value: [ 'm', 11, 18, 44.333333333333336 ],
+    depth: 0,
+    type: 'rowHeader',
+    row: 5 },
+  { value: [ 'Bran', 8, '', '' ], type: 'data', depth: 1, row: 6 },
+  { value: [ 'Jaime', '', '', 32 ], type: 'data', depth: 1, row: 7 },
+  { value: [ 'Joffrey', '', 18, '' ],
     type: 'data',
     depth: 1,
-    row: 11 } ]
+    row: 8 },
+  { value: [ 'Jon', 14, '', '' ], type: 'data', depth: 1, row: 9 },
+  { value: [ 'Tyrion', '', '', 34 ],
+    type: 'data',
+    depth: 1,
+    row: 10 },
+  { value: [ 'Tywin', '', '', 67 ],
+    type: 'data',
+    depth: 1,
+    row: 11 },
+  { value: [ '', 11, 28, 44.333333333333336 ],
+    type: 'aggregated' } ]
 */
 
 pivot.collapse(1);
@@ -294,20 +301,41 @@ console.log(pivot.data.table);
 
 console.log(pivot.getData(1));
 /*
-[ { value: [ 'Jon', [Object], '', '' ], type: 'data', depth: 1 },
-  { value: [ 'Tywin', '', '', [Object] ], type: 'data', depth: 1 },
-  { value: [ 'Tyrion', '', '', [Object] ], type: 'data', depth: 1 },
-  { value: [ 'Joffrey', '', [Object], '' ],
+[ { value: [ 'average age', 'Stark', 'Baratheon', 'Lannister' ],
+    depth: 0,
+    type: 'colHeader',
+    row: 0 },
+  { value: [ 'f', 11, 38, '' ],
+    depth: 0,
+    type: 'rowHeader',
+    row: 1 },
+  { value: [ 'm', 11, 18, 44.333333333333336 ],
+    depth: 0,
+    type: 'rowHeader',
+    row: 5 },
+  { value: [ 'Bran', 8, '', '' ], type: 'data', depth: 1, row: 6 },
+  { value: [ 'Jaime', '', '', 32 ], type: 'data', depth: 1, row: 7 },
+  { value: [ 'Joffrey', '', 18, '' ],
     type: 'data',
-    depth: 1 },
-  { value: [ 'Bran', [Object], '', '' ], type: 'data', depth: 1 },
-  { value: [ 'Jaime', '', '', [Object] ], type: 'data', depth: 1 } ]
+    depth: 1,
+    row: 8 },
+  { value: [ 'Jon', 14, '', '' ], type: 'data', depth: 1, row: 9 },
+  { value: [ 'Tyrion', '', '', 34 ],
+    type: 'data',
+    depth: 1,
+    row: 10 },
+  { value: [ 'Tywin', '', '', 67 ],
+    type: 'data',
+    depth: 1,
+    row: 11 },
+  { value: [ '', 11, 28, 44.333333333333336 ],
+    type: 'aggregated' } ]
 */
 
 console.log(pivot.getData(1)[0].value)
 /*
-[ 'Jon',
-  [ { name: 'Jon', gender: 'm', house: 'Stark', age: 14 } ],
+[ 'Arya',
+  [ { name: 'Arya', gender: 'f', house: 'Stark', age: 10 } ],
   '',
   '' ]
 */
@@ -320,42 +348,41 @@ console.log(pivot.data.table);
     depth: 0,
     type: 'colHeader',
     row: 0 },
-  { value: [ 'm', 11, 18, 44.333333333333336 ],
-    depth: 0,
-    type: 'rowHeader',
-    row: 1 },
   { value: [ 'f', 11, 38, '' ],
     depth: 0,
     type: 'rowHeader',
-    row: 8 } ]
+    row: 1 },
+  { value: [ 'm', 11, 18, 44.333333333333336 ],
+    depth: 0,
+    type: 'rowHeader',
+    row: 5 },
+  { value: [ '', 11, 28, 44.333333333333336 ],
+    type: 'aggregated' } ]
 */
 
 pivot.expand(1);
+console.log(pivot.data.table);
 /*
 [ { value: [ 'average age', 'Stark', 'Baratheon', 'Lannister' ],
     depth: 0,
     type: 'colHeader',
     row: 0 },
-  { value: [ 'm', 11, 18, 44.333333333333336 ],
-    depth: 0,
-    type: 'rowHeader',
-    row: 1 },
-  { value: [ 'Jon', 14, '', '' ], type: 'data', depth: 1, row: 2 },
-  { value: [ 'Tywin', '', '', 67 ], type: 'data', depth: 1, row: 3 },
-  { value: [ 'Tyrion', '', '', 34 ],
-    type: 'data',
-    depth: 1,
-    row: 4 },
-  { value: [ 'Joffrey', '', 18, '' ],
-    type: 'data',
-    depth: 1,
-    row: 5 },
-  { value: [ 'Bran', 8, '', '' ], type: 'data', depth: 1, row: 6 },
-  { value: [ 'Jaime', '', '', 32 ], type: 'data', depth: 1, row: 7 },
   { value: [ 'f', 11, 38, '' ],
     depth: 0,
     type: 'rowHeader',
-    row: 8 } ]
+    row: 1 },
+  { value: [ 'Arya', 10, '', '' ], type: 'data', depth: 1, row: 2 },
+  { value: [ 'Cersei', '', 38, '' ],
+    type: 'data',
+    depth: 1,
+    row: 3 },
+  { value: [ 'Sansa', 12, '', '' ], type: 'data', depth: 1, row: 4 },
+  { value: [ 'm', 11, 18, 44.333333333333336 ],
+    depth: 0,
+    type: 'rowHeader',
+    row: 5 },
+  { value: [ '', 11, 28, 44.333333333333336 ],
+    type: 'aggregated' } ]
 */
 ```
 
