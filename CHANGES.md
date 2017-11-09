@@ -1,3 +1,8 @@
+## [v2.3.0]
+> Nov 9, 2017
+
+- Adding an aggregated row to the `data.table` object that aggregates all previous data rows using the selected aggregation function [PR #62](https://github.com/pat310/quick-pivot/pull/62)
+
 ## [v2.2.7]
 > Aug 10, 2017
 
