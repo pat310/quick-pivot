@@ -373,9 +373,39 @@ export function tableCreator(data, rows = [], cols = [], accCatOrCB,
     });
   }
 
-  return {
-    table: formattedColumnHeaders.concat(dataRows),
-    rawData: formattedColumnHeaders.concat(rawData),
+  function completedTableAccumulator(rows) {
+    const filteredRows = rows.reduce((acc, { type, value }) => {
+      if (acc.length === 0) {
+        acc = Array(value.length).fill([]);
+      }
+
+      if (type === 'data') {
+        value.forEach((valueElem, i) => {
+          if (Array.isArray(valueElem)) {
+            acc[i] = acc[i].concat(valueElem);
+          }
+        });
+      }
+
+      return acc;
+    }, []);
+
+    return filteredRows.map((accumulatedRawData) => {
+      if (accumulatedRawData.length > 0) {
+        return accumulator(accumulatedRawData, accCatOrCB, accTypeOrInitVal);
+      }
+
+      return '';
+    });
+  }
+
+  const accumulatedRows = {
+    value: completedTableAccumulator(rawData),
+    type: 'aggregated',
   };
 
+  return {
+    table: formattedColumnHeaders.concat(dataRows, accumulatedRows),
+    rawData: formattedColumnHeaders.concat(rawData),
+  };
 }
