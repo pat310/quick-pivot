@@ -66,7 +66,8 @@ pivot.data
      { value: [Object], type: 'data', depth: 0, row: 7 },
      { value: [Object], type: 'data', depth: 0, row: 8 },
      { value: [Object], type: 'data', depth: 0, row: 9 },
-     { value: [Object], type: 'data', depth: 0, row: 10 } ],
+     { value: [Object], type: 'data', depth: 0, row: 10 },
+     { value: [Object], type: 'aggregated' } ],
   rawData:
    [ { value: [Object], depth: 0, type: 'colHeader', row: 0 },
      { value: [Object], depth: 1, type: 'colHeader', row: 1 },
@@ -130,12 +131,14 @@ pivot.data.table
   { value: [ 'Sansa', '', 12, '', '', '' ],
     type: 'data',
     depth: 0,
-    row: 10 } ]
+    row: 10 },
+  { value: [ '', 22, 22, 38, 18, 133 ],
+    type: 'aggregated' } ]
 ```
 
 ## API
 ### Pivot `data` value
-The `data` value returns an object with keys `table` and `rawData`.  `table` is an array of objects with each object containing four keys:
+The `data` value returns an object with keys `table` and `rawData`.  `table` is an array of objects with each object containing four keys (except for the last object which is an aggregated row of all the previous data rows based on the selected aggregation function):
 1. `value` - Array which contains the result of the pivot to be rendered
 2. `type` - Enumerated string describing what this data row contains, [`data`, `rowHeader`, or `colHeader`]
 3. `depth` - Number describing how deeply nested the row is within a parent row
