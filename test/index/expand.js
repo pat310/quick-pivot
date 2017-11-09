@@ -89,6 +89,10 @@ export default () => {
         depth: 0,
         type: 'rowHeader',
         row: 5 },
+      {
+        type: 'aggregated',
+        value: ['', 44, 56, 133],
+      },
     ];
 
     const expectedCollapsedResult = [
@@ -243,6 +247,10 @@ export default () => {
         type: 'data',
         depth: 0,
         row: 10,
+      },
+      {
+        type: 'aggregated',
+        value: ['', 22, 22, 38, 18, 133],
       },
     ];
 

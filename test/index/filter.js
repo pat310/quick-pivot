@@ -60,6 +60,7 @@ export default () => {
       { value: [ 'Sansa', 12 ], type: 'data', depth: 2, row: 14 },
       { value: [ 'm', 8 ], depth: 1, type: 'rowHeader', row: 15 },
       { value: [ 'Bran', 8 ], type: 'data', depth: 2, row: 16 },
+      { type: 'aggregated', value: ['', 219] },
     ];
 
     pivot.filter('name', ['Jon'], 'exclude');
@@ -103,6 +104,7 @@ export default () => {
       { value: [ 'Sansa', 12 ], type: 'data', depth: 2, row: 14 },
       { value: [ 'm', 8 ], depth: 1, type: 'rowHeader', row: 15 },
       { value: [ 'Bran', 8 ], type: 'data', depth: 2, row: 16 },
+      {type: 'aggregated', value: ['', 219] },
     ];
 
     pivot.filter('name', ['Jon']);
@@ -128,6 +130,7 @@ export default () => {
       { value: [ 'm', 22 ], depth: 1, type: 'rowHeader', row: 5 },
       { value: [ 'Bran', 8 ], type: 'data', depth: 2, row: 6 },
       { value: [ 'Jon', 14 ], type: 'data', depth: 2, row: 7 },
+      { type: 'aggregated', value: ['', 44] },
     ];
 
     function filterFunc(dataRow) {
@@ -166,6 +169,7 @@ export default () => {
         row: 6 },
       { value: [ 'm', 133 ], depth: 1, type: 'rowHeader', row: 7 },
       { value: [ 'Stark', 30 ], depth: 0, type: 'rowHeader', row: 11 },
+      { type: 'aggregated', value: ['', 219] },
     ];
 
     pivot.collapse(11).collapse(2).collapse(6);
@@ -187,6 +191,7 @@ export default () => {
     const expectedResult = [
       { value: [ 'sum age', 'sum age' ], depth: 0, type: 'colHeader', row: 0 },
       { value: [ 'Stark', 44 ], depth: 0, type: 'rowHeader', row: 1 },
+      { type: 'aggregated', value: ['', 44] },
     ];
 
     function filterFunc(dataRow) {
@@ -214,6 +219,7 @@ export default () => {
       { value: [ 'Baratheon', 38 ], depth: 0, type: 'rowHeader', row: 1 },
       { value: [ 'f', 38 ], depth: 1, type: 'rowHeader', row: 2 },
       { value: [ 'Cersei', 38 ], type: 'data', depth: 2, row: 3 },
+      { type: 'aggregated', value: ['', 38] },
     ];
 
     pivot.filter('house', ['Stark'], 'exclude')
@@ -254,6 +260,7 @@ export default () => {
       { value: [ 'm', 22 ], depth: 1, type: 'rowHeader', row: 11 },
       { value: [ 'Bran', 8 ], type: 'data', depth: 2, row: 12 },
       { value: [ 'Jon', 14 ], type: 'data', depth: 2, row: 13 },
+      { type: 'aggregated', value: ['', 96] },
     ];
 
     pivot.filter('name', ['Cersei'], 'exclude')
@@ -298,6 +305,7 @@ export default () => {
       { value: [ 'm', 22 ], depth: 1, type: 'rowHeader', row: 11 },
       { value: [ 'Bran', 8 ], type: 'data', depth: 2, row: 12 },
       { value: [ 'Jon', 14 ], type: 'data', depth: 2, row: 13 },
+      { type: 'aggregated', value: ['', 96] },
     ];
 
     pivot.filter('name', ['Cersei'], 'exclude')

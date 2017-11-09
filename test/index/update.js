@@ -37,6 +37,7 @@ export default () => {
       { value: [ 'Jaime', '', 32, '' ], type: 'data', depth: 1, row: 5 },
       { value: [ 'Joffrey', '', '', 18 ], type: 'data', depth: 1, row: 6 },
       { value: [ 'Tyrion', '', 34, '' ], type: 'data', depth: 1, row: 7 },
+      { type: 'aggregated', value: ['', 20, 66, 18] },
     ];
 
     const pivot = new Pivot(
