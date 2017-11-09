@@ -62,6 +62,10 @@ export default () => {
         type: 'rowHeader',
         row: 5,
       },
+      {
+        type: 'aggregated',
+        value: ['', 44, 56, 133],
+      },
     ];
 
     const expectedRawData = [
@@ -149,6 +153,10 @@ export default () => {
         type: 'rowHeader',
         row: 5,
       },
+      {
+        type: 'aggregated',
+        value: ['', 44, 56, 133],
+      },
     ];
 
     expect(pivot.data.table).to.deep.equal(expectedTable);
@@ -181,6 +189,10 @@ export default () => {
           depth: 0,
           type: 'rowHeader',
           row: 5,
+        },
+        {
+          type: 'aggregated',
+          value: ['', 44, 56, 133],
         },
       ];
 
