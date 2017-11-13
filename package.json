@@ -1,6 +1,6 @@
 {
   "name": "quick-pivot",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "a utility for quickly pivoting data",
   "main": "lib/quick-pivot.min.js",
   "scripts": {
