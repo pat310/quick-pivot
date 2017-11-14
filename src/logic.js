@@ -373,7 +373,7 @@ export function tableCreator(data, rows = [], cols = [], accCatOrCB,
     });
   }
 
-  function completedTableAccumulator(rows) {
+  function tableRowAggregator(rows) {
     const filteredRows = rows.reduce((acc, { type, value }) => {
       if (acc.length === 0) {
         acc = Array(value.length).fill([]);
@@ -399,13 +399,52 @@ export function tableCreator(data, rows = [], cols = [], accCatOrCB,
     });
   }
 
+  function tableColumnAggregator(rows) {
+    const filteredRows = rows.reduce((acc, { type, value }) => {
+      if (type === 'data') {
+        const i = acc.length;
+
+        acc[i] = [];
+        value.forEach((valueElem) => {
+          if (Array.isArray(valueElem)) {
+            acc[i] = acc[i].concat(valueElem);
+          }
+        });
+      }
+
+      return acc;
+    }, []);
+
+    console.log('filteredRows', filteredRows);
+
+    return filteredRows.map((accumulatedRawData) => {
+      if (accumulatedRawData.length > 0) {
+        return accumulator(accumulatedRawData, accCatOrCB, accTypeOrInitVal);
+      }
+
+      return '';
+    });
+  }
+
+  const columnAggregations = tableColumnAggregator(rawData);
   const accumulatedRows = {
-    value: completedTableAccumulator(rawData),
+    value: tableRowAggregator(rawData),
     type: 'aggregated',
   };
 
+  const table = formattedColumnHeaders.concat(dataRows, accumulatedRows)
+    .map((tableRow, i) => {
+      if (tableRow.type === 'data') {
+        tableRow.value.push(columnAggregations.splice(0, 1)[0]);
+      } else {
+        tableRow.value.push(i === 0 ? 'aggregated' : '');
+      }
+
+      return tableRow;
+    });
+
   return {
-    table: formattedColumnHeaders.concat(dataRows, accumulatedRows),
+    table,
     rawData: formattedColumnHeaders.concat(rawData),
   };
 }
