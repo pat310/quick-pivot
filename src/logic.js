@@ -410,12 +410,14 @@ export function tableCreator(data, rows = [], cols = [], accCatOrCB,
             acc[i] = acc[i].concat(valueElem);
           }
         });
+      } else if (type === 0) {
+        // TODO: Investigate why type is coming up as 0
+        // happens when aggregating [] for rows and [] for cols
+        acc.push(value);
       }
 
       return acc;
     }, []);
-
-    console.log('filteredRows', filteredRows);
 
     return filteredRows.map((accumulatedRawData) => {
       if (accumulatedRawData.length > 0) {

@@ -326,16 +326,21 @@ export default () => {
         'count');
 
     const expectedResults = [
-      {value: [ 'count ', 'count ' ], depth: 0, type: 'colHeader', row: 0 },
-      { value: [ 'Stark', 4 ], depth: 0, type: 'rowHeader', row: 1 },
-      { value: [ 'm', 2 ], type: 'data', depth: 1, row: 2 },
-      { value: [ 'f', 2 ], type: 'data', depth: 1, row: 3 },
-      { value: [ 'Baratheon', 2 ], depth: 0, type: 'rowHeader', row: 4 },
-      { value: [ 'f', 1 ], type: 'data', depth: 1, row: 5 },
-      { value: [ 'm', 1 ], type: 'data', depth: 1, row: 6 },
-      { value: [ 'Lannister', 3 ], depth: 0, type: 'rowHeader', row: 7 },
-      { value: [ 'm', 3 ], type: 'data', depth: 1, row: 8 },
-      { type: 'aggregated', value: ['', 9] },
+      {
+        value: [ 'count ', 'count ', 'aggregated' ],
+        depth: 0,
+        type: 'colHeader',
+        row: 0,
+      },
+      { value: [ 'Stark', 4, '' ], depth: 0, type: 'rowHeader', row: 1 },
+      { value: [ 'm', 2, 2 ], type: 'data', depth: 1, row: 2 },
+      { value: [ 'f', 2, 2 ], type: 'data', depth: 1, row: 3 },
+      { value: [ 'Baratheon', 2, '' ], depth: 0, type: 'rowHeader', row: 4 },
+      { value: [ 'f', 1, 1 ], type: 'data', depth: 1, row: 5 },
+      { value: [ 'm', 1, 1 ], type: 'data', depth: 1, row: 6 },
+      { value: [ 'Lannister', 3, '' ], depth: 0, type: 'rowHeader', row: 7 },
+      { value: [ 'm', 3, 3 ], type: 'data', depth: 1, row: 8 },
+      { type: 'aggregated', value: ['', 9, ''] },
     ];
 
     expect(tableResults.table).to.deep.equal(expectedResults);
@@ -361,7 +366,7 @@ export default () => {
     const results = tableCreator(dataEmptyStrings, ['house', 'name'], [], 'age',
       'sum');
 
-    const expectedResults = '[{"value":["sum age","sum age"],"depth":0,"type":"colHeader","row":0},{"value":["Stark",44],"depth":0,"type":"rowHeader","row":1},{"value":["Jon",14],"type":"data","depth":1,"row":2},{"value":["",10],"type":"data","depth":1,"row":3},{"value":["Bran",8],"type":"data","depth":1,"row":4},{"value":["Sansa",12],"type":"data","depth":1,"row":5},{"value":["Baratheon",56],"depth":0,"type":"rowHeader","row":6},{"value":["Cersei",38],"type":"data","depth":1,"row":7},{"value":["Joffrey",18],"type":"data","depth":1,"row":8},{"value":["Lannister",133],"depth":0,"type":"rowHeader","row":9},{"value":["",67],"type":"data","depth":1,"row":10},{"value":["Tyrion",34],"type":"data","depth":1,"row":11},{"value":["Jaime",32],"type":"data","depth":1,"row":12},{"value":["",233],"type":"aggregated"}]'; // eslint-disable-line max-len
+    const expectedResults = '[{"value":["sum age","sum age","aggregated"],"depth":0,"type":"colHeader","row":0},{"value":["Stark",44,""],"depth":0,"type":"rowHeader","row":1},{"value":["Jon",14,14],"type":"data","depth":1,"row":2},{"value":["",10,10],"type":"data","depth":1,"row":3},{"value":["Bran",8,8],"type":"data","depth":1,"row":4},{"value":["Sansa",12,12],"type":"data","depth":1,"row":5},{"value":["Baratheon",56,""],"depth":0,"type":"rowHeader","row":6},{"value":["Cersei",38,38],"type":"data","depth":1,"row":7},{"value":["Joffrey",18,18],"type":"data","depth":1,"row":8},{"value":["Lannister",133,""],"depth":0,"type":"rowHeader","row":9},{"value":["",67,67],"type":"data","depth":1,"row":10},{"value":["Tyrion",34,34],"type":"data","depth":1,"row":11},{"value":["Jaime",32,32],"type":"data","depth":1,"row":12},{"value":["",233,""],"type":"aggregated"}]'; // eslint-disable-line max-len
 
     expect(expectedResults).to.equal(JSON.stringify(results.table));
   });
