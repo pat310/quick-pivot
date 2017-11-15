@@ -35,24 +35,30 @@ export default () => {
 
         const expectedTableResults = [
           {
-            value: ['count age', 'brooklyn', 'manhattan', 'queens'],
+            value: [
+              'count age',
+              'brooklyn',
+              'manhattan',
+              'queens',
+              'aggregated',
+            ],
             depth: 0,
             row: 0,
             type: 'colHeader',
           },
           {
-            value: ['m', 2, 3, 1],
+            value: ['m', 2, 3, 1, 6],
             row: 1,
             type: 'data',
             depth: 0,
           },
           {
-            value: ['f', 1, '', 1],
+            value: ['f', 1, '', 1, 2],
             row: 2,
             type: 'data',
             depth: 0,
           },
-          { type: 'aggregated', value: ['', 3, 3, 2] },
+          { type: 'aggregated', value: ['', 3, 3, 2, ''] },
         ];
         const expectedRawDataResults = [
           {
@@ -128,24 +134,30 @@ export default () => {
 
       const expectedTableResults = [
         {
-          value: ['Custom Agg', 'brooklyn', 'manhattan', 'queens'],
+          value: [
+            'Custom Agg',
+            'brooklyn',
+            'manhattan',
+            'queens',
+            'aggregated',
+          ],
           row: 0,
           depth: 0,
           type: 'colHeader',
         },
         {
-          value: ['m', 2, 3, 1],
+          value: ['m', 2, 3, 1, 6],
           row: 1,
           depth: 0,
           type: 'data',
         },
         {
-          value: ['f', 1, '', 1],
+          value: ['f', 1, '', 1, 2],
           row: 2,
           depth: 0,
           type: 'data',
         },
-        { type: 'aggregated', value: ['', 3, 3, 2] },
+        { type: 'aggregated', value: ['', 3, 3, 2, ''] },
       ];
       const expectedRawDataResults = [
         {
@@ -200,30 +212,30 @@ export default () => {
           'count');
       const expectedTableResults = [
         {
-          value: ['count age', 'brooklyn', 'manhattan', 'queens'],
+          value: ['count age', 'brooklyn', 'manhattan', 'queens', 'aggregated'],
           row: 0,
           depth: 0,
           type: 'colHeader',
         },
         {
-          value: ['brooklyn', 3, '', ''],
+          value: ['brooklyn', 3, '', '', 3],
           row: 1,
           depth: 0,
           type: 'data',
         },
         {
-          value: ['manhattan', '', 3, ''],
+          value: ['manhattan', '', 3, '', 3],
           row: 2,
           depth: 0,
           type: 'data',
         },
         {
-          value: ['queens', '', '', 2],
+          value: ['queens', '', '', 2, 2],
           row: 3,
           depth: 0,
           type: 'data',
         },
-        { type: 'aggregated', value: ['', 3, 3, 2] },
+        { type: 'aggregated', value: ['', 3, 3, 2, ''] },
       ];
 
       expect(tableResults.table).to.deep.equal(expectedTableResults);
@@ -236,30 +248,30 @@ export default () => {
               'count');
           const expectedTableResults = [
             {
-              value: ['count age', 'count age'],
+              value: ['count age', 'count age', 'aggregated'],
               row: 0,
               depth: 0,
               type: 'colHeader',
             },
             {
-              value: ['brooklyn', 3],
+              value: ['brooklyn', 3, 3],
               row: 1,
               depth: 0,
               type: 'data',
             },
             {
-              value: ['manhattan', 3],
+              value: ['manhattan', 3, 3],
               row: 2,
               depth: 0,
               type: 'data',
             },
             {
-              value: ['queens', 2],
+              value: ['queens', 2, 2],
               row: 3,
               depth: 0,
               type: 'data',
             },
-            { type: 'aggregated', value: ['', 8] },
+            { type: 'aggregated', value: ['', 8, ''] },
           ];
 
           expect(tableResults.table).to.deep.equal(expectedTableResults);
@@ -271,18 +283,18 @@ export default () => {
           const tableResults = tableCreator(data, [], [], 'age', 'count');
           const expectedTableResults = [
             {
-              value: ['count age', 'count age'],
+              value: ['count age', 'count age', 'aggregated'],
               row: 0,
               depth: 0,
               type: 'colHeader',
             },
             {
-              value: ['count age', 8],
+              value: ['count age', 8, ''],
               row: 1,
               depth: 0,
               type: 'data',
             },
-            { type: 'aggregated', value: [''] },
+            { type: 'aggregated', value: ['', ''] },
           ];
 
           expect(tableResults.table).to.deep.equal(expectedTableResults);
@@ -292,18 +304,18 @@ export default () => {
     const tableResults = tableCreator(data, [], [], 'age', 'count', 'total');
     const expectedTableResults = [
       {
-        value: ['total', 'total'],
+        value: ['total', 'total', 'aggregated'],
         row: 0,
         depth: 0,
         type: 'colHeader',
       },
       {
-        value: ['total', 8],
+        value: ['total', 8, ''],
         row: 1,
         depth: 0,
         type: 'data',
       },
-      { type: 'aggregated', value: [''] },
+      { type: 'aggregated', value: ['', ''] },
     ];
 
     expect(tableResults.table).to.deep.equal(expectedTableResults);

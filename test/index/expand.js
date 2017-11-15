@@ -32,7 +32,7 @@ export default () => {
 
     pivot.expand(1);
     const uncollapsedData = {
-      value: [ 'f', 22, 38, '' ],
+      value: [ 'f', 22, 38, '', '' ],
       depth: 0,
       type: 'rowHeader',
     };
@@ -49,7 +49,7 @@ export default () => {
       aggregationType,
     );
     const uncollapsedData = {
-      value: [ 'f', 22, 38, '' ],
+      value: [ 'f', 22, 38, '', '' ],
       depth: 0,
       type: 'rowHeader',
     };
@@ -71,27 +71,27 @@ export default () => {
     );
 
     const expectedTable = [
-      { value: [ 'sum age', 'Stark', 'Baratheon', 'Lannister' ],
+      { value: [ 'sum age', 'Stark', 'Baratheon', 'Lannister', 'aggregated' ],
         depth: 0,
         type: 'colHeader',
         row: 0 },
-      { value: [ 'f', 22, 38, '' ],
+      { value: [ 'f', 22, 38, '', '' ],
         depth: 0,
         type: 'rowHeader',
         row: 1 },
-      { value: [ 'Arya', 10, '', '' ], type: 'data', depth: 1, row: 2 },
-      { value: [ 'Cersei', '', 38, '' ],
+      { value: [ 'Arya', 10, '', '', 10 ], type: 'data', depth: 1, row: 2 },
+      { value: [ 'Cersei', '', 38, '', 38 ],
         type: 'data',
         depth: 1,
         row: 3 },
-      { value: [ 'Sansa', 12, '', '' ], type: 'data', depth: 1, row: 4 },
-      { value: [ 'm', 22, 18, 133 ],
+      { value: [ 'Sansa', 12, '', '', 12 ], type: 'data', depth: 1, row: 4 },
+      { value: [ 'm', 22, 18, 133, '' ],
         depth: 0,
         type: 'rowHeader',
         row: 5 },
       {
         type: 'aggregated',
-        value: ['', 44, 56, 133],
+        value: ['', 44, 56, 133, ''],
       },
     ];
 
@@ -183,74 +183,75 @@ export default () => {
           'Baratheon',
           'Baratheon',
           'Lannister',
+          'aggregated',
         ],
         depth: 0,
         type: 'colHeader',
         row: 0,
       },
       {
-        value: [ 'sum age', 'f', 'm', 'f', 'm', 'm' ],
+        value: [ 'sum age', 'f', 'm', 'f', 'm', 'm', '' ],
         depth: 1,
         type: 'colHeader',
         row: 1,
       },
       {
-        value: [ 'Arya', 10, '', '', '', '' ],
+        value: [ 'Arya', 10, '', '', '', '', 10 ],
         type: 'data',
         depth: 0,
         row: 2,
       },
       {
-        value: [ 'Bran', '', 8, '', '', '' ],
+        value: [ 'Bran', '', 8, '', '', '', 8 ],
         type: 'data',
         depth: 0,
         row: 3,
       },
       {
-        value: [ 'Cersei', '', '', 38, '', '' ],
+        value: [ 'Cersei', '', '', 38, '', '', 38 ],
         type: 'data',
         depth: 0,
         row: 4,
       },
       {
-        value: [ 'Jaime', '', '', '', '', 32 ],
+        value: [ 'Jaime', '', '', '', '', 32, 32 ],
         type: 'data',
         depth: 0,
         row: 5,
       },
       {
-        value: [ 'Joffrey', '', '', '', 18, '' ],
+        value: [ 'Joffrey', '', '', '', 18, '', 18 ],
         type: 'data',
         depth: 0,
         row: 6,
       },
       {
-        value: [ 'Jon', '', 14, '', '', ''],
+        value: [ 'Jon', '', 14, '', '', '', 14],
         type: 'data',
         depth: 0,
         row: 7,
       },
       {
-        value: [ 'Sansa', 12, '', '', '', ''],
+        value: [ 'Sansa', 12, '', '', '', '', 12],
         type: 'data',
         depth: 0,
         row: 8,
       },
       {
-        value: [ 'Tyrion', '', '', '', '', 34],
+        value: [ 'Tyrion', '', '', '', '', 34, 34],
         type: 'data',
         depth: 0,
         row: 9,
       },
       {
-        value: [ 'Tywin', '', '', '', '', 67],
+        value: [ 'Tywin', '', '', '', '', 67, 67],
         type: 'data',
         depth: 0,
         row: 10,
       },
       {
         type: 'aggregated',
-        value: ['', 22, 22, 38, 18, 133],
+        value: ['', 22, 22, 38, 18, 133, ''],
       },
     ];
 

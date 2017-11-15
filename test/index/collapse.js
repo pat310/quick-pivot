@@ -32,39 +32,39 @@ export default () => {
 
     const expectedTable = [
       {
-        value: ['sum age', 'Stark', 'Baratheon', 'Lannister'],
+        value: ['sum age', 'Stark', 'Baratheon', 'Lannister', 'aggregated'],
         depth: 0,
         type: 'colHeader',
         row: 0,
       },
-      { value: ['f', 22, 38, ''],
+      { value: ['f', 22, 38, '', ''],
         depth: 0,
         type: 'rowHeader',
         row: 1,
       },
-      { value: ['Arya', 10, '', ''],
+      { value: ['Arya', 10, '', '', 10],
         type: 'data',
         depth: 1,
         row: 2,
       },
-      { value: ['Cersei', '', 38, ''],
+      { value: ['Cersei', '', 38, '', 38],
         type: 'data',
         depth: 1,
         row: 3,
       },
-      { value: ['Sansa', 12, '', ''],
+      { value: ['Sansa', 12, '', '', 12],
         type: 'data',
         depth: 1,
         row: 4,
       },
-      { value: ['m', 22, 18, 133],
+      { value: ['m', 22, 18, 133, ''],
         depth: 0,
         type: 'rowHeader',
         row: 5,
       },
       {
         type: 'aggregated',
-        value: ['', 44, 56, 133],
+        value: ['', 44, 56, 133, ''],
       },
     ];
 
@@ -117,7 +117,7 @@ export default () => {
     pivot.collapse(2);
 
     const expectedRow = {
-      value: ['Arya', 10, '', ''],
+      value: ['Arya', 10, '', '', 10],
       depth: 1,
       row: 2,
       type: 'data',
@@ -138,24 +138,24 @@ export default () => {
     pivot.collapse(1).collapse(2);
     const expectedTable = [
       {
-        value: ['sum age', 'Stark', 'Baratheon', 'Lannister'],
+        value: ['sum age', 'Stark', 'Baratheon', 'Lannister', 'aggregated'],
         depth: 0,
         type: 'colHeader',
         row: 0 },
-      { value: ['f', 22, 38, ''],
+      { value: ['f', 22, 38, '', ''],
         depth: 0,
         type: 'rowHeader',
         row: 1,
       },
       {
-        value: ['m', 22, 18, 133],
+        value: ['m', 22, 18, 133, ''],
         depth: 0,
         type: 'rowHeader',
         row: 5,
       },
       {
         type: 'aggregated',
-        value: ['', 44, 56, 133],
+        value: ['', 44, 56, 133, ''],
       },
     ];
 
@@ -175,24 +175,24 @@ export default () => {
       pivot.collapse(5).collapse(1);
       const expectedTable = [
         {
-          value: ['sum age', 'Stark', 'Baratheon', 'Lannister'],
+          value: ['sum age', 'Stark', 'Baratheon', 'Lannister', 'aggregated'],
           depth: 0,
           type: 'colHeader',
           row: 0 },
-        { value: ['f', 22, 38, ''],
+        { value: ['f', 22, 38, '', ''],
           depth: 0,
           type: 'rowHeader',
           row: 1,
         },
         {
-          value: ['m', 22, 18, 133],
+          value: ['m', 22, 18, 133, ''],
           depth: 0,
           type: 'rowHeader',
           row: 5,
         },
         {
           type: 'aggregated',
-          value: ['', 44, 56, 133],
+          value: ['', 44, 56, 133, ''],
         },
       ];
 
