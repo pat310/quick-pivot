@@ -32,7 +32,7 @@ export default () => {
 
     pivot.expand(1);
     const uncollapsedData = {
-      value: [ 'f', 22, 38, '', '' ],
+      value: [ 'f', 22, 38, '' ],
       depth: 0,
       type: 'rowHeader',
     };
@@ -49,7 +49,7 @@ export default () => {
       aggregationType,
     );
     const uncollapsedData = {
-      value: [ 'f', 22, 38, '', '' ],
+      value: [ 'f', 22, 38, '' ],
       depth: 0,
       type: 'rowHeader',
     };

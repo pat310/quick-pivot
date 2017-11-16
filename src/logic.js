@@ -437,9 +437,9 @@ export function tableCreator(data, rows = [], cols = [], accCatOrCB,
   const table = formattedColumnHeaders.concat(dataRows, accumulatedRows)
     .map((tableRow, i) => {
       if (tableRow.type === 'data') {
-        tableRow.value.push(columnAggregations.splice(0, 1)[0]);
+        tableRow.value = tableRow.value.concat(columnAggregations.splice(0, 1)[0]);
       } else {
-        tableRow.value.push(i === 0 ? 'aggregated' : '');
+        tableRow.value = tableRow.value.concat(i === 0 ? 'aggregated' : '');
       }
 
       return tableRow;
