@@ -434,10 +434,15 @@ export function tableCreator(data, rows = [], cols = [], accCatOrCB,
     type: 'aggregated',
   };
 
-  const table = formattedColumnHeaders.concat(dataRows, accumulatedRows)
+  // TODO: fix this horrible hack of deep cloning object
+  const colHeadersCopy = JSON.parse(JSON.stringify(formattedColumnHeaders));
+
+  let counter = 0;
+  const table = colHeadersCopy.concat(dataRows, accumulatedRows)
     .map((tableRow, i) => {
       if (tableRow.type === 'data') {
-        tableRow.value = tableRow.value.concat(columnAggregations.splice(0, 1)[0]);
+        tableRow.value = tableRow.value.concat(columnAggregations[counter]);
+        counter += 1;
       } else {
         tableRow.value = tableRow.value.concat(i === 0 ? 'aggregated' : '');
       }
