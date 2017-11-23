@@ -434,8 +434,15 @@ export function tableCreator(data, rows = [], cols = [], accCatOrCB,
     type: 'aggregated',
   };
 
-  // TODO: fix this horrible hack of deep cloning object
-  const colHeadersCopy = JSON.parse(JSON.stringify(formattedColumnHeaders));
+  const colHeadersValueCopies = formattedColumnHeaders.map(({ value }) => {
+    return Object.assign([], value);
+  });
+  const colHeadersCopy = formattedColumnHeaders.map((colHeaderObj, i) => {
+    const copy = Object.assign({}, colHeaderObj);
+
+    copy.value = colHeadersValueCopies[i];
+    return copy;
+  });
 
   let counter = 0;
   const table = colHeadersCopy.concat(dataRows, accumulatedRows)

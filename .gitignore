@@ -39,3 +39,6 @@ test.js
 
 # Ignore mac files
 .DS_Store
+
+# ignore intellij stuff
+.idea
