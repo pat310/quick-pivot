@@ -156,7 +156,7 @@ The `data` value returns an object with keys `table` and `rawData`.  `table` is 
 ```js
 import Pivot from 'quick-pivot';
 
-const pivot = new Pivot(dataArray, rows, columns, [aggregationDimension or CBfunction], [aggregator or initialValue], rowHeader);
+const pivot = new Pivot(dataArray, rows, columns, [aggregationDimension or CBfunction], [aggregator or initialValue], rowHeader, sortFunction);
 ```
 
 #### First way to use it:
@@ -169,6 +169,10 @@ const pivot = new Pivot(dataArray, rows, columns, [aggregationDimension or CBfun
 * `aggregationDimension` is a string (the category you want to accumulate values for) **required**
 * `aggregator` is an enumerated string - either `'sum'`, `'count'`, `'min'`, `'max'`, or `'average'` (the type of accumulation you want to perform). If no type is selected, `'count'` is chosen by default
 * `rowHeader` is a string (this value will appear above the rows)
+* `sortFunction` is a custom sorting function for rows. Default sorting used if null
+  * Sort Function should be in the form `(row) => (a,b) => Number`. This Function will be called for each row pivoted on (right to left) and must return 
+    a traditional Array.sort function as a result.
+    A Function equaling `() => {}` will direct the Pivot to skip the sorting phase. 
 
 #### Second way to use it:
 Parameters are the same as the first except for two, `aggregationDimension` and `aggregator`. Instead of `aggregationDimension` and `aggregator`, you can use the following:
