@@ -71,7 +71,7 @@ export default () => {
     );
 
     const expectedTable = [
-      { value: [ 'sum age', 'Stark', 'Baratheon', 'Lannister', 'total' ],
+      { value: [ 'sum age', 'Stark', 'Baratheon', 'Lannister', 'Totals' ],
         depth: 0,
         type: 'colHeader',
         row: 0 },
@@ -91,7 +91,7 @@ export default () => {
         row: 5 },
       {
         type: 'aggregated',
-        value: ['total', 44, 56, 133, ''],
+        value: ['Totals', 44, 56, 133, ''],
       },
     ];
 
@@ -183,7 +183,7 @@ export default () => {
           'Baratheon',
           'Baratheon',
           'Lannister',
-          'total',
+          'Totals',
         ],
         depth: 0,
         type: 'colHeader',
@@ -251,7 +251,7 @@ export default () => {
       },
       {
         type: 'aggregated',
-        value: ['total', 22, 22, 38, 18, 133, ''],
+        value: ['Totals', 22, 22, 38, 18, 133, ''],
       },
     ];
 

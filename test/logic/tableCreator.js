@@ -40,7 +40,7 @@ export default () => {
               'brooklyn',
               'manhattan',
               'queens',
-              'total',
+              'Totals',
             ],
             depth: 0,
             row: 0,
@@ -58,7 +58,7 @@ export default () => {
             type: 'data',
             depth: 0,
           },
-          { type: 'aggregated', value: ['total', 3, 3, 2, ''] },
+          { type: 'aggregated', value: ['Totals', 3, 3, 2, ''] },
         ];
         const expectedRawDataResults = [
           {
@@ -139,7 +139,7 @@ export default () => {
             'brooklyn',
             'manhattan',
             'queens',
-            'total',
+            'Totals',
           ],
           row: 0,
           depth: 0,
@@ -157,7 +157,7 @@ export default () => {
           depth: 0,
           type: 'data',
         },
-        { type: 'aggregated', value: ['total', 3, 3, 2, ''] },
+        { type: 'aggregated', value: ['Totals', 3, 3, 2, ''] },
       ];
       const expectedRawDataResults = [
         {
@@ -212,7 +212,7 @@ export default () => {
           'count');
       const expectedTableResults = [
         {
-          value: ['count age', 'brooklyn', 'manhattan', 'queens', 'total'],
+          value: ['count age', 'brooklyn', 'manhattan', 'queens', 'Totals'],
           row: 0,
           depth: 0,
           type: 'colHeader',
@@ -235,7 +235,7 @@ export default () => {
           depth: 0,
           type: 'data',
         },
-        { type: 'aggregated', value: ['total', 3, 3, 2, ''] },
+        { type: 'aggregated', value: ['Totals', 3, 3, 2, ''] },
       ];
 
       expect(tableResults.table).to.deep.equal(expectedTableResults);
@@ -249,7 +249,7 @@ export default () => {
           console.log('table', tableResults.table[0])
           const expectedTableResults = [
             {
-              value: ['count age', 'count age', 'total'],
+              value: ['count age', 'count age', 'Totals'],
               row: 0,
               depth: 0,
               type: 'colHeader',
@@ -272,7 +272,7 @@ export default () => {
               depth: 0,
               type: 'data',
             },
-            { type: 'aggregated', value: ['total', 8, ''] },
+            { type: 'aggregated', value: ['Totals', 8, ''] },
           ];
 
           expect(tableResults.table).to.deep.equal(expectedTableResults);
@@ -284,7 +284,7 @@ export default () => {
           const tableResults = tableCreator(data, [], [], 'age', 'count');
           const expectedTableResults = [
             {
-              value: ['count age', 'count age', 'total'],
+              value: ['count age', 'count age', 'Totals'],
               row: 0,
               depth: 0,
               type: 'colHeader',
@@ -295,7 +295,7 @@ export default () => {
               depth: 0,
               type: 'data',
             },
-            { type: 'aggregated', value: ['total', ''] },
+            { type: 'aggregated', value: ['Totals', ''] },
           ];
 
           expect(tableResults.table).to.deep.equal(expectedTableResults);
@@ -305,7 +305,7 @@ export default () => {
     const tableResults = tableCreator(data, [], [], 'age', 'count', 'total');
     const expectedTableResults = [
       {
-        value: ['total', 'total', 'total'],
+        value: ['total', 'total', 'Totals'],
         row: 0,
         depth: 0,
         type: 'colHeader',
@@ -316,7 +316,7 @@ export default () => {
         depth: 0,
         type: 'data',
       },
-      { type: 'aggregated', value: ['total', ''] },
+      { type: 'aggregated', value: ['Totals', ''] },
     ];
 
     expect(tableResults.table).to.deep.equal(expectedTableResults);
@@ -340,7 +340,7 @@ export default () => {
 
     const expectedResults = [
       {
-        value: [ 'count ', 'count ', 'total' ],
+        value: [ 'count ', 'count ', 'Totals' ],
         depth: 0,
         type: 'colHeader',
         row: 0,
@@ -353,7 +353,7 @@ export default () => {
       { value: [ 'm', 1, 1 ], type: 'data', depth: 1, row: 6 },
       { value: [ 'Lannister', 3, '' ], depth: 0, type: 'rowHeader', row: 7 },
       { value: [ 'm', 3, 3 ], type: 'data', depth: 1, row: 8 },
-      { type: 'aggregated', value: ['total', 9, ''] },
+      { type: 'aggregated', value: ['Totals', 9, ''] },
     ];
 
     expect(tableResults.table).to.deep.equal(expectedResults);
@@ -379,7 +379,7 @@ export default () => {
     const results = tableCreator(dataEmptyStrings, ['house', 'name'], [], 'age',
       'sum');
 
-    const expectedResults = '[{"value":["sum age","sum age","total"],"depth":0,"type":"colHeader","row":0},{"value":["Stark",44,""],"depth":0,"type":"rowHeader","row":1},{"value":["Jon",14,14],"type":"data","depth":1,"row":2},{"value":["",10,10],"type":"data","depth":1,"row":3},{"value":["Bran",8,8],"type":"data","depth":1,"row":4},{"value":["Sansa",12,12],"type":"data","depth":1,"row":5},{"value":["Baratheon",56,""],"depth":0,"type":"rowHeader","row":6},{"value":["Cersei",38,38],"type":"data","depth":1,"row":7},{"value":["Joffrey",18,18],"type":"data","depth":1,"row":8},{"value":["Lannister",133,""],"depth":0,"type":"rowHeader","row":9},{"value":["",67,67],"type":"data","depth":1,"row":10},{"value":["Tyrion",34,34],"type":"data","depth":1,"row":11},{"value":["Jaime",32,32],"type":"data","depth":1,"row":12},{"value":["total",233,""],"type":"aggregated"}]'; // eslint-disable-line max-len
+    const expectedResults = '[{"value":["sum age","sum age","Totals"],"depth":0,"type":"colHeader","row":0},{"value":["Stark",44,""],"depth":0,"type":"rowHeader","row":1},{"value":["Jon",14,14],"type":"data","depth":1,"row":2},{"value":["",10,10],"type":"data","depth":1,"row":3},{"value":["Bran",8,8],"type":"data","depth":1,"row":4},{"value":["Sansa",12,12],"type":"data","depth":1,"row":5},{"value":["Baratheon",56,""],"depth":0,"type":"rowHeader","row":6},{"value":["Cersei",38,38],"type":"data","depth":1,"row":7},{"value":["Joffrey",18,18],"type":"data","depth":1,"row":8},{"value":["Lannister",133,""],"depth":0,"type":"rowHeader","row":9},{"value":["",67,67],"type":"data","depth":1,"row":10},{"value":["Tyrion",34,34],"type":"data","depth":1,"row":11},{"value":["Jaime",32,32],"type":"data","depth":1,"row":12},{"value":["Totals",233,""],"type":"aggregated"}]'; // eslint-disable-line max-len
 
     expect(expectedResults).to.equal(JSON.stringify(results.table));
   });
