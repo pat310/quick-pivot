@@ -25,7 +25,7 @@ const dataArray2 = [
 export default () => {
   it('should return a new pivoted table if not filtering', () => {
     const expected = [
-      { value: [ 'sum age', 'Stark', 'Lannister', 'Baratheon', 'aggregated' ],
+      { value: [ 'sum age', 'Stark', 'Lannister', 'Baratheon', 'total' ],
         depth: 0,
         type: 'colHeader',
         row: 0,
@@ -37,7 +37,7 @@ export default () => {
       { value: [ 'Jaime', '', 32, '', 32 ], type: 'data', depth: 1, row: 5 },
       { value: [ 'Joffrey', '', '', 18, 18 ], type: 'data', depth: 1, row: 6 },
       { value: [ 'Tyrion', '', 34, '', 34 ], type: 'data', depth: 1, row: 7 },
-      { type: 'aggregated', value: ['', 20, 66, 18, ''] },
+      { type: 'aggregated', value: ['total', 20, 66, 18, ''] },
     ];
 
     const pivot = new Pivot(
