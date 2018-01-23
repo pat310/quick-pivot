@@ -246,7 +246,6 @@ export default () => {
         () => {
           const tableResults = tableCreator(data, ['borough'], [], 'age',
               'count');
-          console.log('table', tableResults.table[0])
           const expectedTableResults = [
             {
               value: ['count age', 'count age', 'Totals'],
