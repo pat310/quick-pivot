@@ -44,7 +44,7 @@ export default () => {
 
     const expectedResult = [
       {
-        value: [ 'sum age', 'sum age', 'aggregated' ],
+        value: [ 'sum age', 'sum age', 'Totals' ],
         depth: 0,
         type: 'colHeader',
         row: 0,
@@ -65,7 +65,7 @@ export default () => {
       { value: [ 'Sansa', 12, 12 ], type: 'data', depth: 2, row: 14 },
       { value: [ 'm', 8, '' ], depth: 1, type: 'rowHeader', row: 15 },
       { value: [ 'Bran', 8, 8 ], type: 'data', depth: 2, row: 16 },
-      { type: 'aggregated', value: ['', 219, ''] },
+      { type: 'aggregated', value: ['Totals', 219, ''] },
     ];
 
     pivot.filter('name', ['Jon'], 'exclude');
@@ -83,7 +83,7 @@ export default () => {
     );
 
     const expectedResult = [
-      { value: [ 'sum age', 'sum age', 'aggregated' ],
+      { value: [ 'sum age', 'sum age', 'Totals' ],
         depth: 0,
         type: 'colHeader',
         row: 0 },
@@ -109,7 +109,7 @@ export default () => {
       { value: [ 'Sansa', 12, 12 ], type: 'data', depth: 2, row: 14 },
       { value: [ 'm', 8, '' ], depth: 1, type: 'rowHeader', row: 15 },
       { value: [ 'Bran', 8, 8 ], type: 'data', depth: 2, row: 16 },
-      {type: 'aggregated', value: ['', 219, ''] },
+      {type: 'aggregated', value: ['Totals', 219, ''] },
     ];
 
     pivot.filter('name', ['Jon']);
@@ -128,7 +128,7 @@ export default () => {
 
     const expectedResult = [
       {
-        value: [ 'sum age', 'sum age', 'aggregated' ],
+        value: [ 'sum age', 'sum age', 'Totals' ],
         depth: 0,
         type: 'colHeader',
         row: 0,
@@ -140,7 +140,7 @@ export default () => {
       { value: [ 'm', 22, '' ], depth: 1, type: 'rowHeader', row: 5 },
       { value: [ 'Bran', 8, 8 ], type: 'data', depth: 2, row: 6 },
       { value: [ 'Jon', 14, 14 ], type: 'data', depth: 2, row: 7 },
-      { type: 'aggregated', value: ['', 44, ''] },
+      { type: 'aggregated', value: ['Totals', 44, ''] },
     ];
 
     function filterFunc(dataRow) {
@@ -162,7 +162,7 @@ export default () => {
     );
 
     const expectedResult = [
-      { value: [ 'sum age', 'sum age', 'aggregated'],
+      { value: [ 'sum age', 'sum age', 'Totals'],
         depth: 0,
         type: 'colHeader',
         row: 0 },
@@ -179,7 +179,7 @@ export default () => {
         row: 6 },
       { value: [ 'm', 133, '' ], depth: 1, type: 'rowHeader', row: 7 },
       { value: [ 'Stark', 30, '' ], depth: 0, type: 'rowHeader', row: 11 },
-      { type: 'aggregated', value: ['', 219, ''] },
+      { type: 'aggregated', value: ['Totals', 219, ''] },
     ];
 
     pivot.collapse(11).collapse(2).collapse(6);
@@ -200,13 +200,13 @@ export default () => {
 
     const expectedResult = [
       {
-        value: [ 'sum age', 'sum age', 'aggregated' ],
+        value: [ 'sum age', 'sum age', 'Totals' ],
         depth: 0,
         type: 'colHeader',
         row: 0,
       },
       { value: [ 'Stark', 44, '' ], depth: 0, type: 'rowHeader', row: 1 },
-      { type: 'aggregated', value: ['', 44, ''] },
+      { type: 'aggregated', value: ['Totals', 44, ''] },
     ];
 
     function filterFunc(dataRow) {
@@ -231,7 +231,7 @@ export default () => {
 
     const expectedResult = [
       {
-        value: [ 'sum age', 'sum age', 'aggregated' ],
+        value: [ 'sum age', 'sum age', 'Totals' ],
         depth: 0,
         type: 'colHeader',
         row: 0,
@@ -239,7 +239,7 @@ export default () => {
       { value: [ 'Baratheon', 38, '' ], depth: 0, type: 'rowHeader', row: 1 },
       { value: [ 'f', 38, '' ], depth: 1, type: 'rowHeader', row: 2 },
       { value: [ 'Cersei', 38, 38 ], type: 'data', depth: 2, row: 3 },
-      { type: 'aggregated', value: ['', 38, ''] },
+      { type: 'aggregated', value: ['Totals', 38, ''] },
     ];
 
     pivot.filter('house', ['Stark'], 'exclude')
@@ -259,7 +259,7 @@ export default () => {
     );
 
     const expectedResult = [
-      { value: [ 'sum age', 'sum age', 'aggregated' ],
+      { value: [ 'sum age', 'sum age', 'Totals' ],
         depth: 0,
         type: 'colHeader',
         row: 0 },
@@ -280,7 +280,7 @@ export default () => {
       { value: [ 'm', 22, '' ], depth: 1, type: 'rowHeader', row: 11 },
       { value: [ 'Bran', 8, 8 ], type: 'data', depth: 2, row: 12 },
       { value: [ 'Jon', 14, 14 ], type: 'data', depth: 2, row: 13 },
-      { type: 'aggregated', value: ['', 96, ''] },
+      { type: 'aggregated', value: ['Totals', 96, ''] },
     ];
 
     pivot.filter('name', ['Cersei'], 'exclude')
@@ -302,7 +302,7 @@ export default () => {
     );
 
     const expectedResult = [
-      { value: [ 'sum age', 'sum age', 'aggregated' ],
+      { value: [ 'sum age', 'sum age', 'Totals' ],
         depth: 0,
         type: 'colHeader',
         row: 0 },
@@ -325,7 +325,7 @@ export default () => {
       { value: [ 'm', 22, '' ], depth: 1, type: 'rowHeader', row: 11 },
       { value: [ 'Bran', 8, 8 ], type: 'data', depth: 2, row: 12 },
       { value: [ 'Jon', 14, 14 ], type: 'data', depth: 2, row: 13 },
-      { type: 'aggregated', value: ['', 96, ''] },
+      { type: 'aggregated', value: ['Totals', 96, ''] },
     ];
 
     pivot.filter('name', ['Cersei'], 'exclude')

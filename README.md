@@ -89,7 +89,7 @@ pivot.data.table
        'Baratheon',
        'Baratheon',
        'Lannister',
-       'aggregated' ],
+       'Totals' ],
     depth: 0,
     type: 'colHeader',
     row: 0 },
@@ -133,7 +133,7 @@ pivot.data.table
     type: 'data',
     depth: 0,
     row: 10 },
-  { value: [ '', 22, 22, 38, 18, 133, '' ], type: 'aggregated' } ]
+  { value: [ 'Totals', 22, 22, 38, 18, 133, '' ], type: 'aggregated' } ]
 ```
 
 ## API
@@ -218,7 +218,7 @@ const pivot = new Pivot(dataArray, ['gender'], ['house'], cbFunc, 0, 'average ag
 
 console.log(pivot.data.table);
 /*
-[ { value: [ 'average age', 'Stark', 'Baratheon', 'Lannister', 'aggregated' ],
+[ { value: [ 'average age', 'Stark', 'Baratheon', 'Lannister', 'Totals' ],
     depth: 0,
     type: 'colHeader',
     row: 0 },
@@ -227,7 +227,7 @@ console.log(pivot.data.table);
     type: 'data',
     depth: 0,
     row: 2 },
-  { value: [ '', 11, 28, 44.333333333333336, '' ],
+  { value: [ 'Totals', 11, 28, 44.333333333333336, '' ],
     type: 'aggregated' } ]
 */
 
@@ -235,7 +235,7 @@ pivot.update(dataArray, ['gender', 'name'], ['house'], cbFunc, 0, 'average age')
 
 console.log(pivot.data.table);
 /*
-[ { value: [ 'average age', 'Stark', 'Baratheon', 'Lannister', 'aggregated' ],
+[ { value: [ 'average age', 'Stark', 'Baratheon', 'Lannister', 'Totals' ],
     depth: 0,
     type: 'colHeader',
     row: 0 },
@@ -283,7 +283,7 @@ console.log(pivot.data.table);
     type: 'data',
     depth: 1,
     row: 11 },
-  { value: [ '', 11, 28, 44.333333333333336, '' ],
+  { value: [ 'Totals', 11, 28, 44.333333333333336, '' ],
     type: 'aggregated' } ]
 */
 
@@ -291,7 +291,7 @@ pivot.collapse(1);
 
 console.log(pivot.data.table);
 /*
-[ { value: [ 'average age', 'Stark', 'Baratheon', 'Lannister', 'aggregated' ],
+[ { value: [ 'average age', 'Stark', 'Baratheon', 'Lannister', 'Totals' ],
     depth: 0,
     type: 'colHeader',
     row: 0 },
@@ -327,7 +327,7 @@ console.log(pivot.data.table);
     type: 'data',
     depth: 1,
     row: 11 },
-  { value: [ '', 11, 28, 44.333333333333336, '' ],
+  { value: [ 'Totals', 11, 28, 44.333333333333336, '' ],
     type: 'aggregated' } ]
 */
 
@@ -350,7 +350,7 @@ pivot.collapse(2);
 
 console.log(pivot.data.table);
 /*
-[ { value: [ 'average age', 'Stark', 'Baratheon', 'Lannister', 'aggregated' ],
+[ { value: [ 'average age', 'Stark', 'Baratheon', 'Lannister', 'Totals' ],
     depth: 0,
     type: 'colHeader',
     row: 0 },
@@ -362,14 +362,14 @@ console.log(pivot.data.table);
     depth: 0,
     type: 'rowHeader',
     row: 5 },
-  { value: [ '', 11, 28, 44.333333333333336, '' ],
+  { value: [ 'Totals', 11, 28, 44.333333333333336, '' ],
     type: 'aggregated' } ]
 */
 
 pivot.expand(1);
 console.log(pivot.data.table);
 /*
-[ { value: [ 'average age', 'Stark', 'Baratheon', 'Lannister', 'aggregated' ],
+[ { value: [ 'average age', 'Stark', 'Baratheon', 'Lannister', 'Totals' ],
     depth: 0,
     type: 'colHeader',
     row: 0 },
@@ -393,7 +393,7 @@ console.log(pivot.data.table);
     depth: 0,
     type: 'rowHeader',
     row: 5 },
-  { value: [ '', 11, 28, 44.333333333333336, '' ],
+  { value: [ 'Totals', 11, 28, 44.333333333333336, '' ],
     type: 'aggregated' } ]
 ```
 

@@ -395,7 +395,7 @@ export function tableCreator(data, rows = [], cols = [], accCatOrCB,
         return accumulator(accumulatedRawData, accCatOrCB, accTypeOrInitVal);
       }
 
-      return '';
+      return 'Totals';
     });
   }
 
@@ -451,7 +451,7 @@ export function tableCreator(data, rows = [], cols = [], accCatOrCB,
         tableRow.value = tableRow.value.concat(columnAggregations[counter]);
         counter += 1;
       } else {
-        tableRow.value = tableRow.value.concat(i === 0 ? 'aggregated' : '');
+        tableRow.value = tableRow.value.concat(i === 0 ? 'Totals' : '');
       }
 
       return tableRow;
