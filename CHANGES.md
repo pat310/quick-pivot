@@ -1,3 +1,8 @@
+## [v2.4.1]
+> Jan 27, 2018
+
+- Changing text from `aggregated` to `Totals` to match what other libraries are doing [PR #72](https://github.com/pat310/quick-pivot/pull/72)
+
 ## [v2.4.0]
 > Nov 24, 2017
 
