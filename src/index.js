@@ -63,6 +63,9 @@ export default class Pivot {
    * @returns {Object} pivot object
   */
   collapse(rowNum) {
+    // already collapsed
+    if (this.collapsedRows[this.data.table[rowNum].row]) { return this; }
+
     const returnedData = collapse(rowNum, this.data);
 
     if (returnedData.collapsed) {
@@ -85,6 +88,34 @@ export default class Pivot {
       this.collapsedRows[this.data.table[rowNum].row],
     );
     delete this.collapsedRows[this.data.table[rowNum].row];
+
+    return this;
+  }
+
+  /**
+   * Collapses all header rows
+   * @returns {Object} pivot object
+  */
+  collapseAll() {
+    this.data.table
+      .map((row, rowNum) => row.type === 'rowHeader' ? rowNum : null)
+      .filter(rowNum => rowNum !== null)
+      .reverse()
+      .forEach(rowNum => { this.collapse(rowNum); });
+
+    return this;
+  }
+
+  /**
+   * Expands all header rows
+   * @returns {Object} pivot object
+  */
+  expandAll() {
+    this.data.table
+      .map((row, rowNum) => row.type === 'rowHeader' ? rowNum : null)
+      .filter(rowNum => rowNum !== null)
+      .reverse()
+      .forEach(rowNum => { this.expand(rowNum); });
 
     return this;
   }
