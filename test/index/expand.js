@@ -61,6 +61,21 @@ export default () => {
     expect(pivot.getData(1)).to.deep.equal(uncollapsedData);
   });
 
+  it('should return table to normal state after collapsing the same row twice', () => {
+    const pivot = new Pivot(
+      dataArray,
+      rowsToPivotTestOne,
+      colsToPivotTestOne,
+      aggregationCategory,
+      aggregationType,
+    );
+
+    pivot.collapse(5).collapse(5).expand(5);
+
+    expect(pivot.data.table).to.have.lengthOf(13);
+    expect(pivot.data.rawData).to.have.lengthOf(12);
+  });
+
   it('should expand correct rows', () => {
     const pivot = new Pivot(
       dataArray,

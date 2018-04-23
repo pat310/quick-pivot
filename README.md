@@ -188,6 +188,12 @@ Collapses data into the specified row header provided.  `rowNum` is the row head
 #### `.expand(rowNum)`
 Expands collapsed data that has previously been collapsed.  The `expand` method is chainable.
 
+#### `.collapseAll()`
+Collapses all data. The `collapseAll` method is chainable.
+
+#### `.expandAll()`
+Expands all data. The `expandAll` method is chainable.
+
 #### `.toggle(rowNum)`
 Toggles data from collapsed to expanded or vice-versa. The `toggle` method is chainable.
 
