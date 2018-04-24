@@ -1,4 +1,9 @@
-### [v2.5.0]
+#### [v2.5.1]
+> Apr 23, 2018
+
+- Forgot to run the build step...
+
+## [v2.5.0]
 > Apr 23, 2018
 
 - Adding `collapseAll` and `expandAll` methods [PR #74](https://github.com/pat310/quick-pivot/pull/74)
