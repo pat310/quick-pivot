@@ -5,9 +5,10 @@
 /**
  * @description Format data into an array of objects where the headers are the keys
  * @param {!Array|Object} data Array of arrays or an object
+ * @param {Function} custom sort function or default sort if null. Function equaling () => {} will skip the sort stage
  * @returns {Array<Object>} Formatted object
 */
-export function fixDataFormat(data, rows = []) {
+export function fixDataFormat(data, rows = [], sortFunc) {
   if (!Array.isArray(data) || !data.length) return [];
 
   let formattedData = [];
@@ -32,10 +33,22 @@ export function fixDataFormat(data, rows = []) {
 
   // sorting data initially to prevent changes in data ordering
   if (rows.length > 0) {
-    return rows.reduceRight((acc, row) => {
-      return acc.sort((a, b) => {
+
+    // NoOp Sort function, return unsorted
+    if (sortFunc === (() => {})) {
+      return formattedData;
+    }
+
+    // Use default sort if none provided
+    if (!sortFunc) {
+      sortFunc = (row) => (a, b) => {
         return a[row] > b[row];
-      });
+      };
+    }
+
+    // Sort Rows
+    return rows.reduceRight((acc, row) => {
+      return acc.sort(sortFunc(row));
     }, formattedData);
   }
 
