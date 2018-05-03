@@ -1,3 +1,8 @@
+# [v2.6.0]
+> May 3, 2018
+
+- Adding the ability to supply a custom sort function [PR #71](https://github.com/pat310/quick-pivot/pull/71)
+
 #### [v2.5.1]
 > Apr 23, 2018
 
