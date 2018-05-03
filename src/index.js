@@ -15,12 +15,13 @@ export default class Pivot {
    * @param {string} agg Aggregation category
    * @param {string} type Aggregation type, enumerated value
    * @param {string} header Table header (displayed at hte top left)
+   * @param {Function} custom sort function. will skip sort stage if equal to () => {}
    * @returns {Object} instantiated pivot object
   */
-  constructor(data, rows, cols, agg, type, header) {
+  constructor(data, rows, cols, agg, type, header, sortFunc) {
     if (!data) this.originalData = {};
     else {
-      data = fixDataFormat(data, rows);
+      data = fixDataFormat(data, rows, sortFunc);
       this.originalArgs = {data, rows, cols, agg, type, header};
       this.originalData = tableCreator(data, rows, cols, agg, type, header);
       this.uniqueValues = createUniqueValues(data);
@@ -39,10 +40,11 @@ export default class Pivot {
    * @param {string} type Aggregation type, enumerated value
    * @param {string} header Table header (displayed at hte top left)
    * @param {boolean} isFiltering If the method is being called by the filter method
+   * @param {Function} custom sort function. will skip sort stage if equal to () => {}
    * @returns {Object} instantiated pivot object
   */
-  update(data, rows, cols, agg, type, header, isFiltering) {
-    data = fixDataFormat(data, rows);
+  update(data, rows, cols, agg, type, header, isFiltering, sortFunc) {
+    data = fixDataFormat(data, rows, sortFunc);
     /** if update isn't being used by filter, need to reset the original arguments */
     if (!isFiltering) {
       this.originalArgs = {data, rows, cols, agg, type, header};

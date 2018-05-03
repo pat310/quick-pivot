@@ -91,4 +91,34 @@ export default () => {
 
     expect(newData).to.deep.equal(expectedData);
   });
+
+  it('should call custom sort function if one is provided', () => {
+
+    // Sort by name descending
+    const expectedData = [
+      {name: 'vishakh', borough: 'queens', age: '28', gender: 'm'},
+      {name: 'sarah', borough: 'queens', age: '30', gender: 'f'},
+      {name: 'patrick', borough: 'brooklyn', age: '28', gender: 'm'},
+      {name: 'niles', borough: 'manhattan', age: '30', gender: 'm'},
+      {name: 'markus', borough: 'manhattan', age: '28', gender: 'm'},
+      {name: 'jessica', borough: 'brooklyn', age: '28', gender: 'f'},
+      {name: 'jared', borough: 'manhattan', age: '29', gender: 'm'},
+      {name: 'greg', borough: 'brooklyn', age: '29', gender: 'm'},
+    ];
+
+    const newData = fixDataFormat(data, ['name'],
+      (row) => (a, b) => {
+        return a[row] < b[row];
+      }
+    );
+
+    expect(newData).to.deep.equal(expectedData);
+  });
+
+  it('should skip the sort if noop function is provided', () => {
+    const newData = fixDataFormat(data, ['name'], () => {});
+
+    expect(newData).to.deep.equal(data);
+  });
+
 };
