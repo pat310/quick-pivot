@@ -106,9 +106,15 @@ export function groupByCategories(data, groups = [], acc = {}) {
  * @param {!Array<Object>} data Array of objects
  * @param {Array} cols Columns to pivot on
  * @param {string} firstColumn A string to place in the first column header
+ * @param {Function} columnSortFunc A sort function to sort the column headers
  * @returns {Object} columnHeaders (array of arrays) and mapToHeader (object)
 */
-export function createColumnHeaders(data, cols = [], firstColumn = '') {
+export function createColumnHeaders(
+  data,
+  cols = [],
+  firstColumn = '',
+  columnSortFunc = () => () => {}
+) {
   if (cols.length === 0) {
     return {
       columnHeaders: [firstColumn],
@@ -124,7 +130,7 @@ export function createColumnHeaders(data, cols = [], firstColumn = '') {
     /** base case - at actual data as opposed to another grouping */
     if (typeof data !== 'object' || Array.isArray(data)) return 1;
 
-    const currKeys = Object.keys(data);
+    const currKeys = Object.keys(data).sort(columnSortFunc(data, cols, pos));
     let sumLength = 0;
 
     for (let i = 0; i < currKeys.length; i++) {
@@ -229,7 +235,7 @@ export function checkPivotCategories(actualCats, selectedCats) {
 }
 
 export function tableCreator(data, rows = [], cols = [], accCatOrCB,
-  accTypeOrInitVal, rowHeader) {
+  accTypeOrInitVal, rowHeader, columnSortFunc) {
 
   /** if data is empty, return empty array */
   if (data.length === 0) {
@@ -253,7 +259,7 @@ export function tableCreator(data, rows = [], cols = [], accCatOrCB,
       'Custom Agg';
   }
 
-  const columnData = createColumnHeaders(data, cols, rowHeader);
+  const columnData = createColumnHeaders(data, cols, rowHeader, columnSortFunc);
   const columnHeaders = Array.isArray(columnData.columnHeaders[0]) ?
     columnData.columnHeaders :
     [columnData.columnHeaders.concat(rowHeader)];
