@@ -156,7 +156,7 @@ The `data` value returns an object with keys `table` and `rawData`.  `table` is 
 ```js
 import Pivot from 'quick-pivot';
 
-const pivot = new Pivot(dataArray, rows, columns, [aggregationDimension or CBfunction], [aggregator or initialValue], rowHeader, sortFunction);
+const pivot = new Pivot(dataArray, rows, columns, [aggregationDimension or CBfunction], [aggregator or initialValue], rowHeader, sortFunction, columnSortFunction);
 ```
 
 #### First way to use it:
@@ -173,6 +173,9 @@ const pivot = new Pivot(dataArray, rows, columns, [aggregationDimension or CBfun
   * Sort Function should be in the form `(row) => (a,b) => Number`. This Function will be called for each row pivoted on (right to left) and must return 
     a traditional Array.sort function as a result.
     A Function equaling `() => {}` will direct the Pivot to skip the sorting phase. 
+* `columnSortFunction` is a custom sorting function for columns. No sorting used if undefined
+  * Column Sort Function should be in the form `(data, columns, columnIndex) => (a,b) => Number`. This Function will be called for each column pivoted on and must return 
+    a traditional Array.sort function as a result. 
 
 #### Second way to use it:
 Parameters are the same as the first except for two, `aggregationDimension` and `aggregator`. Instead of `aggregationDimension` and `aggregator`, you can use the following:
