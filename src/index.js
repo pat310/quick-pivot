@@ -16,14 +16,24 @@ export default class Pivot {
    * @param {string} type Aggregation type, enumerated value
    * @param {string} header Table header (displayed at hte top left)
    * @param {Function} custom sort function. will skip sort stage if equal to () => {}
+   * @param {Function} columnSortFunc custom sort function for the columns
    * @returns {Object} instantiated pivot object
   */
-  constructor(data, rows, cols, agg, type, header, sortFunc) {
+  constructor(data, rows, cols, agg, type, header, sortFunc, columnSortFunc) {
     if (!data) this.originalData = {};
     else {
       data = fixDataFormat(data, rows, sortFunc);
+      this.columnSortFunc = columnSortFunc;
       this.originalArgs = {data, rows, cols, agg, type, header};
-      this.originalData = tableCreator(data, rows, cols, agg, type, header);
+      this.originalData = tableCreator(
+        data,
+        rows,
+        cols,
+        agg,
+        type,
+        header,
+        this.columnSortFunc
+      );
       this.uniqueValues = createUniqueValues(data);
     }
 
@@ -41,9 +51,20 @@ export default class Pivot {
    * @param {string} header Table header (displayed at hte top left)
    * @param {boolean} isFiltering If the method is being called by the filter method
    * @param {Function} custom sort function. will skip sort stage if equal to () => {}
+   * @param {Function} columnSortFunc custom sort function for the columns
    * @returns {Object} instantiated pivot object
   */
-  update(data, rows, cols, agg, type, header, isFiltering, sortFunc) {
+  update(
+    data,
+    rows,
+    cols,
+    agg,
+    type,
+    header,
+    isFiltering,
+    sortFunc,
+    columnSortFunc
+  ) {
     data = fixDataFormat(data, rows, sortFunc);
     /** if update isn't being used by filter, need to reset the original arguments */
     if (!isFiltering) {
@@ -51,7 +72,16 @@ export default class Pivot {
       this.uniqueValues = createUniqueValues(data);
     }
 
-    this.originalData = tableCreator(data, rows, cols, agg, type, header);
+    this.columnSortFunc = columnSortFunc;
+    this.originalData = tableCreator(
+      data,
+      rows,
+      cols,
+      agg,
+      type,
+      header,
+      this.columnSortFunc
+    );
     this.data = this.originalData;
     this.originalArgs.data = data;
     this.collapsedRows = {};
@@ -192,7 +222,16 @@ export default class Pivot {
       });
 
       /** update the pivot table with the new filtered data */
-      this.update(filteredData, rows, cols, agg, type, header, true);
+      this.update(
+        filteredData,
+        rows,
+        cols,
+        agg,
+        type,
+        header,
+        true,
+        this.columnSortFunc
+      );
 
       /**
        * set a pointer to end of table length
