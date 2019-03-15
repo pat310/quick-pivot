@@ -1,3 +1,8 @@
+# [v2.7.0]
+> Mar 14, 2019
+
+- Column sort function [PR #76](https://github.com/pat310/quick-pivot/pull/76)
+
 # [v2.6.0]
 > May 3, 2018
 
