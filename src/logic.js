@@ -42,7 +42,16 @@ export function fixDataFormat(data, rows = [], sortFunc) {
     // Use default sort if none provided
     if (!sortFunc) {
       sortFunc = (row) => (a, b) => {
-        return a[row] > b[row];
+        if ((typeof a[row] === 'string') && (typeof b[row] === 'string')) {
+          return a[row].localeCompare(b[row]);
+        }
+        if (a[row] > b[row]) {
+          return 1;
+        };
+        if (a[row] < b[row]) {
+          return -1;
+        };
+        return 0;
       };
     }
 
@@ -53,7 +62,7 @@ export function fixDataFormat(data, rows = [], sortFunc) {
   }
 
   return formattedData.sort((a, b) => {
-    return JSON.stringify(a) > JSON.stringify(b);
+    return JSON.stringify(a).localeCompare(JSON.stringify(b));
   });
 }
 
