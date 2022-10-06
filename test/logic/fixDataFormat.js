@@ -108,7 +108,16 @@ export default () => {
 
     const newData = fixDataFormat(data, ['name'],
       (row) => (a, b) => {
-        return a[row] < b[row];
+        if ((typeof a[row] === 'string') && (typeof b[row] === 'string')) {
+          return a[row].localeCompare(b[row]) * -1;
+        }
+        if (a[row] > b[row]) {
+          return -1;
+        };
+        if (a[row] < b[row]) {
+          return 1;
+        };
+        return 0;
       }
     );
 
